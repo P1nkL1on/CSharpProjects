@@ -1,0 +1,10 @@
+D:\microsoft visual studio projects\WawkiClasses\WawkiClasses\bin\Debug\WawkiClasses.dll
+D:\microsoft visual studio projects\WawkiClasses\WawkiClasses\bin\Debug\WawkiClasses.pdb
+D:\microsoft visual studio projects\WawkiClasses\WawkiClasses\obj\Debug\WawkiClasses.dll
+D:\microsoft visual studio projects\WawkiClasses\WawkiClasses\obj\Debug\WawkiClasses.pdb
+D:\microsoft visual studio projects\WawkiClasses\WawkiClasses\obj\Debug\WawkiClasses.csprojResolveAssemblyReference.cache
+C:\Users\lion6_000\Documents\Visual Studio 2012\Projects\WawkiClasses2\WawkiClasses\bin\Debug\WawkiClasses.dll
+C:\Users\lion6_000\Documents\Visual Studio 2012\Projects\WawkiClasses2\WawkiClasses\bin\Debug\WawkiClasses.pdb
+C:\Users\lion6_000\Documents\Visual Studio 2012\Projects\WawkiClasses2\WawkiClasses\obj\Debug\WawkiClasses.csprojResolveAssemblyReference.cache
+C:\Users\lion6_000\Documents\Visual Studio 2012\Projects\WawkiClasses2\WawkiClasses\obj\Debug\WawkiClasses.dll
+C:\Users\lion6_000\Documents\Visual Studio 2012\Projects\WawkiClasses2\WawkiClasses\obj\Debug\WawkiClasses.pdb

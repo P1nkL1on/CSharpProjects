@@ -1,0 +1,22 @@
+D:\microsoft visual studio projects\WawkiClasses\WawkiForm\bin\Debug\WawkiForm.exe.config
+D:\microsoft visual studio projects\WawkiClasses\WawkiForm\bin\Debug\WawkiForm.exe
+D:\microsoft visual studio projects\WawkiClasses\WawkiForm\bin\Debug\WawkiForm.pdb
+D:\microsoft visual studio projects\WawkiClasses\WawkiForm\obj\Debug\WawkiForm.csprojResolveAssemblyReference.cache
+D:\microsoft visual studio projects\WawkiClasses\WawkiForm\obj\Debug\WawkiForm.MainForm.resources
+D:\microsoft visual studio projects\WawkiClasses\WawkiForm\obj\Debug\WawkiForm.Properties.Resources.resources
+D:\microsoft visual studio projects\WawkiClasses\WawkiForm\obj\Debug\WawkiForm.csproj.GenerateResource.Cache
+D:\microsoft visual studio projects\WawkiClasses\WawkiForm\obj\Debug\WawkiForm.exe
+D:\microsoft visual studio projects\WawkiClasses\WawkiForm\obj\Debug\WawkiForm.pdb
+D:\microsoft visual studio projects\WawkiClasses\WawkiForm\bin\Debug\WawkiClasses.dll
+D:\microsoft visual studio projects\WawkiClasses\WawkiForm\bin\Debug\WawkiClasses.pdb
+C:\Users\lion6_000\Documents\Visual Studio 2012\Projects\WawkiClasses2\WawkiForm\bin\Debug\WawkiForm.exe.config
+C:\Users\lion6_000\Documents\Visual Studio 2012\Projects\WawkiClasses2\WawkiForm\obj\Debug\WawkiForm.exe
+C:\Users\lion6_000\Documents\Visual Studio 2012\Projects\WawkiClasses2\WawkiForm\obj\Debug\WawkiForm.pdb
+C:\Users\lion6_000\Documents\Visual Studio 2012\Projects\WawkiClasses2\WawkiForm\bin\Debug\WawkiForm.exe
+C:\Users\lion6_000\Documents\Visual Studio 2012\Projects\WawkiClasses2\WawkiForm\bin\Debug\WawkiForm.pdb
+C:\Users\lion6_000\Documents\Visual Studio 2012\Projects\WawkiClasses2\WawkiForm\bin\Debug\WawkiClasses.dll
+C:\Users\lion6_000\Documents\Visual Studio 2012\Projects\WawkiClasses2\WawkiForm\bin\Debug\WawkiClasses.pdb
+C:\Users\lion6_000\Documents\Visual Studio 2012\Projects\WawkiClasses2\WawkiForm\obj\Debug\WawkiForm.csprojResolveAssemblyReference.cache
+C:\Users\lion6_000\Documents\Visual Studio 2012\Projects\WawkiClasses2\WawkiForm\obj\Debug\WawkiForm.MainForm.resources
+C:\Users\lion6_000\Documents\Visual Studio 2012\Projects\WawkiClasses2\WawkiForm\obj\Debug\WawkiForm.Properties.Resources.resources
+C:\Users\lion6_000\Documents\Visual Studio 2012\Projects\WawkiClasses2\WawkiForm\obj\Debug\WawkiForm.csproj.GenerateResource.Cache
