@@ -39,12 +39,12 @@
             // 
             // TurnHistory
             // 
-            this.TurnHistory.Location = new System.Drawing.Point(1024, 27);
-            this.TurnHistory.Margin = new System.Windows.Forms.Padding(7, 7, 7, 7);
+            this.TurnHistory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.TurnHistory.Location = new System.Drawing.Point(439, 12);
             this.TurnHistory.Maximum = 1;
             this.TurnHistory.Name = "TurnHistory";
             this.TurnHistory.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.TurnHistory.Size = new System.Drawing.Size(101, 868);
+            this.TurnHistory.Size = new System.Drawing.Size(45, 389);
             this.TurnHistory.TabIndex = 0;
             this.TurnHistory.Value = 1;
             this.TurnHistory.Scroll += new System.EventHandler(this.TurnHistory_Scroll);
@@ -52,10 +52,10 @@
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(835, 27);
-            this.btnStart.Margin = new System.Windows.Forms.Padding(7, 7, 7, 7);
+            this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnStart.Location = new System.Drawing.Point(358, 12);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(175, 51);
+            this.btnStart.Size = new System.Drawing.Size(75, 23);
             this.btnStart.TabIndex = 1;
             this.btnStart.Text = "New Game";
             this.btnStart.UseVisualStyleBackColor = true;
@@ -63,9 +63,11 @@
             // 
             // saveGameBut
             // 
-            this.saveGameBut.Location = new System.Drawing.Point(835, 140);
+            this.saveGameBut.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.saveGameBut.Location = new System.Drawing.Point(358, 63);
+            this.saveGameBut.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.saveGameBut.Name = "saveGameBut";
-            this.saveGameBut.Size = new System.Drawing.Size(175, 85);
+            this.saveGameBut.Size = new System.Drawing.Size(75, 38);
             this.saveGameBut.TabIndex = 2;
             this.saveGameBut.Text = "Save Current + Quit";
             this.saveGameBut.UseVisualStyleBackColor = true;
@@ -73,9 +75,11 @@
             // 
             // loadGameBut
             // 
-            this.loadGameBut.Location = new System.Drawing.Point(835, 88);
+            this.loadGameBut.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.loadGameBut.Location = new System.Drawing.Point(358, 39);
+            this.loadGameBut.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.loadGameBut.Name = "loadGameBut";
-            this.loadGameBut.Size = new System.Drawing.Size(175, 46);
+            this.loadGameBut.Size = new System.Drawing.Size(75, 21);
             this.loadGameBut.TabIndex = 3;
             this.loadGameBut.Text = "Load Game";
             this.loadGameBut.UseVisualStyleBackColor = true;
@@ -87,17 +91,17 @@
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 29F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1157, 921);
+            this.ClientSize = new System.Drawing.Size(496, 332);
             this.Controls.Add(this.loadGameBut);
             this.Controls.Add(this.saveGameBut);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.TurnHistory);
-            this.Margin = new System.Windows.Forms.Padding(7, 7, 7, 7);
             this.Name = "MainForm";
             this.Text = "Шашки";
             this.Load += new System.EventHandler(this.MainForm_Load);
+            this.SizeChanged += new System.EventHandler(this.MainForm_SizeChanged);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.test);
             this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.test2);
             ((System.ComponentModel.ISupportInitialize)(this.TurnHistory)).EndInit();

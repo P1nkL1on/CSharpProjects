@@ -1,0 +1,9 @@
+c:\users\lion6_000\documents\visual studio 2012\Projects\PornTitle\PornTitle\bin\Debug\PornTitle.exe.config
+c:\users\lion6_000\documents\visual studio 2012\Projects\PornTitle\PornTitle\obj\Debug\PornTitle.csprojResolveAssemblyReference.cache
+c:\users\lion6_000\documents\visual studio 2012\Projects\PornTitle\PornTitle\obj\Debug\PornTitle.Form1.resources
+c:\users\lion6_000\documents\visual studio 2012\Projects\PornTitle\PornTitle\obj\Debug\PornTitle.Properties.Resources.resources
+c:\users\lion6_000\documents\visual studio 2012\Projects\PornTitle\PornTitle\obj\Debug\PornTitle.csproj.GenerateResource.Cache
+c:\users\lion6_000\documents\visual studio 2012\Projects\PornTitle\PornTitle\bin\Debug\PornTitle.exe
+c:\users\lion6_000\documents\visual studio 2012\Projects\PornTitle\PornTitle\bin\Debug\PornTitle.pdb
+c:\users\lion6_000\documents\visual studio 2012\Projects\PornTitle\PornTitle\obj\Debug\PornTitle.exe
+c:\users\lion6_000\documents\visual studio 2012\Projects\PornTitle\PornTitle\obj\Debug\PornTitle.pdb

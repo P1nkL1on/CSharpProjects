@@ -31,3 +31,14 @@ C:\Users\mak-T\OneDrive\Документы\GitHub\C_Sharp_Sheets\WawkiClasses3\W
 C:\Users\mak-T\OneDrive\Документы\GitHub\C_Sharp_Sheets\WawkiClasses3\WawkiForm\obj\Debug\WawkiForm.MainForm.resources
 C:\Users\mak-T\OneDrive\Документы\GitHub\C_Sharp_Sheets\WawkiClasses3\WawkiForm\obj\Debug\WawkiForm.Properties.Resources.resources
 C:\Users\mak-T\OneDrive\Документы\GitHub\C_Sharp_Sheets\WawkiClasses3\WawkiForm\obj\Debug\WawkiForm.csproj.GenerateResource.Cache
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\WawkiClasses3\WawkiForm\bin\Debug\WawkiForm.exe.config
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\WawkiClasses3\WawkiForm\obj\Debug\WawkiForm.exe
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\WawkiClasses3\WawkiForm\obj\Debug\WawkiForm.pdb
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\WawkiClasses3\WawkiForm\bin\Debug\WawkiForm.exe
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\WawkiClasses3\WawkiForm\bin\Debug\WawkiForm.pdb
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\WawkiClasses3\WawkiForm\bin\Debug\WawkiClasses.dll
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\WawkiClasses3\WawkiForm\bin\Debug\WawkiClasses.pdb
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\WawkiClasses3\WawkiForm\obj\Debug\WawkiForm.csprojResolveAssemblyReference.cache
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\WawkiClasses3\WawkiForm\obj\Debug\WawkiForm.MainForm.resources
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\WawkiClasses3\WawkiForm\obj\Debug\WawkiForm.Properties.Resources.resources
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\WawkiClasses3\WawkiForm\obj\Debug\WawkiForm.csproj.GenerateResource.Cache

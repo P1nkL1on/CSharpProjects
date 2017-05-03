@@ -52,7 +52,7 @@ namespace WawkiForm
         { wawki.ChangeTurn(TurnHistory.Value); Draw(); }
 
         private void Draw()
-        { Graphics G = this.CreateGraphics(); Drawing.DrawGame(G, wawki); }
+        { Graphics G = this.CreateGraphics(); if (wawki!=null)Drawing.DrawGame(G, wawki); }
         private void UpdateBar()
         { TurnHistory.Maximum = Math.Max(wawki.TurnCount, 0); TurnHistory.Value = wawki.TurnCount; }
 
@@ -92,6 +92,12 @@ namespace WawkiForm
             if (wawki == null) return;
             wawki.SaveCurrGame();
             this.Close();
+        }
+
+        private void MainForm_SizeChanged(object sender, EventArgs e)
+        {
+            Drawing.ChangeBy(this.Width/2);
+            Draw();
         }
     }
 }
