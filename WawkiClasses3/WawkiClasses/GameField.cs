@@ -10,6 +10,7 @@ namespace WawkiClasses
 {
     public abstract class GameField
     {
+        public abstract List<Figure> figList { get; }
         public abstract void ClearDead();
         public abstract void AddFigure(Figure fig);
         public abstract Bitmap ScreenShot { get; set; }
@@ -36,6 +37,15 @@ namespace WawkiClasses
         {
             get { return screenShot; }
             set { screenShot = value; }
+        }
+
+        public override List<Figure> figList
+        {
+            get
+            {
+                return figures;
+            }
+
         }
 
         public WawkiField(List<Figure> figures)
@@ -107,7 +117,7 @@ namespace WawkiClasses
         {
             List<Figure> fgs = new List<Figure>();
             for (int i = 0; i < figures.Count; i++)
-                fgs.Add(new Wawka(figures[i].Team, new Point(figures[i].Position.X,figures[i].Position.Y),figures[i].State == FigureState.damka));
+                fgs.Add(new Wawka(figures[i].Team, new Point(figures[i].Position.X,figures[i].Position.Y),figures[i].State/* == FigureState.damka*/));
             return new WawkiField(fgs);
         }
 

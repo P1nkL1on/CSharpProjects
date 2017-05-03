@@ -42,11 +42,12 @@ namespace WawkiClasses
             state = FigureState.usuall;
             this.team = team;
         }
-        public Wawka(sbyte team, Point position, bool damka)
+        public Wawka(sbyte team, Point position, FigureState t /*bool damka*/)
         {
             this.position = position;
-            state = FigureState.usuall;
-            if (damka) state = FigureState.damka;
+            state = t;
+            //state = FigureState.usuall;
+            //if (damka) state = FigureState.damka;
             this.team = team;
         }
         //свойства

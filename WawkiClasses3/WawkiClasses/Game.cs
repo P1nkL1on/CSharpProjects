@@ -17,6 +17,7 @@ namespace WawkiClasses
 
     public class Game : GameBotView
     {
+        public string Path;
         List<Point> selectedPoints;
         public GameField currentField;
         TurnVault vault;
@@ -36,12 +37,17 @@ namespace WawkiClasses
 
         public List<Point> SelectedPoints { get { return selectedPoints; } }
 
-        public Game(GameFactory factory)
+        public Game(GameFactory factory, string Path, bool isLoad)
         {
+            this.Path = Path;
             state = TurnState.nothingSelected;
             selectedPoints = new List<Point>();
             vault = new TurnVault();
-            currentField = factory.CreateField();
+            sbyte currTeam;
+            if (!isLoad)
+                currentField = factory.CreateField();
+            else
+                currentField = factory.LoadField(FileSys.LoadGame(Path, out currTeam));
             shouldBeRemoved = new List<List<Point>>();
 
             //creating players
@@ -170,7 +176,7 @@ namespace WawkiClasses
                 }
             }
         }
-        //определяет игрока, который сейчас ходит
+        //определяет игрока, который сейчас ходит  2 - игрa
         public override sbyte CurrentPlayerTeam
         {
             get

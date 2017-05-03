@@ -22,7 +22,7 @@ namespace WawkiForm
         private Game wawki;
         private void MainForm_Load(object sender, EventArgs e)
         {
-            wawki = new Game(new TestFactory());
+            wawki = new Game(new WawkiFactory());
         }
 
         private void test(object sender, MouseEventArgs e)

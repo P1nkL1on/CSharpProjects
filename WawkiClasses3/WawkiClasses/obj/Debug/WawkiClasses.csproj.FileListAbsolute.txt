@@ -8,3 +8,8 @@ C:\Users\lion6_000\Documents\Visual Studio 2012\Projects\WawkiClasses2\WawkiClas
 C:\Users\lion6_000\Documents\Visual Studio 2012\Projects\WawkiClasses2\WawkiClasses\obj\Debug\WawkiClasses.csprojResolveAssemblyReference.cache
 C:\Users\lion6_000\Documents\Visual Studio 2012\Projects\WawkiClasses2\WawkiClasses\obj\Debug\WawkiClasses.dll
 C:\Users\lion6_000\Documents\Visual Studio 2012\Projects\WawkiClasses2\WawkiClasses\obj\Debug\WawkiClasses.pdb
+C:\Users\mak-T\OneDrive\Документы\GitHub\C_Sharp_Sheets\WawkiClasses3\WawkiClasses\bin\Debug\WawkiClasses.dll
+C:\Users\mak-T\OneDrive\Документы\GitHub\C_Sharp_Sheets\WawkiClasses3\WawkiClasses\bin\Debug\WawkiClasses.pdb
+C:\Users\mak-T\OneDrive\Документы\GitHub\C_Sharp_Sheets\WawkiClasses3\WawkiClasses\obj\Debug\WawkiClasses.csprojResolveAssemblyReference.cache
+C:\Users\mak-T\OneDrive\Документы\GitHub\C_Sharp_Sheets\WawkiClasses3\WawkiClasses\obj\Debug\WawkiClasses.dll
+C:\Users\mak-T\OneDrive\Документы\GitHub\C_Sharp_Sheets\WawkiClasses3\WawkiClasses\obj\Debug\WawkiClasses.pdb

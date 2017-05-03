@@ -31,3 +31,14 @@ D:\microsoft visual studio projects\WawkiClasses2\WawkiForm\obj\Debug\WawkiForm.
 D:\microsoft visual studio projects\WawkiClasses2\WawkiForm\obj\Debug\WawkiForm.MainForm.resources
 D:\microsoft visual studio projects\WawkiClasses2\WawkiForm\obj\Debug\WawkiForm.Properties.Resources.resources
 D:\microsoft visual studio projects\WawkiClasses2\WawkiForm\obj\Debug\WawkiForm.csproj.GenerateResource.Cache
+C:\Users\mak-T\OneDrive\Документы\GitHub\C_Sharp_Sheets\WawkiClasses2\WawkiForm\bin\Debug\WawkiForm.exe.config
+C:\Users\mak-T\OneDrive\Документы\GitHub\C_Sharp_Sheets\WawkiClasses2\WawkiForm\bin\Debug\WawkiForm.exe
+C:\Users\mak-T\OneDrive\Документы\GitHub\C_Sharp_Sheets\WawkiClasses2\WawkiForm\bin\Debug\WawkiForm.pdb
+C:\Users\mak-T\OneDrive\Документы\GitHub\C_Sharp_Sheets\WawkiClasses2\WawkiForm\bin\Debug\WawkiClasses.dll
+C:\Users\mak-T\OneDrive\Документы\GitHub\C_Sharp_Sheets\WawkiClasses2\WawkiForm\bin\Debug\WawkiClasses.pdb
+C:\Users\mak-T\OneDrive\Документы\GitHub\C_Sharp_Sheets\WawkiClasses2\WawkiForm\obj\Debug\WawkiForm.csprojResolveAssemblyReference.cache
+C:\Users\mak-T\OneDrive\Документы\GitHub\C_Sharp_Sheets\WawkiClasses2\WawkiForm\obj\Debug\WawkiForm.MainForm.resources
+C:\Users\mak-T\OneDrive\Документы\GitHub\C_Sharp_Sheets\WawkiClasses2\WawkiForm\obj\Debug\WawkiForm.Properties.Resources.resources
+C:\Users\mak-T\OneDrive\Документы\GitHub\C_Sharp_Sheets\WawkiClasses2\WawkiForm\obj\Debug\WawkiForm.csproj.GenerateResource.Cache
+C:\Users\mak-T\OneDrive\Документы\GitHub\C_Sharp_Sheets\WawkiClasses2\WawkiForm\obj\Debug\WawkiForm.exe
+C:\Users\mak-T\OneDrive\Документы\GitHub\C_Sharp_Sheets\WawkiClasses2\WawkiForm\obj\Debug\WawkiForm.pdb

@@ -13,3 +13,8 @@ D:\microsoft visual studio projects\WawkiClasses2\WawkiClasses\bin\Debug\WawkiCl
 D:\microsoft visual studio projects\WawkiClasses2\WawkiClasses\obj\Debug\WawkiClasses.csprojResolveAssemblyReference.cache
 D:\microsoft visual studio projects\WawkiClasses2\WawkiClasses\obj\Debug\WawkiClasses.dll
 D:\microsoft visual studio projects\WawkiClasses2\WawkiClasses\obj\Debug\WawkiClasses.pdb
+C:\Users\mak-T\OneDrive\Документы\GitHub\C_Sharp_Sheets\WawkiClasses2\WawkiClasses\bin\Debug\WawkiClasses.dll
+C:\Users\mak-T\OneDrive\Документы\GitHub\C_Sharp_Sheets\WawkiClasses2\WawkiClasses\bin\Debug\WawkiClasses.pdb
+C:\Users\mak-T\OneDrive\Документы\GitHub\C_Sharp_Sheets\WawkiClasses2\WawkiClasses\obj\Debug\WawkiClasses.csprojResolveAssemblyReference.cache
+C:\Users\mak-T\OneDrive\Документы\GitHub\C_Sharp_Sheets\WawkiClasses2\WawkiClasses\obj\Debug\WawkiClasses.dll
+C:\Users\mak-T\OneDrive\Документы\GitHub\C_Sharp_Sheets\WawkiClasses2\WawkiClasses\obj\Debug\WawkiClasses.pdb

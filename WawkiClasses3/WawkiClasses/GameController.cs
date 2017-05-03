@@ -8,7 +8,7 @@ namespace WawkiClasses
 {
     public class GameController
     {
-
+        
         private Game game;
         public GameController(Game game)
         {
@@ -51,5 +51,10 @@ namespace WawkiClasses
             get { return game.CurrentPlayerTeam; }
         }
         public List<Point> SelectedPoints { get { return game.SelectedPoints; } }
+        public void SaveCurrGame()
+        {
+            FileSys.SaveCurrGame(game.currentField.figList, game.CurrentPlayerTeam, game.Path);
+        }
+        
     }
 }

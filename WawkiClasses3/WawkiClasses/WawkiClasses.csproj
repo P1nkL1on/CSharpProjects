@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Drawing.cs" />
     <Compile Include="Figure.cs" />
+    <Compile Include="FileSystem.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GameController.cs" />
     <Compile Include="GameFactory.cs" />

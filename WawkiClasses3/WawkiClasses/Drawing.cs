@@ -12,8 +12,8 @@ namespace WawkiClasses
     {
         static Point startPoint = new Point(30, 60);
         static int GridCount = 8;
-        static int fieldWidth = 200;
-        static int fieldHeight = 200;
+        static int fieldWidth = 800;
+        static int fieldHeight = 800;
         static Color[] colors = new Color[] { Color.Yellow, Color.Orange, Color.White, Color.Black };
         static Color backGroundColor = Color.LightGray;
 
@@ -68,25 +68,26 @@ namespace WawkiClasses
 
 
             where.FillEllipse(new SolidBrush(colors[fig.Team + 1]), rect);
-            where.DrawEllipse(new Pen(Color.OrangeRed), rect);
+            where.DrawEllipse(new Pen(Color.OrangeRed,5), rect);
             if (fig.State == FigureState.damka)
             {
+                int Rad = 60;
                 rect = new Rectangle(
-                startPoint.X + (int)(fieldWidth / (GridCount * 1.0) * fig.Position.X) + (int)(fieldWidth / (GridCount * 1.0))/2 -5,
-                startPoint.Y + (int)(fieldHeight / (GridCount * 1.0) * fig.Position.Y) + (int)(fieldHeight / (GridCount * 1.0))/2 - 5,
-                10,10);
+                startPoint.X + (int)(fieldWidth / (GridCount * 1.0) * fig.Position.X) + (int)(fieldWidth / (GridCount * 1.0))/2 -Rad/2,
+                startPoint.Y + (int)(fieldHeight / (GridCount * 1.0) * fig.Position.Y) + (int)(fieldHeight / (GridCount * 1.0))/2 - Rad/2,
+                Rad,Rad);
                 where.DrawRectangle(new Pen(Color.OrangeRed), rect);
             }
         }
 
         static void drawSelected(Graphics where, List<Point> selectedPoitns)
         {
-            int Rad = 8;
+            int Rad = 40;
             int stepX = (int)(fieldWidth / (GridCount * 1.0));
             int stepY = (int)(fieldHeight / (GridCount * 1.0));
 
             for (int i = 0; i < selectedPoitns.Count; i++)
-                where.DrawEllipse(new Pen(Color.Red, 2),
+                where.DrawEllipse(new Pen(Color.Red, 8),
                           startPoint.X + selectedPoitns[i].X * stepX + stepX / 2 - Rad / 2,
                           startPoint.Y + selectedPoitns[i].Y * stepY + stepY / 2 - Rad / 2, Rad, Rad);
         }

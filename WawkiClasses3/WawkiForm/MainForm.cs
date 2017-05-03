@@ -61,9 +61,37 @@ namespace WawkiForm
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            Game wawkiGame = new Game(new TestFactory());
+            string Path = "";
+            if (saveFileDialog1.ShowDialog() != DialogResult.OK)
+                return;
+            Path = saveFileDialog1.FileName;
+            if (Path == "")
+            {
+                MessageBox.Show("Please name the file");
+                return;
+            }
+            Game wawkiGame = new Game(new WawkiFactory(), Path, false);
             wawki = new GameController(wawkiGame);
             Draw();
+        }
+
+        private void loadGameBut_Click(object sender, EventArgs e)
+        {
+            string Path = "";
+            if (openFileDialog1.ShowDialog() != DialogResult.OK)
+                return;
+            Path = openFileDialog1.FileName;
+            
+            Game wawkiGame = new Game(new WawkiFactory(), Path, true);
+            wawki = new GameController(wawkiGame);
+            Draw();
+        }
+
+        private void saveGameBut_Click(object sender, EventArgs e)
+        {
+            if (wawki == null) return;
+            wawki.SaveCurrGame();
+            this.Close();
         }
     }
 }
