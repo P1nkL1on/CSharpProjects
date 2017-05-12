@@ -1,0 +1,5 @@
+D:\microsoft visual studio projects\DungeonsLibrary\DungeonsLibrary\obj\Debug\DungeonsLibrary.csprojResolveAssemblyReference.cache
+D:\microsoft visual studio projects\DungeonsLibrary\DungeonsLibrary\bin\Debug\DungeonsLibrary.dll
+D:\microsoft visual studio projects\DungeonsLibrary\DungeonsLibrary\bin\Debug\DungeonsLibrary.pdb
+D:\microsoft visual studio projects\DungeonsLibrary\DungeonsLibrary\obj\Debug\DungeonsLibrary.dll
+D:\microsoft visual studio projects\DungeonsLibrary\DungeonsLibrary\obj\Debug\DungeonsLibrary.pdb

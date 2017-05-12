@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeonsLibrary", "DungeonsLibrary\DungeonsLibrary.csproj", "{4ABCB273-F6B9-45BF-A85B-7241A0F244BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeonTerminal", "DungeonTerminal\DungeonTerminal.csproj", "{7662A719-3D97-46A5-BC6B-B628D6240F94}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4ABCB273-F6B9-45BF-A85B-7241A0F244BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4ABCB273-F6B9-45BF-A85B-7241A0F244BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4ABCB273-F6B9-45BF-A85B-7241A0F244BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4ABCB273-F6B9-45BF-A85B-7241A0F244BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7662A719-3D97-46A5-BC6B-B628D6240F94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7662A719-3D97-46A5-BC6B-B628D6240F94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7662A719-3D97-46A5-BC6B-B628D6240F94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7662A719-3D97-46A5-BC6B-B628D6240F94}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
