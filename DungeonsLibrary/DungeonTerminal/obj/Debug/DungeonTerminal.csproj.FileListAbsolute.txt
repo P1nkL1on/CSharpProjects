@@ -6,3 +6,11 @@ D:\microsoft visual studio projects\DungeonsLibrary\DungeonTerminal\obj\Debug\Du
 D:\microsoft visual studio projects\DungeonsLibrary\DungeonTerminal\obj\Debug\DungeonTerminal.csprojResolveAssemblyReference.cache
 D:\microsoft visual studio projects\DungeonsLibrary\DungeonTerminal\bin\Debug\DungeonsLibrary.dll
 D:\microsoft visual studio projects\DungeonsLibrary\DungeonTerminal\bin\Debug\DungeonsLibrary.pdb
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\DungeonsLibrary\DungeonTerminal\bin\Debug\DungeonTerminal.exe.config
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\DungeonsLibrary\DungeonTerminal\obj\Debug\DungeonTerminal.exe
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\DungeonsLibrary\DungeonTerminal\obj\Debug\DungeonTerminal.pdb
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\DungeonsLibrary\DungeonTerminal\bin\Debug\DungeonTerminal.exe
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\DungeonsLibrary\DungeonTerminal\bin\Debug\DungeonTerminal.pdb
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\DungeonsLibrary\DungeonTerminal\bin\Debug\DungeonsLibrary.dll
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\DungeonsLibrary\DungeonTerminal\bin\Debug\DungeonsLibrary.pdb
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\DungeonsLibrary\DungeonTerminal\obj\Debug\DungeonTerminal.csprojResolveAssemblyReference.cache

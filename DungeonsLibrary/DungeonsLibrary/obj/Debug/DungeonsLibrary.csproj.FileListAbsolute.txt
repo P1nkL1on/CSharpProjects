@@ -3,3 +3,8 @@ D:\microsoft visual studio projects\DungeonsLibrary\DungeonsLibrary\bin\Debug\Du
 D:\microsoft visual studio projects\DungeonsLibrary\DungeonsLibrary\bin\Debug\DungeonsLibrary.pdb
 D:\microsoft visual studio projects\DungeonsLibrary\DungeonsLibrary\obj\Debug\DungeonsLibrary.dll
 D:\microsoft visual studio projects\DungeonsLibrary\DungeonsLibrary\obj\Debug\DungeonsLibrary.pdb
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\DungeonsLibrary\DungeonsLibrary\bin\Debug\DungeonsLibrary.dll
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\DungeonsLibrary\DungeonsLibrary\bin\Debug\DungeonsLibrary.pdb
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\DungeonsLibrary\DungeonsLibrary\obj\Debug\DungeonsLibrary.csprojResolveAssemblyReference.cache
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\DungeonsLibrary\DungeonsLibrary\obj\Debug\DungeonsLibrary.dll
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\DungeonsLibrary\DungeonsLibrary\obj\Debug\DungeonsLibrary.pdb
