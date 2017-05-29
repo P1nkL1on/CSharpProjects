@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cellular algorythms", "Cellular algorythms\Cellular algorythms.csproj", "{C495EA36-FE8B-4081-B166-1DFF58A45356}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CellularLib", "CellularLib\CellularLib.csproj", "{0D285D37-D78E-4695-AC75-3FF0EC403037}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C495EA36-FE8B-4081-B166-1DFF58A45356}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C495EA36-FE8B-4081-B166-1DFF58A45356}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C495EA36-FE8B-4081-B166-1DFF58A45356}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C495EA36-FE8B-4081-B166-1DFF58A45356}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D285D37-D78E-4695-AC75-3FF0EC403037}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D285D37-D78E-4695-AC75-3FF0EC403037}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D285D37-D78E-4695-AC75-3FF0EC403037}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D285D37-D78E-4695-AC75-3FF0EC403037}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

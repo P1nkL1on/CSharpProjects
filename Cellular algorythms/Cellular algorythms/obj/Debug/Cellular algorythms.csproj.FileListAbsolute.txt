@@ -1,0 +1,11 @@
+D:\microsoft visual studio projects\Cellular algorythms\Cellular algorythms\bin\Debug\Cellular algorythms.exe.config
+D:\microsoft visual studio projects\Cellular algorythms\Cellular algorythms\bin\Debug\Cellular algorythms.exe
+D:\microsoft visual studio projects\Cellular algorythms\Cellular algorythms\bin\Debug\Cellular algorythms.pdb
+D:\microsoft visual studio projects\Cellular algorythms\Cellular algorythms\obj\Debug\Cellular algorythms.csprojResolveAssemblyReference.cache
+D:\microsoft visual studio projects\Cellular algorythms\Cellular algorythms\obj\Debug\Cellular_algorythms.Form1.resources
+D:\microsoft visual studio projects\Cellular algorythms\Cellular algorythms\obj\Debug\Cellular_algorythms.Properties.Resources.resources
+D:\microsoft visual studio projects\Cellular algorythms\Cellular algorythms\obj\Debug\Cellular algorythms.csproj.GenerateResource.Cache
+D:\microsoft visual studio projects\Cellular algorythms\Cellular algorythms\obj\Debug\Cellular algorythms.exe
+D:\microsoft visual studio projects\Cellular algorythms\Cellular algorythms\obj\Debug\Cellular algorythms.pdb
+D:\microsoft visual studio projects\Cellular algorythms\Cellular algorythms\bin\Debug\CellularLib.dll
+D:\microsoft visual studio projects\Cellular algorythms\Cellular algorythms\bin\Debug\CellularLib.pdb
