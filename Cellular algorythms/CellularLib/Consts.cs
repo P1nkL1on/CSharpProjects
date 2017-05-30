@@ -9,7 +9,7 @@ namespace CellularLib
     public static class Consts
     {
         public static byte _colorIntensive = 255;
-        public static byte _numberOfPlayers = 3;
+        public static byte _numberOfPlayers = 4;
 
         public static float _bornHealth = 100f;
         public static float _bornPower = 50f;

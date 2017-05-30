@@ -3,3 +3,8 @@ D:\microsoft visual studio projects\Cellular algorythms\CellularLib\bin\Debug\Ce
 D:\microsoft visual studio projects\Cellular algorythms\CellularLib\bin\Debug\CellularLib.pdb
 D:\microsoft visual studio projects\Cellular algorythms\CellularLib\obj\Debug\CellularLib.dll
 D:\microsoft visual studio projects\Cellular algorythms\CellularLib\obj\Debug\CellularLib.pdb
+D:\microsoft visual studio projects\C_Sharp_Sheets\Cellular algorythms\CellularLib\bin\Debug\CellularLib.dll
+D:\microsoft visual studio projects\C_Sharp_Sheets\Cellular algorythms\CellularLib\bin\Debug\CellularLib.pdb
+D:\microsoft visual studio projects\C_Sharp_Sheets\Cellular algorythms\CellularLib\obj\Debug\CellularLib.csprojResolveAssemblyReference.cache
+D:\microsoft visual studio projects\C_Sharp_Sheets\Cellular algorythms\CellularLib\obj\Debug\CellularLib.dll
+D:\microsoft visual studio projects\C_Sharp_Sheets\Cellular algorythms\CellularLib\obj\Debug\CellularLib.pdb
