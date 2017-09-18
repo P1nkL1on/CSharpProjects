@@ -10,7 +10,7 @@ namespace Compilat
     {
         static void Main(string[] args)
         {
-            ASTTree t = new ASTTree("for (a=10, b=1; a < 1000; a++, b*=2){\n    if (a < 500){\n        b = b * a - a / b;\n        a-= 0.5;\n    } else {\n         b = a*a*(a*a - b*b*b*b + a*b)*a*b;\n         a += 20 * b / b / b;\n    }\n    c = a;\n    while (c>0){\n        c -= b;\n        b *= 1.2;\n    }\n}\n");    
+            ASTTree t = new ASTTree("string$s1=\"a1\"; string$s2=\"a2\"; string$s3 = \"\"; for (int$i = 0; i < 100; i++){s3+=s1+s2;}");
             //("0 == 1-1000 / (500+500) * (500 + 501) / 1001");
             t.Trace();
 

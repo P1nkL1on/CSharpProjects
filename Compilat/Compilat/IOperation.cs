@@ -14,10 +14,13 @@ namespace Compilat
 
     public interface IOperation : ICommand
     {
+        ValueType returnTypes();
     }
 
     public abstract class MonoOperation : IOperation
     {
+        protected ValueType returnType;
+        protected TypeConvertion atArg;
         protected IOperation a;   // pointer
         public virtual void Trace(int depth)
         {
@@ -40,12 +43,22 @@ namespace Compilat
             if (s.IndexOf("!") == 0)
                 return new Nega(ParseFrom(s.Substring(1, s.Length - 1)));
 
-            return new ASTValue(ValueType.Cint, (object)s);
+            if (s.IndexOf("$") > 0)
+                return new Define(s);
+
+            return new ASTValue(s);
+        }
+        
+        public ValueType returnTypes()
+        {
+            return returnType;
         }
     }
 
     public abstract class BinaryOperation : IOperation
     {
+        protected ValueType returnType;
+        // acceptable left and right types
         static int lastIndex = -1;
         protected IOperation a;   // pointer
         protected IOperation b;   // pointer
@@ -79,7 +92,7 @@ namespace Compilat
                 if (s[i] == rightBracket)
                     ll--;
 
-                if (i > from && ll == 0 && s.Substring(i, symbols.Length) == symbols)
+                if (i > from && i + symbols.Length <= s.Length && ll == 0 && s.Substring(i, symbols.Length) == symbols)
                 { pos = i; break; }
             }
 
@@ -214,6 +227,10 @@ namespace Compilat
 
 
             return MonoOperation.ParseFrom(s);
+        }
+        public ValueType returnTypes()
+        {
+            return returnType;
         }
     }
 }

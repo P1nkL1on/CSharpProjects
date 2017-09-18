@@ -8,7 +8,25 @@ namespace Compilat
 {
     public class MISC
     {
-        public static string tabs (int depth){
+        public static ValueType CheckTypeCorrect(TypeConvertion accept, params ValueType[] hadTypes)
+        {
+            // I D
+            // IIB DDB CCB
+            for (int i = 0; i < accept.from.Length; i++)
+            {
+                bool found = true;
+                for (int j = 0; j < accept.from[i].Count; j++)
+                    if (hadTypes[j] != accept.from[i][j])
+                        found = false;
+                if (found)
+                    return accept.to[i];
+            }
+            return ValueType.Unknown;
+            throw new Exception("DID NOT FOUND");
+        }
+
+        public static string tabs(int depth)
+        {
             string res = "";
             for (int i = 0; i < depth; i++)
                 res += "  ";
@@ -19,7 +37,7 @@ namespace Compilat
             leftpart = ""; rightpart = "";
             int pos = separatorIndex;
             if (pos == -1)
-                { leftpart = S; return; }
+            { leftpart = S; return; }
 
             for (int i = 0; i < S.Length; i++)
             {
@@ -28,7 +46,7 @@ namespace Compilat
                 if (i >= pos + separator.Length)
                     rightpart += S[i];
             }
-            
+
             return;
         }
         public static string breakBrackets(string s)

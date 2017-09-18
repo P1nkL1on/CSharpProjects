@@ -10,11 +10,13 @@ namespace Compilat
     {
         public LsEq(IOperation left, IOperation right)
         {
+            TypeConvertion tpcv = new TypeConvertion("IIBDDBCCB", 2);
             a = left; b = right;
+            returnType = MISC.CheckTypeCorrect(tpcv, a.returnTypes(), b.returnTypes());
         }
         public override void Trace(int depth)
         {
-            Console.WriteLine(MISC.tabs(depth) + "<=");
+            Console.WriteLine(MISC.tabs(depth) + "<=" + "\t" + returnType.ToString());
             a.Trace(depth + 1);
             b.Trace(depth + 1);
         }
@@ -23,11 +25,13 @@ namespace Compilat
     {
         public Less(IOperation left, IOperation right)
         {
+            TypeConvertion tpcv = new TypeConvertion("IIBDDBCCB", 2);
             a = left; b = right;
+            returnType = MISC.CheckTypeCorrect(tpcv, a.returnTypes(), b.returnTypes());
         }
         public override void Trace(int depth)
         {
-            Console.WriteLine(MISC.tabs(depth) + "<");
+            Console.WriteLine(MISC.tabs(depth) + "<" + "\t" + returnType.ToString());
             a.Trace(depth + 1);
             b.Trace(depth + 1);
         }
@@ -36,11 +40,13 @@ namespace Compilat
     {
         public MrEq(IOperation left, IOperation right)
         {
+            TypeConvertion tpcv = new TypeConvertion("IIBDDBCCB", 2);
             a = left; b = right;
+            returnType = MISC.CheckTypeCorrect(tpcv, a.returnTypes(), b.returnTypes());
         }
         public override void Trace(int depth)
         {
-            Console.WriteLine(MISC.tabs(depth) + ">=");
+            Console.WriteLine(MISC.tabs(depth) + ">=" + "\t" + returnType.ToString());
             a.Trace(depth + 1);
             b.Trace(depth + 1);
         }
@@ -49,11 +55,13 @@ namespace Compilat
     {
         public More(IOperation left, IOperation right)
         {
+            TypeConvertion tpcv = new TypeConvertion("IIBDDBCCB", 2);
             a = left; b = right;
+            returnType = MISC.CheckTypeCorrect(tpcv, a.returnTypes(), b.returnTypes());
         }
         public override void Trace(int depth)
         {
-            Console.WriteLine(MISC.tabs(depth) + ">");
+            Console.WriteLine(MISC.tabs(depth) + ">" + "\t" + returnType.ToString());
             a.Trace(depth + 1);
             b.Trace(depth + 1);
         }

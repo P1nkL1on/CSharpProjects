@@ -10,11 +10,13 @@ namespace Compilat
     {
         public Summ(IOperation left, IOperation right)
         {
+            TypeConvertion tpcv = new TypeConvertion("IIIDDDSSS", 2);
             a = left; b = right;
+            returnType = MISC.CheckTypeCorrect(tpcv, a.returnTypes(), b.returnTypes());
         }
         public override void Trace(int depth)
         {
-            Console.WriteLine(MISC.tabs(depth) + "+");
+            Console.WriteLine(MISC.tabs(depth) + "+" + "\t" + returnType.ToString());
             a.Trace(depth + 1);
             b.Trace(depth + 1);
         }
@@ -24,11 +26,13 @@ namespace Compilat
     {
         public Diff(IOperation left, IOperation right)
         {
+            TypeConvertion tpcv = new TypeConvertion("IIIDDD", 2);
             a = left; b = right;
+            returnType = MISC.CheckTypeCorrect(tpcv, a.returnTypes(), b.returnTypes());
         }
         public override void Trace(int depth)
         {
-            Console.WriteLine(MISC.tabs(depth) + "-");
+            Console.WriteLine(MISC.tabs(depth) + "-" + "\t" + returnType.ToString());
             a.Trace(depth + 1);
             b.Trace(depth + 1);
         }
@@ -39,11 +43,13 @@ namespace Compilat
     {
         public Mult(IOperation left, IOperation right)
         {
+            TypeConvertion tpcv = new TypeConvertion("IIIDDD", 2);
             a = left; b = right;
+            returnType = MISC.CheckTypeCorrect(tpcv, a.returnTypes(), b.returnTypes());
         }
         public override void Trace(int depth)
         {
-            Console.WriteLine(MISC.tabs(depth) + "*");
+            Console.WriteLine(MISC.tabs(depth) + "*" + "\t" + returnType.ToString());
             a.Trace(depth + 1);
             b.Trace(depth + 1);
         }
@@ -54,11 +60,13 @@ namespace Compilat
     {
         public Qout(IOperation left, IOperation right)
         {
+            TypeConvertion tpcv = new TypeConvertion("IIIDDD", 2);
             a = left; b = right;
+            returnType = MISC.CheckTypeCorrect(tpcv, a.returnTypes(), b.returnTypes());
         }
         public override void Trace(int depth)
         {
-            Console.WriteLine(MISC.tabs(depth) + "/");
+            Console.WriteLine(MISC.tabs(depth) + "/" + "\t" + returnType.ToString());
             a.Trace(depth + 1);
             b.Trace(depth + 1);
         }
