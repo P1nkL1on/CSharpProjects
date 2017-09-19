@@ -58,7 +58,9 @@ namespace Compilat
                 if (conditionParts[1].Length <= 0)
                     conditionParts[1] = "true";
                 // parse commands
+                MISC.GoDeep("FOR");
                 CommandOrder actions = new CommandOrder(parseAction, ';');
+                MISC.GoBack();
                 if (conditionParts[2].Length > 0)
                     actions.MergeWith(new CommandOrder(conditionParts[2], ','));
                 return new CycleFor(conditionParts[1], actions);

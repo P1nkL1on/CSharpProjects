@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace Compilat
 {
@@ -25,11 +26,43 @@ namespace Compilat
             throw new Exception("DID NOT FOUND");
         }
 
+        static List<string> nowParsing = new List<string>();
+        public static void GoDeep(string parseFolder){
+            nowParsing.Add(parseFolder);
+            DrawIerch();
+        }
+        public static void GoBack()
+        {
+            nowParsing.RemoveAt(nowParsing.Count - 1);
+            DrawIerch();
+        }
+        public static bool isLast(string ss)
+        {
+            return (isNowIn(ss) == nowParsing.Count - 1);
+        }
+        public static int isNowIn(string ss)
+        {
+            for (int i = nowParsing.Count - 1; i >= 0; i--)
+                if (nowParsing[nowParsing.Count - 1].IndexOf(ss) >= 0)
+                    return i;
+            return -1;
+        }
+        static void DrawIerch()
+        {
+            Console.Clear();
+            for (int i = 0; i < nowParsing.Count; i++)
+                Console.Write("/" + nowParsing[i]);
+            Thread.Sleep(500);
+        }
+
+
+        // correct tab problems
         static List<bool> isSlide = new List<bool>();
         static string nowOpen = "│ ";
         static int lastDepth = 0;
         public static bool finish = false;
         static bool rmColomn = false;
+
         public static string tabs(int depth)
         {
             bool lastChild = finish;

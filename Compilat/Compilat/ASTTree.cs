@@ -41,7 +41,6 @@ namespace Compilat
             for (int i = 0; i < s.Length; i++)
                 if (s[i] != ' ') sTrim += s[i];
             original = s;
-            
             try
             {
                 rootNode = new ASTFunction(sTrim);

@@ -41,7 +41,9 @@ namespace Compilat
         public CycleWhile(string parseCondition, string parseActions, bool doFirst)
         {
             condition = new Equal(BinaryOperation.ParseFrom(parseCondition), new ASTValue(ValueType.Cboolean, (object)true));
+            MISC.GoDeep("WHILE");
             actions = new CommandOrder(parseActions, ';');
+            MISC.GoBack();
             this.doFirst = doFirst;
         }
 

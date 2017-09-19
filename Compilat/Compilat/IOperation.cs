@@ -233,9 +233,16 @@ namespace Compilat
             }
             if (s.IndexOf('(') == 0 && s.LastIndexOf(')') == s.Length - 1)
                 return ParseFrom(MISC.breakBrackets(s));
+            try
+            {
+                return UniqOperation.ParseFrom(s);
+            }
+            catch (Exception e)
+            {
+                return MonoOperation.ParseFrom(s);
+            }
 
-
-            return MonoOperation.ParseFrom(s);
+           
         }
         public ValueType returnTypes()
         {
