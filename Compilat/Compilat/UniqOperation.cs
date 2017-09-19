@@ -40,6 +40,14 @@ namespace Compilat
             a = returnable;
             returnType = a.returnTypes();
             operationString = "RETURN  [" + returnTypes()+ "]";
+            // checking a base type
+            string lf = MISC.lastFunction();
+            if (lf.IndexOf("$") < 0)
+                throw new Exception("Incorrect external function");
+            string funcType = lf.Substring(lf.LastIndexOf('$') + 1),
+                   retType = returnType.ToString();
+            if ( funcType != retType)
+                throw new Exception("Incorrect return value type!");
         }
         public override void Trace(int depth)
         {

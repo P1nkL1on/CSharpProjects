@@ -31,12 +31,12 @@ namespace Compilat
                 for (int i = 0; i < vars.Count; i++)
                     input.Add((Define)MonoOperation.ParseFrom(vars[i]));
 
-                MISC.GoDeep("FUNCTION$"+name);
+                MISC.GoDeep("FUNCTION$"+name+"$"+returnTypes());
                 actions = new CommandOrder(MISC.getIn(S, S.IndexOf('{')), ';');
                 MISC.GoBack();
                 return;
             }
-
+            // check contain of Return function
             throw new Exception("Can not parse a function");
         }
         //

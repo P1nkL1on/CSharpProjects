@@ -10,7 +10,7 @@ namespace Compilat
 
     public class ASTTree
     {
-        IAstNode rootNode;
+        List<ASTFunction> funcs;
         string original;
         public static List<ASTValue> tokens = new List<ASTValue>();
         public static List<ASTValue> variables = new List<ASTValue>();
@@ -18,10 +18,11 @@ namespace Compilat
 
         public void Trace()
         {
-            if (rootNode == null)
-                return;
             Console.WriteLine(original);
-            rootNode.Trace(0);
+            if (funcs.Count <= 0)
+                return;
+            for (int i = 0; i < funcs.Count; i++)
+                funcs[i].Trace(0);
 
             Console.WriteLine("\n__TOKENS__");
             for (int i = 0; i < tokens.Count; i++)
@@ -37,18 +38,20 @@ namespace Compilat
 
         public ASTTree(string s)
         {
+            funcs = new List<ASTFunction>();
             string sTrim = "";
             for (int i = 0; i < s.Length; i++)
                 if (s[i] != ' ') sTrim += s[i];
             original = s;
+            string[] funcParseMaterial = sTrim.Split('^');
             try
             {
-                rootNode = new ASTFunction(sTrim);
-                    //new CommandOrder(sTrim, ';');
+                for (int i = 0; i < funcParseMaterial.Length; i++)
+                    funcs.Add(new ASTFunction(funcParseMaterial[i]));
+                //new CommandOrder(sTrim, ';');
             }
             catch (Exception e)
             {
-                rootNode = null;
                 Console.WriteLine("ERROR: " + e.Message);
             }
         }
@@ -167,7 +170,7 @@ namespace Compilat
         public void Trace(int depth)
         {
             Console.WriteLine(String.Format("{0}{1}", MISC.tabs(depth), (this.name == "-") ? value.ToString() : name, this.index)
-                 /*+ "\t" + returnTypes().ToString()*/);
+                /*+ "\t" + returnTypes().ToString()*/);
         }
 
         public ASTValue calculateOperation()

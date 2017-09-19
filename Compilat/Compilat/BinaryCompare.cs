@@ -11,7 +11,7 @@ namespace Compilat
         public LsEq(IOperation left, IOperation right)
         {
             operationString = "<=";
-            TypeConvertion tpcv = new TypeConvertion("IIBDDBCCB", 2);
+            TypeConvertion tpcv = new TypeConvertion("IIBDDBDIBIDBCCB", 2);
             a = left; b = right;
             returnType = MISC.CheckTypeCorrect(tpcv, a.returnTypes(), b.returnTypes());
         }
@@ -21,7 +21,7 @@ namespace Compilat
         public Less(IOperation left, IOperation right)
         {
             operationString = "<";
-            TypeConvertion tpcv = new TypeConvertion("IIBDDBCCB", 2);
+            TypeConvertion tpcv = new TypeConvertion("IIBDDBDIBIDBCCB", 2);
             a = left; b = right;
             returnType = MISC.CheckTypeCorrect(tpcv, a.returnTypes(), b.returnTypes());
         }
@@ -31,7 +31,7 @@ namespace Compilat
         public MrEq(IOperation left, IOperation right)
         {
             operationString = ">=";
-            TypeConvertion tpcv = new TypeConvertion("IIBDDBCCB", 2);
+            TypeConvertion tpcv = new TypeConvertion("IIBDDBDIBIDBCCB", 2);
             a = left; b = right;
             returnType = MISC.CheckTypeCorrect(tpcv, a.returnTypes(), b.returnTypes());
         }
@@ -41,7 +41,7 @@ namespace Compilat
         public More(IOperation left, IOperation right)
         {
             operationString = ">";
-            TypeConvertion tpcv = new TypeConvertion("IIBDDBCCB", 2);
+            TypeConvertion tpcv = new TypeConvertion("IIBDDBDIBIDBCCB", 2);
             a = left; b = right;
             returnType = MISC.CheckTypeCorrect(tpcv, a.returnTypes(), b.returnTypes());
         }

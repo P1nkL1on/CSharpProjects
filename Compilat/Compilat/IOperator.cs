@@ -36,12 +36,12 @@ namespace Compilat
 
             Console.WriteLine(String.Format("{0}IF", MISC.tabs(depth)));
             condition.Trace(depth + 1);
-            if (actions.Count == 1)
+            if (actions[1].CommandCount == 0)
                 MISC.finish = true;
             Console.WriteLine(String.Format("{0}THEN", MISC.tabs(depth + 1)));
             MISC.finish = true;
             actions[0].Trace(depth + 2);
-            if (actions.Count == 2)
+            if (actions[1].CommandCount > 0)
             {
                 MISC.finish = true;
                 Console.WriteLine(String.Format("{0}ELSE", MISC.tabs(depth + 1)));

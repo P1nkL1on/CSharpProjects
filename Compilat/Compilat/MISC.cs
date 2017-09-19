@@ -40,10 +40,17 @@ namespace Compilat
         {
             return (isNowIn(ss) == nowParsing.Count - 1);
         }
+        public static string lastFunction()
+        {
+            for (int i = nowParsing.Count - 1; i >= 0; i--)
+                if (nowParsing[i].IndexOf("FUNCTION") == 0)
+                    return nowParsing[i];
+            return "NONE";
+        }
         public static int isNowIn(string ss)
         {
             for (int i = nowParsing.Count - 1; i >= 0; i--)
-                if (nowParsing[nowParsing.Count - 1].IndexOf(ss) >= 0)
+                if (nowParsing[i].IndexOf(ss) >= 0)
                     return i;
             return -1;
         }
@@ -52,7 +59,7 @@ namespace Compilat
             Console.Clear();
             for (int i = 0; i < nowParsing.Count; i++)
                 Console.Write("/" + nowParsing[i]);
-            Thread.Sleep(500);
+            Thread.Sleep(50);
         }
 
 
