@@ -26,64 +26,13 @@ namespace Compilat
                 if (S0[i] != '\n')
                     S += S0[i];
 
-            List<string> commandArr = splitBy(S, separators);
+            List<string> commandArr = MISC.splitBy(S, separators);
 
             for (int i = 0; i < commandArr.Count; i++)
                 commands.Add(ParseCommand(commandArr[i]));
 
         }
-        static List<string> splitBy(string S, params char[] seps)
-        {
-            List<string> res = new List<string>();
-            res.Add("");
-            int founded = 0, level = 0;
-            for (int i = 0; i < S.Length;
-                i++, level += (i < S.Length) ? ((S[i] == '(' || S[i] == '{') ? 1 : (S[i] == ')' || S[i] == '}') ? -1 : 0) : 0)
-
-                for (int j = 0; j < seps.Length; j++)   // count separate
-                    if (S[i] == seps[j] && level == 0)
-                    { founded++; res.Add(""); }
-                    else
-                        res[founded] += S[i];
-
-            List<string> res2 = new List<string>(); // delete zero long
-            for (int i = 0; i < res.Count; i++)
-                if (res[i].Length > 0)
-                    res2.Add(res[i]);
-
-            return res2;
-        }
-        static string getIn(string S, int pos)
-        {
-
-            char c = S[pos], c2 = ' ';
-            if (c != '(' && c != '{')
-                return S;
-            if (c == '(') c2 = ')';
-            if (c == '{') c2 = '}';
-
-            int nowLevel = 0;
-            string res = "";
-            for (int i = pos; i < S.Length; i++)
-            {
-                if (S[i] == c2) { nowLevel--; if (nowLevel == 0) return res;}
-                if (nowLevel >= 1) res += S[i];
-                if (S[i] == c) nowLevel++;
-            }
-            return res; // get operand or commands
-        }
-
-        static int IndexOfOnLevel0( string S, string subS, int from )
-        {
-            int pos = S.IndexOf(subS, from);
-            if (pos < 0)
-                return -1;
-
-            int level = 0;
-            for (int i = 0; i <= pos; i++)
-                level += (S[i] == '(' || S[i] == '{') ? 1 : ((S[i] == ')' || S[i] == '}') ? -1 : 0);
-            return (level == 0)? pos : -1;            
-        }
+        
 
         public ICommand ParseCommand(String S)
         {
@@ -97,8 +46,8 @@ namespace Compilat
             //try to parse while cycles
             if (S.ToLower().IndexOf("for") == 0)
             {
-                string parseCondition = getIn(S, S.IndexOf('(')),
-                       parseAction = getIn(S, S.IndexOf('{'));
+                string parseCondition = MISC.getIn(S, S.IndexOf('(')),
+                       parseAction = MISC.getIn(S, S.IndexOf('{'));
 
                 string[] conditionParts = parseCondition.Split(';');
                 if (conditionParts.Length != 3)
@@ -116,22 +65,23 @@ namespace Compilat
 
             }
             if (S.ToLower().IndexOf("while") == 0)
-                return new CycleWhile(getIn(S, S.IndexOf('(')), getIn(S, S.IndexOf('{')), false);
+                return new CycleWhile(MISC.getIn(S, S.IndexOf('(')), MISC.getIn(S, S.IndexOf('{')), false);
             if (S.ToLower().IndexOf("do") == 0)
-                return new CycleWhile(getIn(S, S.IndexOf('(')), getIn(S, S.IndexOf('{')), true);
+                return new CycleWhile(MISC.getIn(S, S.IndexOf('(')), MISC.getIn(S, S.IndexOf('{')), true);
             #endregion
             #region Operators
             if (S.ToLower().IndexOf("if") == 0)
             {
-                int pos1 = IndexOfOnLevel0(S, "}", 0),
-                    pos2 = IndexOfOnLevel0(S, "}", pos1 + 1),
-                    posElse = IndexOfOnLevel0(S, "}else{", 0);
+                int pos1 = MISC.IndexOfOnLevel0(S, "}", 0),
+                    pos2 = MISC.IndexOfOnLevel0(S, "}", pos1 + 1),
+                    posElse = MISC.IndexOfOnLevel0(S, "}else{", 0);
                 if (pos2 < pos1)
-                    return new OperatorIf(getIn(S, S.IndexOf('(')), getIn(S, S.IndexOf('{')), "");
+                    return new OperatorIf(MISC.getIn(S, S.IndexOf('(')), MISC.getIn(S, S.IndexOf('{')), "");
                 else
-                    return new OperatorIf(getIn(S, S.IndexOf('(')), getIn(S, S.IndexOf('{')), getIn(S, S.LastIndexOf("{")));
+                    return new OperatorIf(MISC.getIn(S, S.IndexOf('(')), MISC.getIn(S, S.IndexOf('{')), MISC.getIn(S, S.LastIndexOf("{")));
             }
             #endregion
+            throw new Exception("Can not parse a command");
             return null;
         }
 
@@ -144,13 +94,14 @@ namespace Compilat
 
         public void Trace(int depth)
         {
-            Console.WriteLine(String.Format("{0}"+((commands.Count>0)? "C" : "Empty c")+"ommand order <{1}> :", MISC.tabs(depth), commands.Count));
+            Console.WriteLine(String.Format("{0}" + ((commands.Count > 0) ? "C" : "Empty c") + "ommand order <{1}> :", MISC.tabs(depth), commands.Count));
             for (int i = 0; i < commands.Count; i++)
             {
-                if (commands.Count > 1)
-                    Console.WriteLine(String.Format("{0}#{1}", MISC.tabs(depth), i+1));
-                if (commands[i] != null)
-                    commands[i].Trace(depth + 1);
+                //if (commands.Count > 1)
+                //    Console.WriteLine(String.Format("{0}#{1}", MISC.tabs(depth+1), i + 1));
+                if (i == commands.Count - 1)
+                    MISC.finish = true;
+                commands[i].Trace(depth + 1);
             }
         }
 

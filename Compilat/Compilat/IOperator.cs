@@ -15,7 +15,7 @@ namespace Compilat
         public virtual void Trace(int depth)
         {
             Console.WriteLine(MISC.tabs(depth) + "Default operator trace");
-        }   
+        }
     }
 
     public class OperatorIf : IOperator
@@ -33,19 +33,22 @@ namespace Compilat
 
         public override void Trace(int depth)
         {
-            
+
             Console.WriteLine(String.Format("{0}IF", MISC.tabs(depth)));
             condition.Trace(depth + 1);
-            
-            Console.WriteLine(String.Format("{0}THEN", MISC.tabs(depth)));
-            actions[0].Trace(depth + 1);
-
-            if (actions[1].CommandCount > 0)
+            if (actions.Count == 1)
+                MISC.finish = true;
+            Console.WriteLine(String.Format("{0}THEN", MISC.tabs(depth + 1)));
+            MISC.finish = true;
+            actions[0].Trace(depth + 2);
+            if (actions.Count == 2)
             {
-                Console.WriteLine(String.Format("{0}ELSE", MISC.tabs(depth)));
-                actions[1].Trace(depth + 1);
+                MISC.finish = true;
+                Console.WriteLine(String.Format("{0}ELSE", MISC.tabs(depth + 1)));
+                MISC.finish = true;
+                actions[0].Trace(depth + 2);
             }
         }
     }
-    
+
 }

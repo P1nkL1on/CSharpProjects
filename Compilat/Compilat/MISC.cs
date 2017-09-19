@@ -25,12 +25,39 @@ namespace Compilat
             throw new Exception("DID NOT FOUND");
         }
 
+        static List<bool> isSlide = new List<bool>();
+        static string nowOpen = "│ ";
+        static int lastDepth = 0;
+        public static bool finish = false;
+        static bool rmColomn = false;
         public static string tabs(int depth)
         {
-            string res = "";
-            for (int i = 0; i < depth; i++)
-                res += "  ";
-            return res + ((depth == 0) ? "  " : "├─");
+            bool lastChild = finish;
+            if (depth != lastDepth)
+            {
+                if (depth > lastDepth)
+                {
+                    isSlide.Add(!rmColomn);
+                    string nowOpen2 = "";
+                    for (int i = 0; i < nowOpen.Length / 2; i++)
+                        nowOpen2 += ((isSlide[i])?"│ ":"  ");
+
+                    nowOpen = nowOpen2 + ((lastChild) ? "└ " : "├ ");
+                }
+                if (depth < lastDepth)
+                    for (int i = 0; i < lastDepth - depth; i++)
+                    { nowOpen = nowOpen.Remove(nowOpen.Length - 4) + ((lastChild) ? "└ " : "├ "); isSlide.RemoveAt(isSlide.Count - 1); }
+                
+                lastDepth = depth;
+            }
+            else
+            {
+                if (lastChild) nowOpen = nowOpen.Remove(nowOpen.Length - 2) + "└ ";
+            }
+
+            rmColomn = (nowOpen[nowOpen.Length - 2] == '└');
+            finish = false;
+            return nowOpen;
         }
         public static void separate(string S, string separator, ref string leftpart, ref string rightpart, int separatorIndex)
         {
@@ -54,6 +81,59 @@ namespace Compilat
             if (s[0] == '(' && s[s.Length - 1] == ')')
                 return s.Substring(1, s.Length - 2);
             return s;
+        }
+
+        public static List<string> splitBy(string S, params char[] seps)
+        {
+            List<string> res = new List<string>();
+            res.Add("");
+            int founded = 0, level = 0;
+            for (int i = 0; i < S.Length;
+                i++, level += (i < S.Length) ? ((S[i] == '(' || S[i] == '{') ? 1 : (S[i] == ')' || S[i] == '}') ? -1 : 0) : 0)
+
+                for (int j = 0; j < seps.Length; j++)   // count separate
+                    if (S[i] == seps[j] && level == 0)
+                    { founded++; res.Add(""); }
+                    else
+                        res[founded] += S[i];
+
+            List<string> res2 = new List<string>(); // delete zero long
+            for (int i = 0; i < res.Count; i++)
+                if (res[i].Length > 0)
+                    res2.Add(res[i]);
+
+            return res2;
+        }
+        public static string getIn(string S, int pos)
+        {
+
+            char c = S[pos], c2 = ' ';
+            if (c != '(' && c != '{')
+                return S;
+            if (c == '(') c2 = ')';
+            if (c == '{') c2 = '}';
+
+            int nowLevel = 0;
+            string res = "";
+            for (int i = pos; i < S.Length; i++)
+            {
+                if (S[i] == c2) { nowLevel--; if (nowLevel == 0) return res; }
+                if (nowLevel >= 1) res += S[i];
+                if (S[i] == c) nowLevel++;
+            }
+            return res; // get operand or commands
+        }
+
+        public static int IndexOfOnLevel0(string S, string subS, int from)
+        {
+            int pos = S.IndexOf(subS, from);
+            if (pos < 0)
+                return -1;
+
+            int level = 0;
+            for (int i = 0; i <= pos; i++)
+                level += (S[i] == '(' || S[i] == '{') ? 1 : ((S[i] == ')' || S[i] == '}') ? -1 : 0);
+            return (level == 0) ? pos : -1;
         }
     }
 }

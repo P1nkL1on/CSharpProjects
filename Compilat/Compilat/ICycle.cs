@@ -14,7 +14,7 @@ namespace Compilat
         public virtual void Trace(int depth)
         {
             Console.WriteLine(MISC.tabs(depth) + "Default cycle trace");
-        }   
+        }
     }
 
     public class CycleFor : ICycle
@@ -26,10 +26,12 @@ namespace Compilat
         }
         public override void Trace(int depth)
         {
-            Console.WriteLine(String.Format("{0}WHILE (for)", MISC.tabs(depth)));
+            Console.WriteLine(String.Format("{0}FOR", MISC.tabs(depth)));
+
+            //Console.WriteLine(String.Format("{0}WHILE", MISC.tabs(depth)));
             condition.Trace(depth + 1);
-            Console.WriteLine(String.Format("{0}DO", MISC.tabs(depth)));
-            actions.Trace(depth + 1);
+
+            MISC.finish = true; actions.Trace(depth + 1);
         }
     }
     public class CycleWhile : ICycle
@@ -45,17 +47,19 @@ namespace Compilat
 
         public override void Trace(int depth)
         {
+            Console.WriteLine(String.Format("{0}WHILE", MISC.tabs(depth)));
             if (!doFirst)
             {
-                Console.WriteLine(String.Format("{0}WHILE", MISC.tabs(depth)));
+                //Console.WriteLine(String.Format("{0}WHILE", MISC.tabs(depth)));
                 condition.Trace(depth + 1);
+                MISC.finish = true;
+                actions.Trace(depth + 1);
             }
-            Console.WriteLine(String.Format("{0}DO", MISC.tabs(depth)));
-            actions.Trace(depth + 1);
-
-            if (doFirst)
+            else
             {
-                Console.WriteLine(String.Format("{0}WHILE", MISC.tabs(depth)));
+                //Console.WriteLine(String.Format("{0}WHILE", MISC.tabs(depth)));
+                actions.Trace(depth + 1);
+                MISC.finish = true;
                 condition.Trace(depth + 1);
             }
         }

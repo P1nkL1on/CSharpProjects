@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ASTFunction.cs" />
     <Compile Include="ASTNode.cs" />
     <Compile Include="ASTTree.cs" />
     <Compile Include="BinaryCompare.cs" />

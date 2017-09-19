@@ -20,13 +20,7 @@ namespace Compilat
                 throw new Exception("Can not define variable with name \""+ss[1]+"\"");
 
             ss[0].ToLower();
-
-            varType = ValueType.Variable;
-            if (ss[0] == "double") varType = ValueType.Cdouble;
-            if (ss[0] == "int") varType = ValueType.Cint;
-            if (ss[0] == "string") varType = ValueType.Cstring;
-            if (ss[0] == "char") varType = ValueType.Cchar;
-            if (ss[0] == "bool") varType = ValueType.Cboolean;
+            varType = detectType(ss[0]);
 
             TypeConvertion tpcv = new TypeConvertion("IIDDBBCCSS$$", 1);
             returnType = MISC.CheckTypeCorrect(tpcv, varType);
@@ -42,9 +36,20 @@ namespace Compilat
             a = newToken;
             
         }
+        public static ValueType detectType(string s)
+        {
+            if (s == "double") return ValueType.Cdouble;
+            if (s == "int") return ValueType.Cint;
+            if (s == "string") return ValueType.Cstring;
+            if (s == "char") return ValueType.Cchar;
+            if (s == "bool") return  ValueType.Cboolean;
+            if (s == "void") return ValueType.Cvoid;
+            return ValueType.Variable;
+        }
         public override void Trace(int depth)
         {
             Console.WriteLine(MISC.tabs(depth) + "DEFINE [" + defineType.ToString() + "]");
+            MISC.finish = true;
             a.Trace(depth + 1);
         }
     }
@@ -53,53 +58,39 @@ namespace Compilat
     {
         public Mins(IOperation val)
         {
+            operationString = "-";
             a = val;
             returnType = val.returnTypes();
         }
-        public override void Trace(int depth)
-        {
-            Console.WriteLine(MISC.tabs(depth) + "-");
-            a.Trace(depth + 1);
-        }
+        
     }
     class Nega : MonoOperation
     {
         public Nega(IOperation val)
         {
+            operationString = "!";
             a = val;
             returnType = val.returnTypes();
         }
-        public override void Trace(int depth)
-        {
-            Console.WriteLine(MISC.tabs(depth) + "!");
-            a.Trace(depth + 1);
-        }
+        
     }
 
     class Incr : MonoOperation
     {
         public Incr(IOperation val)
         {
+            operationString = "++";
             a = val;
             returnType = ValueType.Cboolean;
-        }
-        public override void Trace(int depth)
-        {
-            Console.WriteLine(MISC.tabs(depth) + "++");
-            a.Trace(depth + 1);
         }
     }
     class Dscr : MonoOperation
     {
         public Dscr(IOperation val)
         {
+            operationString = "--";
             a = val;
             returnType = ValueType.Cboolean;
-        }
-        public override void Trace(int depth)
-        {
-            Console.WriteLine(MISC.tabs(depth) + "--");
-            a.Trace(depth + 1);
         }
     }
 }

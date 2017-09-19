@@ -44,7 +44,8 @@ namespace Compilat
             
             try
             {
-                rootNode = new CommandOrder(sTrim, ';');
+                rootNode = new ASTFunction(sTrim);
+                    //new CommandOrder(sTrim, ';');
             }
             catch (Exception e)
             {
@@ -132,20 +133,27 @@ namespace Compilat
                     { this.type = ValueType.Cstring; this.value = (object)(s.Substring(1, s.Length - 2)); }
                     else
                     {
-                        // finally variable
-                        this.name = s;
-                        ASTValue getedVar = new ASTValue(); bool found = false;
-                        for (int i = 0; i < ASTTree.variables.Count; i++)
-                            if (ASTTree.variables[i].name == this.name) { getedVar = ASTTree.variables[i]; found = true; }
-
-                        if (!found)
+                        if (s.ToLower() == "true" || s.ToLower() == "false")
                         {
-                            throw new Exception("Used a variable \"" + this.name + "\", that was never defined!");
+                            this.type = ValueType.Cboolean; this.value = (object)((s.ToLower() == "true"));
                         }
                         else
                         {
-                            this.type = getedVar.type;
-                            this.value = (object)getedVar.value;
+                            // finally variable
+                            this.name = s;
+                            ASTValue getedVar = new ASTValue(); bool found = false;
+                            for (int i = 0; i < ASTTree.variables.Count; i++)
+                                if (ASTTree.variables[i].name == this.name) { getedVar = ASTTree.variables[i]; found = true; }
+
+                            if (!found)
+                            {
+                                throw new Exception("Used a variable \"" + this.name + "\", that was never defined!");
+                            }
+                            else
+                            {
+                                this.type = getedVar.type;
+                                this.value = (object)getedVar.value;
+                            }
                         }
                     }
                 }

@@ -19,12 +19,15 @@ namespace Compilat
 
     public abstract class MonoOperation : IOperation
     {
+        protected string operationString = "???";
         protected ValueType returnType;
         protected TypeConvertion atArg;
         protected IOperation a;   // pointer
         public virtual void Trace(int depth)
         {
-            Console.WriteLine(MISC.tabs(depth) + "Default mono-operation trace");
+            Console.WriteLine(MISC.tabs(depth) + operationString);
+            MISC.finish = true;
+            a.Trace(depth + 1);
         }
         public static IOperation ParseFrom(string s)
         {
@@ -43,8 +46,10 @@ namespace Compilat
             if (s.IndexOf("!") == 0)
                 return new Nega(ParseFrom(s.Substring(1, s.Length - 1)));
 
-            if (s.IndexOf("$") > 0)
-                return new Define(s);
+            int varType = Math.Max((s.IndexOf("int")>=0)? 2 : -1, Math.Max((s.IndexOf("double")>=0)? 5 : -1, Math.Max((s.IndexOf("char")>=0)? 3 : -1,
+                Math.Max((s.IndexOf("string")>=0)? 5 : -1, (s.IndexOf("bool")>=0)? 3 : -1))));
+            if (varType >= 0)
+                return new Define(s.Insert(varType + 1, "$"));
 
             return new ASTValue(s);
         }
@@ -57,6 +62,7 @@ namespace Compilat
 
     public abstract class BinaryOperation : IOperation
     {
+        protected string operationString = "???";
         protected ValueType returnType;
         // acceptable left and right types
         static int lastIndex = -1;
@@ -64,7 +70,10 @@ namespace Compilat
         protected IOperation b;   // pointer
         public virtual void Trace(int depth)
         {
-            Console.WriteLine(MISC.tabs(depth) + "Default binary-operation trace");
+            Console.WriteLine(MISC.tabs(depth) + operationString + "\t" + returnType.ToString());
+            a.Trace(depth + 1);
+            MISC.finish = true;
+            b.Trace(depth + 1);
         }
 
         static bool onLevel(string s, string symbols, int level)
