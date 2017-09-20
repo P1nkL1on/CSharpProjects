@@ -67,6 +67,7 @@ namespace Compilat
         }
         static void DrawIerch()
         {
+            return;
             Console.Clear();
             for (int i = 0; i < nowParsing.Count; i++)
                 Console.Write("/" + nowParsing[i]);

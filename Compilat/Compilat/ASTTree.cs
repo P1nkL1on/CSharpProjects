@@ -44,8 +44,15 @@ namespace Compilat
         public ASTTree(string s)
         {
             string sTrim = "";
+            int bracketLevel = 0;
             for (int i = 0; i < s.Length; i++)
+            {
                 if (s[i] != ' ') sTrim += s[i];
+                if (bracketLevel == 1 && i > 0 && s[i] == '}')
+                    sTrim += "^";
+                bracketLevel += (s[i] == '{')? 1 : ((s[i] == '}')? -1 : 0);
+            }
+            sTrim = sTrim.Remove(sTrim.Length - 1);
             original = s;
             string[] funcParseMaterial = sTrim.Split('^');
             try
