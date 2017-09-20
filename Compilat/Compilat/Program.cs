@@ -10,7 +10,7 @@ namespace Compilat
     {
         static void Main(string[] args)
         {
-            ASTTree t = new ASTTree("double pow(double x, int step){double base = 1.0; for (int i = 0; i < step; i++){base *= x;}; return base;}^int main(){for(inti=0; i < 10; i++){double j= 10.0; if (3==2){continue;};while(j>0){j--; do {int op = 0;}while(true);char a = 'c'; if (1==1){break;}}}; return 0;}");
+            ASTTree t = new ASTTree("double pow(double x, int step){double base = 1.0; for (int i = 0; i < step; i++){base *= x;}; return base;}^int main(){double o1 = pow(100.0, 5);return 0;}");
             //("0 == 1-1000 / (500+500) * (500 + 501) / 1001");
             t.Trace();
 

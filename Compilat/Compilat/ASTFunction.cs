@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Compilat
 {
-    class ASTFunction : IOperation
+    public class ASTFunction : IOperation
     {
         // int func (double a, double y, double z, bool XX){....with only those variables.... return int();}
         string name;
@@ -31,7 +31,7 @@ namespace Compilat
                 for (int i = 0; i < vars.Count; i++)
                     input.Add((Define)MonoOperation.ParseFrom(vars[i]));
 
-                MISC.GoDeep("FUNCTION$"+name+"$"+returnTypes());
+                MISC.GoDeep("FUNCTION$" + name + "$" + returnTypes());
                 actions = new CommandOrder(MISC.getIn(S, S.IndexOf('{')), ';');
                 MISC.GoBack();
                 return;
@@ -58,5 +58,11 @@ namespace Compilat
             MISC.finish = true;
             actions.Trace(depth + 1);
         }
+        //
+        public string getName
+        {
+            get { return name; }
+        }
+        
     }
 }

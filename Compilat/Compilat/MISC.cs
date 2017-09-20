@@ -33,6 +33,11 @@ namespace Compilat
         }
         public static void GoBack()
         {
+            string func = nowParsing[nowParsing.Count - 1];
+            if (func.IndexOf("FUNCTION") == 0)
+                if (func.IndexOf("$C") > 0 && func.IndexOf("$Cvoid") < 0 && func.IndexOf("R$") < 0)
+                    throw new Exception("No return in non-void function \"" + func.Substring(9, func.IndexOf("$",9) - 9) + "\"!");
+
             nowParsing.RemoveAt(nowParsing.Count - 1);
             DrawIerch();
         }
@@ -46,6 +51,12 @@ namespace Compilat
                 if (nowParsing[i].IndexOf("FUNCTION") == 0)
                     return nowParsing[i];
             return "NONE";
+        }
+        public static void addReturnToLastFunction()
+        {
+            for (int i = nowParsing.Count - 1; i >= 0; i--)
+                if (nowParsing[i].IndexOf("FUNCTION") == 0)
+                    nowParsing[i]+="R$";
         }
         public static int isNowIn(string ss)
         {

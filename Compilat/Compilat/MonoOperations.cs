@@ -44,7 +44,7 @@ namespace Compilat
             if (s == "char") return ValueType.Cchar;
             if (s == "bool") return  ValueType.Cboolean;
             if (s == "void") return ValueType.Cvoid;
-            return ValueType.Variable;
+            return ValueType.Cvariable;
         }
         public override void Trace(int depth)
         {

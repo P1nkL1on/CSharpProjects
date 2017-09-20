@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace Compilat
 {
-
-
     public class ASTTree
     {
-        List<ASTFunction> funcs;
+        public static List<ASTFunction> funcs = new List<ASTFunction>();
         string original;
         public static List<ASTValue> tokens = new List<ASTValue>();
         public static List<ASTValue> variables = new List<ASTValue>();
@@ -38,7 +36,6 @@ namespace Compilat
 
         public ASTTree(string s)
         {
-            funcs = new List<ASTFunction>();
             string sTrim = "";
             for (int i = 0; i < s.Length; i++)
                 if (s[i] != ' ') sTrim += s[i];
@@ -205,7 +202,7 @@ namespace Compilat
         Cstring = 3,
         Cboolean = 4,
         Carray = 5,
-        Variable = 6,
+        Cvariable = 6,
         Cvoid = 7,
         Unknown = 8
     }
@@ -228,7 +225,7 @@ namespace Compilat
                 switch (s[i])
                 {
                     case '$':
-                        vt = ValueType.Variable; break;
+                        vt = ValueType.Cvariable; break;
                     case 'I':
                         vt = ValueType.Cint; break;
                     case 'D':
@@ -242,7 +239,7 @@ namespace Compilat
                     case '_':
                         vt = ValueType.Cvoid; break;
                     default:
-                        vt = ValueType.Variable; break;
+                        vt = ValueType.Cvariable; break;
                 }
                 if (i % IOcount == IOcount - 1)
                     tlist.Add(vt);

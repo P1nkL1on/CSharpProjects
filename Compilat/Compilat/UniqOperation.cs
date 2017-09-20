@@ -48,6 +48,8 @@ namespace Compilat
                    retType = returnType.ToString();
             if ( funcType != retType)
                 throw new Exception("Incorrect return value type!");
+            // if everything is good than add a ret to last function
+            MISC.addReturnToLastFunction();
         }
         public override void Trace(int depth)
         {

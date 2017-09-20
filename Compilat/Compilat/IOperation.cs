@@ -45,9 +45,15 @@ namespace Compilat
 
             if (s.IndexOf("!") == 0)
                 return new Nega(ParseFrom(s.Substring(1, s.Length - 1)));
+            try
+            {
+                return new ASTFunctionCall(s);
+            }
+            catch (Exception e) { }
 
             int varType = Math.Max((s.IndexOf("int")>=0)? 2 : -1, Math.Max((s.IndexOf("double")>=0)? 5 : -1, Math.Max((s.IndexOf("char")>=0)? 3 : -1,
                 Math.Max((s.IndexOf("string")>=0)? 5 : -1, (s.IndexOf("bool")>=0)? 3 : -1))));
+
             if (varType >= 0)
                 return new Define(s.Insert(varType + 1, "$"));
 
