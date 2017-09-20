@@ -32,13 +32,13 @@ namespace Compilat
                 commands.Add(ParseCommand(commandArr[i]));
 
         }
-        
+
 
         public ICommand ParseCommand(String S)
         {
             // here we get a 1 string between ;...;
             // it can be cycle or simple operation
-            if (S.IndexOf("{") < 0)
+            if (S.IndexOf("{") < 0 && S.ToLower().IndexOf("if") != 0)
                 // it can not be cycle
                 return BinaryOperation.ParseFrom(S);
 
@@ -74,13 +74,25 @@ namespace Compilat
             #region Operators
             if (S.ToLower().IndexOf("if") == 0)
             {
-                int pos1 = MISC.IndexOfOnLevel0(S, "}", 0),
-                    pos2 = MISC.IndexOfOnLevel0(S, "}", pos1 + 1),
-                    posElse = MISC.IndexOfOnLevel0(S, "}else{", 0);
-                if (pos2 < pos1)
-                    return new OperatorIf(MISC.getIn(S, S.IndexOf('(')), MISC.getIn(S, S.IndexOf('{')), "");
+                int indexOfConditionRightBrakket = MISC.IndexOfOnLevel0(S, ")", 0);
+                if (S.IndexOf("{") - 1 == indexOfConditionRightBrakket)
+                {
+                    int pos1 = MISC.IndexOfOnLevel0(S, "}", 0),
+                        pos2 = MISC.IndexOfOnLevel0(S, "}", pos1 + 1),
+                        posElse = MISC.IndexOfOnLevel0(S, "}else{", 0);
+                    if (pos2 < pos1)
+                        return new OperatorIf(MISC.getIn(S, S.IndexOf('(')), MISC.getIn(S, S.IndexOf('{')), "");
+                    else
+                        return new OperatorIf(MISC.getIn(S, S.IndexOf('(')), MISC.getIn(S, S.IndexOf('{')), MISC.getIn(S, S.LastIndexOf("{")));
+                }
                 else
-                    return new OperatorIf(MISC.getIn(S, S.IndexOf('(')), MISC.getIn(S, S.IndexOf('{')), MISC.getIn(S, S.LastIndexOf("{")));
+                {
+                    int indexElse = MISC.IndexOfOnLevel0(S, ";else", 0);
+                    if (indexElse  >= 0)
+                        return new OperatorIf(MISC.getIn(S, S.IndexOf('(')), S.Substring(indexOfConditionRightBrakket + 1), "");
+                    else
+                        return new OperatorIf(MISC.getIn(S, S.IndexOf('(')), S.Substring(indexOfConditionRightBrakket + 1), "");
+                }
             }
             #endregion
             throw new Exception("Can not parse a command");

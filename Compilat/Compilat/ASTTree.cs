@@ -32,6 +32,13 @@ namespace Compilat
                 Console.WriteLine(String.Format("  {0}.\t{3}\t{1}\t{2}",
                     variables[i].index, (variables[i].getValue == null) ? "-" : variables[i].getValue.ToString(),
                     variables[i].getValueType, variables[i].name));
+            Console.WriteLine("\n___FUNCTIONS___");
+            for (int i = 0; i < funcs.Count; i++)
+            {
+                string s = "";
+                Console.WriteLine(String.Format("  {0}: {1} => {2}",funcs[i].getName,funcs[i].getInputType,funcs[i].returnTypes().ToString()));
+                
+            }
         }
 
         public ASTTree(string s)

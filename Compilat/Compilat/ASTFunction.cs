@@ -22,8 +22,10 @@ namespace Compilat
                 Math.Max((s.IndexOf("string") >= 0) ? 5 : -1, Math.Max((s.IndexOf("bool") >= 0) ? 3 : -1, (s.IndexOf("void") >= 0) ? 3 : -1)))));
             if (varType >= 0)
             {
-                string[] type_name = s.Split(s[varType + 1]);
-                name = s[varType + 1] + type_name[1];
+                varType++;
+                string[] type_name = new 
+                    string[]{s.Substring(0, varType), s.Substring(varType, s.Length - varType)};//s.Split(s[varType + 1]);
+                name = type_name[1];
                 IO.to = new ValueType[] { Define.detectType(type_name[0]) };
                 // try to parse signature and actions
                 List<string> vars = MISC.splitBy(MISC.getIn(S, S.IndexOf('(')), ',');
@@ -32,7 +34,8 @@ namespace Compilat
                     input.Add((Define)MonoOperation.ParseFrom(vars[i]));
 
                 MISC.GoDeep("FUNCTION$" + name + "$" + returnTypes());
-                actions = new CommandOrder(MISC.getIn(S, S.IndexOf('{')), ';');
+                string actionCode = MISC.getIn(S, S.IndexOf('{'));
+                actions = new CommandOrder(actionCode, ';');
                 MISC.GoBack();
                 return;
             }
@@ -63,6 +66,25 @@ namespace Compilat
         {
             get { return name; }
         }
-        
+
+        public string getInputType
+        {
+            get
+            {
+                if (input.Count == 0)
+                    return "None arguments";
+                string res = "";
+                for (int i = 0; i < input.Count; i++)
+                    res += " " + input[i].returnTypes().ToString() + ((i < input.Count - 1) ? "," : "");
+                return res;
+            }
+        }
+        public List<ValueType> returnTypesList()
+        {
+            List<ValueType> res = new List<ValueType>();
+            for (int i = 0; i < this.input.Count; i++)
+                res.Add(this.input[i].returnTypes());
+            return res;
+        }
     }
 }
