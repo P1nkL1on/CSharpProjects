@@ -34,6 +34,7 @@ namespace Compilat
                     input.Add((Define)MonoOperation.ParseFrom(vars[i]));
 
                 MISC.GoDeep("FUNCTION$" + name + "$" + returnTypes());
+                
                 string actionCode = MISC.getIn(S, S.IndexOf('{'));
                 actions = new CommandOrder(actionCode, ';');
                 MISC.GoBack();

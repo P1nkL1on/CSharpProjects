@@ -36,8 +36,8 @@ namespace Compilat
             for (int i = 0; i < funcs.Count; i++)
             {
                 string s = "";
-                Console.WriteLine(String.Format("  {0}: {1} => {2}",funcs[i].getName,funcs[i].getInputType,funcs[i].returnTypes().ToString()));
-                
+                Console.WriteLine(String.Format("  {0}: {1} => {2}", funcs[i].getName, funcs[i].getInputType, funcs[i].returnTypes().ToString()));
+
             }
         }
 
@@ -50,7 +50,7 @@ namespace Compilat
                 if (s[i] != ' ') sTrim += s[i];
                 if (bracketLevel == 1 && i > 0 && s[i] == '}')
                     sTrim += "^";
-                bracketLevel += (s[i] == '{')? 1 : ((s[i] == '}')? -1 : 0);
+                bracketLevel += (s[i] == '{') ? 1 : ((s[i] == '}') ? -1 : 0);
             }
             sTrim = sTrim.Remove(sTrim.Length - 1);
             original = s;
@@ -156,11 +156,12 @@ namespace Compilat
                             this.name = s;
                             ASTValue getedVar = new ASTValue(); bool found = false;
                             for (int i = 0; i < ASTTree.variables.Count; i++)
-                                if (ASTTree.variables[i].name == this.name) { getedVar = ASTTree.variables[i]; found = true; }
+                                if (ASTTree.variables[i].name == this.name && MISC.isVariableAvailable(i))
+                                    { getedVar = ASTTree.variables[i]; found = true; }
 
                             if (!found)
                             {
-                                throw new Exception("Used a variable \"" + this.name + "\", that was never defined!");
+                                throw new Exception("Used a variable \"" + this.name + "\", that was never defined in this context!");
                             }
                             else
                             {

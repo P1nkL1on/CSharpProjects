@@ -46,6 +46,9 @@ namespace Compilat
                 throw new Exception("Incorrect external function");
             string funcType = lf.Substring(lf.LastIndexOf('$') + 1),
                    retType = returnType.ToString();
+            if (funcType.IndexOf("R#") >= 0)
+                funcType = funcType.Remove(funcType.IndexOf("R#"));
+
             if ( funcType != retType)
                 throw new Exception("Incorrect return value type!");
             // if everything is good than add a ret to last function

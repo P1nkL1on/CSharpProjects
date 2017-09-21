@@ -27,8 +27,15 @@ namespace Compilat
             actions.Add(new CommandOrder(""));
             actions.Add(new CommandOrder(""));
 
+            MISC.GoDeep("IFTHEN");
             actions[0].MergeWith(new CommandOrder(parseActions, ';'));
-            actions[1].MergeWith(new CommandOrder(parseElseAction, ';'));
+            MISC.GoBack();
+            if (parseElseAction.Length > 0)
+            {
+                MISC.GoDeep("IFELSE");
+                actions[1].MergeWith(new CommandOrder(parseElseAction, ';'));
+                MISC.GoBack();
+            }
         }
 
         public override void Trace(int depth)

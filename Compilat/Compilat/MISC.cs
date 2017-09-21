@@ -27,23 +27,45 @@ namespace Compilat
         }
 
         static List<string> nowParsing = new List<string>();
-        public static void GoDeep(string parseFolder){
+        static List<List<int>> levelVariables = new List<List<int>>();
+        public static void GoDeep(string parseFolder)
+        {
             nowParsing.Add(parseFolder);
+            levelVariables.Add(new List<int>());
             DrawIerch();
         }
         public static void GoBack()
         {
             string func = nowParsing[nowParsing.Count - 1];
             if (func.IndexOf("FUNCTION") == 0)
-                if (func.IndexOf("$C") > 0 && func.IndexOf("$Cvoid") < 0 && func.IndexOf("R$") < 0)
-                    throw new Exception("No return in non-void function \"" + func.Substring(9, func.IndexOf("$",9) - 9) + "\"!");
+                if (func.IndexOf("$C") > 0 && func.IndexOf("$Cvoid") < 0 && func.IndexOf("R#") < 0)
+                    throw new Exception("No return in non-void function \"" + func.Substring(9, func.IndexOf("$", 9) - 9) + "\"!");
 
             nowParsing.RemoveAt(nowParsing.Count - 1);
+            levelVariables.RemoveAt(levelVariables.Count - 1);
             DrawIerch();
         }
+        public static void pushVariable(int variableNumber)
+        {
+            if (levelVariables.Count == 0)
+                levelVariables.Add(new List<int>());
+            levelVariables[levelVariables.Count - 1].Add(variableNumber);
+            DrawIerch();
+
+            return;
+        }
+        public static bool isVariableAvailable(int variableNumber)
+        {
+            for (int i = 0; i < levelVariables.Count; i++)
+                for (int j = 0; j < levelVariables[i].Count; j++)
+                    if (levelVariables[i][j] == variableNumber)
+                        return true;
+            return false;
+        }
+
         public static bool isLast(string ss)
         {
-            return (isNowIn(ss) == nowParsing.Count - 1);
+            return (isNowIn(ss) > 0/*== nowParsing.Count - 1*/);
         }
         public static string lastFunction()
         {
@@ -56,7 +78,7 @@ namespace Compilat
         {
             for (int i = nowParsing.Count - 1; i >= 0; i--)
                 if (nowParsing[i].IndexOf("FUNCTION") == 0)
-                    nowParsing[i]+="R$";
+                    nowParsing[i] += "R#";
         }
         public static int isNowIn(string ss)
         {
@@ -67,11 +89,15 @@ namespace Compilat
         }
         static void DrawIerch()
         {
-            return;
+            //return;
             Console.Clear();
             for (int i = 0; i < nowParsing.Count; i++)
-                Console.Write("/" + nowParsing[i]);
-            Thread.Sleep(50);
+            {
+                Console.Write("\n/" + nowParsing[i] + " :: ");
+                for (int j = 0; j < levelVariables[i].Count; j++)
+                    Console.Write(" " + levelVariables[i][j]);
+            }
+            Thread.Sleep(500);
         }
 
 
@@ -92,14 +118,14 @@ namespace Compilat
                     isSlide.Add(!rmColomn);
                     string nowOpen2 = "";
                     for (int i = 0; i < nowOpen.Length / 2; i++)
-                        nowOpen2 += ((isSlide[i])?"│ ":"  ");
+                        nowOpen2 += ((isSlide[i]) ? "│ " : "  ");
 
                     nowOpen = nowOpen2 + ((lastChild) ? "└ " : "├ ");
                 }
                 if (depth < lastDepth)
                     for (int i = 0; i < lastDepth - depth; i++)
                     { nowOpen = nowOpen.Remove(nowOpen.Length - 4) + ((lastChild) ? "└ " : "├ "); isSlide.RemoveAt(isSlide.Count - 1); }
-                
+
                 lastDepth = depth;
             }
             else
@@ -183,9 +209,13 @@ namespace Compilat
                 return -1;
 
             int level = 0;
-            for (int i = 0; i <= pos; i++)
+            for (int i = 0; i <= S.Length; i++)
+            {
                 level += (S[i] == '(' || S[i] == '{') ? 1 : ((S[i] == ')' || S[i] == '}') ? -1 : 0);
-            return (level == 0) ? pos : -1;
+                if (level == 0 && S.Substring(i).IndexOf(subS) == 0)
+                    return i;
+            }
+            return -1; //(level == 0) ? pos :
         }
     }
 }

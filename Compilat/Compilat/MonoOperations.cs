@@ -30,6 +30,8 @@ namespace Compilat
             ASTValue newVariable = new ASTValue(varName, varType);
             
             ASTTree.variables.Add(newVariable);
+            MISC.pushVariable(ASTTree.variables.Count - 1);
+
             ASTValue newToken = new ASTValue(varName, varType);
             newToken.index = ASTTree.tokens.Count;
             ASTTree.tokens.Add(newToken);

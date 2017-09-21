@@ -10,7 +10,7 @@ namespace Compilat
     {
         static void Main(string[] args)
         {
-            ASTTree t = new ASTTree("double pow (double bas, double inc){return bas * inc;}double main(){ intX=10; if (X>5)X--;return pow(10.0,10.0) + pow(2.0,2.0); }");
+            ASTTree t = new ASTTree("int fac (int par){ if (par > 0.0) return 0 else return par;}");
             //("0 == 1-1000 / (500+500) * (500 + 501) / 1001");
             t.Trace();
 

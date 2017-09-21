@@ -38,7 +38,7 @@ namespace Compilat
         {
             // here we get a 1 string between ;...;
             // it can be cycle or simple operation
-            if (S.IndexOf("{") < 0 && S.ToLower().IndexOf("if") != 0)
+            if (S.IndexOf("{") < 0 && S.ToLower().IndexOf("if") != 0/* && S.ToLower().IndexOf("else") != 0*/)
                 // it can not be cycle
                 return BinaryOperation.ParseFrom(S);
 
@@ -87,11 +87,13 @@ namespace Compilat
                 }
                 else
                 {
-                    int indexElse = MISC.IndexOfOnLevel0(S, ";else", 0);
-                    if (indexElse  >= 0)
+                    int indexElse = MISC.IndexOfOnLevel0(S, "else", 0);
+                    if (indexElse < 0)
                         return new OperatorIf(MISC.getIn(S, S.IndexOf('(')), S.Substring(indexOfConditionRightBrakket + 1), "");
                     else
-                        return new OperatorIf(MISC.getIn(S, S.IndexOf('(')), S.Substring(indexOfConditionRightBrakket + 1), "");
+                        return new OperatorIf(MISC.getIn(S, S.IndexOf('(')), 
+                            S.Substring(indexOfConditionRightBrakket + 1, indexElse - indexOfConditionRightBrakket - 1),
+                            S.Substring(indexElse + 4));
                 }
             }
             #endregion
