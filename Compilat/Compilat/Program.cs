@@ -10,9 +10,22 @@ namespace Compilat
     {
         static void Main(string[] args)
         {
-            ASTTree t = new ASTTree("int fac (int par){ if (par > 0.0) return 0 else return par;}");
-            //("0 == 1-1000 / (500+500) * (500 + 501) / 1001");
-            t.Trace();
+            try
+            {
+                string code = "";
+                string[] lines = System.IO.File.ReadAllLines(@"EXAMPLE.txt");
+
+                System.Console.WriteLine("Contents of WriteLines2.txt = ");
+                foreach (string line in lines)
+                    code += line;
+
+                ASTTree t = new ASTTree(code);
+                t.Trace();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Can not read file!");
+            }
 
             Console.WriteLine("Press any key...");
             Console.ReadKey();

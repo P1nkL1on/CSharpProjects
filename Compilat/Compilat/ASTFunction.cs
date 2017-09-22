@@ -23,20 +23,33 @@ namespace Compilat
             if (varType >= 0)
             {
                 varType++;
-                string[] type_name = new 
-                    string[]{s.Substring(0, varType), s.Substring(varType, s.Length - varType)};//s.Split(s[varType + 1]);
+                string[] type_name = new
+                    string[] { s.Substring(0, varType), s.Substring(varType, s.Length - varType) };//s.Split(s[varType + 1]);
                 name = type_name[1];
+                // check name uniq!
+                for (int i = 0; i < ASTTree.funcs.Count; i++)
+                    if (ASTTree.funcs[i].getName == name && ASTTree.funcs[i].CommandCount > 0)
+                        throw new Exception("Can not redefine a function!");
+                // !
                 IO.to = new ValueType[] { Define.detectType(type_name[0]) };
                 // try to parse signature and actions
                 List<string> vars = MISC.splitBy(MISC.getIn(S, S.IndexOf('(')), ',');
                 input = new List<Define>();
+                MISC.GoDeep("FDEFINED");
+
                 for (int i = 0; i < vars.Count; i++)
                     input.Add((Define)MonoOperation.ParseFrom(vars[i]));
 
-                MISC.GoDeep("FUNCTION$" + name + "$" + returnTypes());
-                
-                string actionCode = MISC.getIn(S, S.IndexOf('{'));
-                actions = new CommandOrder(actionCode, ';');
+                if (S.IndexOf('{') >= 0)
+                {
+                    MISC.GoDeep("FUNCTION$" + name + "$" + returnTypes());
+                    string actionCode = MISC.getIn(S, S.IndexOf('{'));
+                    actions = new CommandOrder(actionCode, ';');
+                    MISC.GoBack();
+                }
+                else
+                    actions = new CommandOrder("");
+
                 MISC.GoBack();
                 return;
             }
@@ -86,6 +99,10 @@ namespace Compilat
             for (int i = 0; i < this.input.Count; i++)
                 res.Add(this.input[i].returnTypes());
             return res;
+        }
+        public int CommandCount
+        {
+            get { return actions.CommandCount; }
         }
     }
 }

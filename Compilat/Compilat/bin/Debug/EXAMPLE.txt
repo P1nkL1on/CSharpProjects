@@ -1,0 +1,23 @@
+int fact (int b);
+double pow (double base, int pow);
+
+int main ()
+{
+	return fact(10);
+}
+
+int fact (int bas){
+	if (bas > 0)
+		return bas * fact(bas - 1);
+	return 1;
+}
+
+double pow (double base, int pow){
+	if (base <= 0)
+		return 1.0;
+	double res = 1.0;
+	for (int i = 0; i < pow; i++)
+		res *= base;
+
+	return res;
+}

@@ -53,7 +53,7 @@ namespace Compilat
                 MISC.finish = true;
                 Console.WriteLine(String.Format("{0}ELSE", MISC.tabs(depth + 1)));
                 MISC.finish = true;
-                actions[0].Trace(depth + 2);
+                actions[1].Trace(depth + 2);
             }
         }
     }

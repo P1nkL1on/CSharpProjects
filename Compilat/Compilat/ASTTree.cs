@@ -20,7 +20,8 @@ namespace Compilat
             if (funcs.Count <= 0)
                 return;
             for (int i = 0; i < funcs.Count; i++)
-                funcs[i].Trace(0);
+                if (funcs[i] != null)
+                    funcs[i].Trace(0);
 
             Console.WriteLine("\n__TOKENS__");
             for (int i = 0; i < tokens.Count; i++)
@@ -35,9 +36,11 @@ namespace Compilat
             Console.WriteLine("\n___FUNCTIONS___");
             for (int i = 0; i < funcs.Count; i++)
             {
-                string s = "";
-                Console.WriteLine(String.Format("  {0}: {1} => {2}", funcs[i].getName, funcs[i].getInputType, funcs[i].returnTypes().ToString()));
 
+                if (funcs[i] != null)
+                    Console.WriteLine(String.Format("  {0}: {1} => {2}", funcs[i].getName, funcs[i].getInputType, funcs[i].returnTypes().ToString()));
+                else
+                    Console.WriteLine(String.Format("  {0}:", "null"));
             }
         }
 
@@ -47,9 +50,11 @@ namespace Compilat
             int bracketLevel = 0;
             for (int i = 0; i < s.Length; i++)
             {
-                if (s[i] != ' ') sTrim += s[i];
+                if (s[i] != ' ' && s[i] != '\n' && s[i] != '\t') sTrim += s[i];
                 if (bracketLevel == 1 && i > 0 && s[i] == '}')
                     sTrim += "^";
+                if (bracketLevel == 0 && s[i] == ')' && s[i + 1] == ';')
+                { sTrim += "^"; i++; }
                 bracketLevel += (s[i] == '{') ? 1 : ((s[i] == '}') ? -1 : 0);
             }
             sTrim = sTrim.Remove(sTrim.Length - 1);
@@ -59,7 +64,12 @@ namespace Compilat
             {
                 for (int i = 0; i < funcParseMaterial.Length; i++)
                     funcs.Add(new ASTFunction(funcParseMaterial[i]));
-                //new CommandOrder(sTrim, ';');
+                // after function declaration we have int foo(); int foo(){return 0;}; need to make them a one function
+                for (int i = 0; i < funcs.Count; i++)
+                    for (int j = i + 1; j < funcs.Count; j++)
+                        if (funcs[i] != null && funcs[j] != null)
+                            if (MISC.CompareFunctionSignature(funcs[i], funcs[j]))
+                            { funcs[i] = funcs[j]; funcs[j] = null; }
             }
             catch (Exception e)
             {
@@ -157,7 +167,7 @@ namespace Compilat
                             ASTValue getedVar = new ASTValue(); bool found = false;
                             for (int i = 0; i < ASTTree.variables.Count; i++)
                                 if (ASTTree.variables[i].name == this.name && MISC.isVariableAvailable(i))
-                                    { getedVar = ASTTree.variables[i]; found = true; }
+                                { getedVar = ASTTree.variables[i]; found = true; }
 
                             if (!found)
                             {

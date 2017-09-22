@@ -34,6 +34,8 @@ namespace Compilat
             levelVariables.Add(new List<int>());
             DrawIerch();
         }
+
+
         public static void GoBack()
         {
             string func = nowParsing[nowParsing.Count - 1];
@@ -78,7 +80,11 @@ namespace Compilat
         {
             for (int i = nowParsing.Count - 1; i >= 0; i--)
                 if (nowParsing[i].IndexOf("FUNCTION") == 0)
-                    nowParsing[i] += "R#";
+                {
+                    if (nowParsing[i].IndexOf("R#") == -1)
+                        nowParsing[i] += "R#";
+                    return;
+                }
         }
         public static int isNowIn(string ss)
         {
@@ -89,7 +95,7 @@ namespace Compilat
         }
         static void DrawIerch()
         {
-            //return;
+            return;
             Console.Clear();
             for (int i = 0; i < nowParsing.Count; i++)
             {
@@ -100,6 +106,21 @@ namespace Compilat
             Thread.Sleep(500);
         }
 
+        public static bool CompareFunctionSignature(ASTFunction f1, ASTFunction f2)
+        {
+            List<ValueType> lvt1 = f1.returnTypesList();
+            List<ValueType> lvt2 = f2.returnTypesList();
+            string nam1 = f1.getName, nam2 = f2.getName;
+            if (nam1 == nam2 && lvt1.Count == lvt2.Count)
+            {
+                for (int i = 0; i < lvt1.Count; i++)
+                    if (lvt1[i] != lvt2[i])
+                        return false;
+            }
+            else
+                return false;
+            return true;
+        }
 
         // correct tab problems
         static List<bool> isSlide = new List<bool>();

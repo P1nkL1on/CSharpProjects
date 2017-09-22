@@ -35,7 +35,7 @@ namespace Compilat
         protected IOperation a;
         public Ret(IOperation returnable)
         {
-            if (MISC.isNowIn("FUNCTION") != 0)
+            if (MISC.isNowIn("FUNCTION") == -1)
                 throw new Exception("Return can be used only inside functions!");
             a = returnable;
             returnType = a.returnTypes();

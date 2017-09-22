@@ -74,9 +74,9 @@ namespace Compilat
                               ASTTree.funcs[functionCallNumber].returnTypes().ToString(), functionCallNumber));
             for (int i = 0; i < arguments.Count; i++)
             {
-                arguments[i].Trace(depth + 1);
-                if (i == arguments.Count - 2)
+                if (i == arguments.Count - 1)
                     MISC.finish = true;
+                arguments[i].Trace(depth + 1);
             }
         }
         public ValueType returnTypes()
