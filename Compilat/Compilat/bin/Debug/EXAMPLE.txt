@@ -1,23 +1,22 @@
-int fact (int b);
-double pow (double base, int pow);
+int mult (int x, int y);
+int diff (int x, int y);
+double mult( double x, double y);
+double diff (double x, double y);
 
-int main ()
-{
-	return fact(10);
+int main(){
+	double MD = mult (10.0, 20.0);
+	return 0;
 }
 
-int fact (int bas){
-	if (bas > 0)
-		return bas * fact(bas - 1);
-	return 1;
+int mult (int x, int y){
+	return x*y;
 }
-
-double pow (double base, int pow){
-	if (base <= 0)
-		return 1.0;
-	double res = 1.0;
-	for (int i = 0; i < pow; i++)
-		res *= base;
-
-	return res;
+int diff (int x, int y){
+	return x/y;
+}
+double mult( double x, double y){
+	return x*y;
+}
+double diff (double x, double y){
+	return x/y;
 }

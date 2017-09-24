@@ -45,23 +45,38 @@ namespace Compilat
 
             if (s.IndexOf("!") == 0)
                 return new Nega(ParseFrom(s.Substring(1, s.Length - 1)));
-            
+
+            if (s.IndexOf("&") == 0)
+                return new Adrs(ParseFrom(s.Substring(1, s.Length - 1)));
+
             try
             {
                 return new ASTFunctionCall(s);
             }
-            catch (Exception e) {}
+            catch (Exception e) { }
 
-            int varType = Math.Max((s.IndexOf("int")>=0)? 2 : -1, Math.Max((s.IndexOf("double")>=0)? 5 : -1, Math.Max((s.IndexOf("char")>=0)? 3 : -1,
-                Math.Max((s.IndexOf("string")>=0)? 5 : -1, (s.IndexOf("bool")>=0)? 3 : -1))));
+            int varType = Math.Max((s.IndexOf("int") >= 0) ? 2 : -1, Math.Max((s.IndexOf("double") >= 0) ? 5 : -1, Math.Max((s.IndexOf("char") >= 0) ? 3 : -1,
+                Math.Max((s.IndexOf("string") >= 0) ? 5 : -1, (s.IndexOf("bool") >= 0) ? 3 : -1))));
 
             if (varType >= 0)
                 return new Define(s.Insert(varType + 1, "$"));
 
-            return new ASTValue(s);
+            try
+            {
+                return new ASTvalue(s);
+            }
+            catch (Exception e)
+            {
+                if (e.Message.IndexOf("GetAddr") == 0)
+                {
+                    int newAdress = int.Parse(e.Message.Split('_')[1]);
+                    return new GetValByAdress(newAdress, ASTTree.variables[newAdress].getValueType);
+                }
+                throw new Exception(e.Message);
+            }
         }
-        
-        public ValueType returnTypes()
+
+        public virtual ValueType returnTypes()
         {
             return returnType;
         }
@@ -153,7 +168,7 @@ namespace Compilat
                 if (s[i] == rightBracket)
                     nowLevel--;
             }
-            return (nowLevel == level)? pos : -1;
+            return (nowLevel == level) ? pos : -1;
         }
 
         /*for (int i = 0; i < s.Length + 1 - symbols.Length; i++)
@@ -172,7 +187,7 @@ namespace Compilat
             if (s.IndexOf("return") == 0)
             { return new Ret(ParseFrom(s.Substring(6))); }
 
-            if (onLevel(s, "=", 0))
+            if (!onLevel(s, "==", 0) && !onLevel(s, "!=", 0) && onLevel(s, "=", 0))
             {
                 MISC.separate(s, "=", ref left, ref right, lastIndex);
                 if (left.Length > 0)
@@ -191,11 +206,36 @@ namespace Compilat
                     }
                 return new Assum(ParseFrom(left), ParseFrom(right));
             }
+            if (onLevel(s, "||", 0))
+            {
+                MISC.separate(s, "||", ref left, ref right, lastIndex);
+                return new ORS(ParseFrom(left), ParseFrom(right));
+            }
+            if (onLevel(s, "|", 0))
+            {
+                MISC.separate(s, "|", ref left, ref right, lastIndex);
+                return new OR(ParseFrom(left), ParseFrom(right));
+            }
+            if (onLevel(s, "&&", 0))
+            {
+                MISC.separate(s, "&&", ref left, ref right, lastIndex);
+                return new ANDS(ParseFrom(left), ParseFrom(right));
+            }
+            if (onLevel(s, "&", 0) && s.IndexOf("&") > 0)
+            {
+                MISC.separate(s, "&", ref left, ref right, lastIndex);
+                return new AND(ParseFrom(left), ParseFrom(right));
+            }
 
             if (onLevel(s, "==", 0))
             {
                 MISC.separate(s, "==", ref left, ref right, lastIndex);
                 return new Equal(ParseFrom(left), ParseFrom(right));
+            }
+            if (onLevel(s, "!=", 0))
+            {
+                MISC.separate(s, "!=", ref left, ref right, lastIndex);
+                return new Uneq(ParseFrom(left), ParseFrom(right));
             }
             if (onLevel(s, "<=", 0))
             {
@@ -230,10 +270,12 @@ namespace Compilat
                     return MonoOperation.ParseFrom("-" + right);
                 return new Diff(ParseFrom(left), ParseFrom(right));
             }
-            if (onLevel(s, "*", 0))
+            if (onLevel(s, "*", 0) && s.IndexOf("*") > 0)
             {
                 MISC.separate(s, "*", ref left, ref right, lastIndex);
-                return new Mult(ParseFrom(left), ParseFrom(right));
+                // can be initialization of pointer!
+                if (Define.detectType(left) == ValueType.Unknown)
+                    return new Mult(ParseFrom(left), ParseFrom(right));
             }
             if (onLevel(s, "/", 0))
             {
@@ -251,7 +293,7 @@ namespace Compilat
                 return MonoOperation.ParseFrom(s);
             }
 
-           
+
         }
         public ValueType returnTypes()
         {

@@ -44,6 +44,7 @@
     <Compile Include="ASTFunction.cs" />
     <Compile Include="ASTFunctionCall.cs" />
     <Compile Include="ASTNode.cs" />
+    <Compile Include="ASTtoken.cs" />
     <Compile Include="ASTTree.cs" />
     <Compile Include="BinaryCompare.cs" />
     <Compile Include="BinaryOperationExtends.cs" />

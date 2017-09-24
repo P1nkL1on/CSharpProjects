@@ -10,22 +10,22 @@ namespace Compilat
     {
         static void Main(string[] args)
         {
-            try
-            {
+            //try
+            //{
                 string code = "";
                 string[] lines = System.IO.File.ReadAllLines(@"EXAMPLE.txt");
 
                 System.Console.WriteLine("Contents of WriteLines2.txt = ");
                 foreach (string line in lines)
-                    code += line;
+                    code += line+"\n";
 
                 ASTTree t = new ASTTree(code);
                 t.Trace();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Can not read file!");
-            }
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine("Can not read file!");
+            //}
 
             Console.WriteLine("Press any key...");
             Console.ReadKey();

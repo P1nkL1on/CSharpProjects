@@ -27,15 +27,32 @@ namespace Compilat
 
             defineType = varType;
             //for (int i =0; i < varName.Length; i++){
-            ASTValue newVariable = new ASTValue(varName, varType);
+            bool isPointer = false;
+            if (varName.IndexOf('*') == 0) { isPointer = true; varName = varName.Substring(1); returnType = ValueType.Cint; }
             
-            ASTTree.variables.Add(newVariable);
-            MISC.pushVariable(ASTTree.variables.Count - 1);
 
-            ASTValue newToken = new ASTValue(varName, varType);
-            newToken.index = ASTTree.tokens.Count;
-            ASTTree.tokens.Add(newToken);
-            a = newToken;
+            //ASTValue newVariable = new ASTValue(varName, varType);
+            //newVariable.isPointer = isPointer;
+
+            //ASTTree.variables.Add(newVariable);
+            //MISC.pushVariable(ASTTree.variables.Count - 1);
+
+            //ASTValue newToken = new ASTValue(varName, varType);
+            //newToken.isPointer = isPointer;
+            //newToken.index = ASTTree.tokens.Count;
+            //ASTTree.tokens.Add(newToken);
+            //a = newToken;
+            if (!isPointer)
+            {
+                ASTvariable newVar = new ASTvariable(varType, varName);
+                ASTTree.variables.Add(newVar);
+                MISC.pushVariable(ASTTree.variables.Count - 1);
+
+                ASTTree.tokens.Add(newVar);
+                a = newVar;
+            }
+            
+            
             
         }
         public static ValueType detectType(string s)
@@ -46,7 +63,7 @@ namespace Compilat
             if (s == "char") return ValueType.Cchar;
             if (s == "bool") return  ValueType.Cboolean;
             if (s == "void") return ValueType.Cvoid;
-            return ValueType.Cvariable;
+            return ValueType.Unknown;
         }
         public override void Trace(int depth)
         {
@@ -94,5 +111,30 @@ namespace Compilat
             a = val;
             returnType = ValueType.Cboolean;
         }
+    }
+    class Adrs : MonoOperation
+    {
+        public Adrs(IOperation val)
+        {
+            operationString = "Get adress";
+            a = val;
+            returnType = ValueType.Cint;
+        }
+    }
+    class GetValByAdress : MonoOperation
+    {
+        int adrs;
+        public GetValByAdress(int adress, ValueType retType)
+        {
+            operationString = "Get value by adress";
+            adrs = adress;
+            returnType = retType;
+        }
+        public override void Trace(int depth)
+        {
+            Console.WriteLine(String.Format("{0}{1} ({2})", MISC.tabs(depth), ASTTree.variables[adrs].name, adrs));
+            //Console.WriteLine(String.Format("{0}{1} [{2}]", MISC.tabs(depth), operationString, adrs));
+        }
+        
     }
 }

@@ -26,10 +26,7 @@ namespace Compilat
                 string[] type_name = new
                     string[] { s.Substring(0, varType), s.Substring(varType, s.Length - varType) };//s.Split(s[varType + 1]);
                 name = type_name[1];
-                // check name uniq!
-                for (int i = 0; i < ASTTree.funcs.Count; i++)
-                    if (ASTTree.funcs[i].getName == name && ASTTree.funcs[i].CommandCount > 0)
-                        throw new Exception("Can not redefine a function!");
+                
                 // !
                 IO.to = new ValueType[] { Define.detectType(type_name[0]) };
                 // try to parse signature and actions
@@ -39,6 +36,11 @@ namespace Compilat
 
                 for (int i = 0; i < vars.Count; i++)
                     input.Add((Define)MonoOperation.ParseFrom(vars[i]));
+                // check name uniq!
+                //bool foundFunc = false;
+                for (int i = 0; i < ASTTree.funcs.Count; i++)
+                    if (ASTTree.funcs[i].actions.CommandCount > 0 && MISC.CompareFunctionSignature(ASTTree.funcs[i], this))
+                        throw new Exception("Can not redefine a function!");
 
                 if (S.IndexOf('{') >= 0)
                 {

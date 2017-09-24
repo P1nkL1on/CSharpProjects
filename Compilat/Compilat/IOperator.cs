@@ -22,7 +22,7 @@ namespace Compilat
     {
         public OperatorIf(string parseCondition, string parseActions, string parseElseAction)
         {
-            condition = new Equal(BinaryOperation.ParseFrom(parseCondition), new ASTValue(ValueType.Cboolean, (object)true));
+            condition = new Equal(BinaryOperation.ParseFrom(parseCondition), new ASTvalue(ValueType.Cboolean, (object)true));
             actions = new List<CommandOrder>();
             actions.Add(new CommandOrder(""));
             actions.Add(new CommandOrder(""));
