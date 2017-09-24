@@ -25,9 +25,12 @@ namespace Compilat
         protected IOperation a;   // pointer
         public virtual void Trace(int depth)
         {
-            Console.WriteLine(MISC.tabs(depth) + operationString);
+            Console.WriteLine(MISC.tabs(depth) + operationString + "    >" + returnType.ToString());
             MISC.finish = true;
-            a.Trace(depth + 1);
+            if (a != null)
+                a.Trace(depth + 1);
+            else
+                Console.WriteLine(MISC.tabs(depth + 1) + " NULL");
         }
         public static IOperation ParseFrom(string s)
         {
@@ -47,7 +50,11 @@ namespace Compilat
                 return new Nega(ParseFrom(s.Substring(1, s.Length - 1)));
 
             if (s.IndexOf("&") == 0)
-                return new Adrs(ParseFrom(s.Substring(1, s.Length - 1)));
+            {
+                IOperation gettingAdressOf = ParseFrom(s.Substring(1, s.Length - 1));
+
+                return new Adrs(gettingAdressOf);
+            }
 
             try
             {
@@ -61,6 +68,26 @@ namespace Compilat
             if (varType >= 0)
                 return new Define(s.Insert(varType + 1, "$"));
 
+            if (s.IndexOf("*") == 0)
+            {
+                IOperation pointTo = ParseFrom(s.Substring(1, s.Length - 1));
+                return new GetValByAdress(pointTo, (pointTo).returnTypes());
+                throw new Exception("Invalid pointer selected!");
+            }
+            if (s.LastIndexOf("]") == s.Length - 1 && s.IndexOf("[") > 0){
+
+                IOperation pointTo = ParseFrom(s.Substring(0, s.IndexOf('[')));
+                return 
+                    new GetValByAdress(new Summ(pointTo, 
+                        BinaryOperation.ParseFrom(MISC.getIn(s, s.IndexOf('[')))),
+                        (pointTo).returnTypes());
+                throw new Exception("Invalid pointer selected!");
+            }
+                //f (s.IndexOf('(') == 0 && s.LastIndexOf(')') == s.Length - 1)
+                //return ParseFrom(MISC.breakBrackets(s));
+
+            
+
             try
             {
                 return new ASTvalue(s);
@@ -70,7 +97,8 @@ namespace Compilat
                 if (e.Message.IndexOf("GetAddr") == 0)
                 {
                     int newAdress = int.Parse(e.Message.Split('_')[1]);
-                    return new GetValByAdress(newAdress, ASTTree.variables[newAdress].getValueType);
+                    return new GetValByAdress(new ASTvalue(ValueType.Cadress, (object)newAdress),
+                                              ASTTree.variables[newAdress].getValueType);
                 }
                 throw new Exception(e.Message);
             }
@@ -110,7 +138,6 @@ namespace Compilat
                 return -1;
             if (symbols == "*")
             { int n = 0; }
-            char leftBracket = '(', rightBracket = ')';
             int nowLevel = 0,
                 pos = s.IndexOf(symbols, from);
             if (pos == -1)
@@ -118,9 +145,9 @@ namespace Compilat
 
             for (int i = 0, ll = 0; i < s.Length; i++)
             {
-                if (s[i] == leftBracket)
+                if (s[i] == '(' || s[i] == '[')
                     ll++;
-                if (s[i] == rightBracket)
+                if (s[i] == ')' || s[i] == ']')
                     ll--;
 
                 if (i > from && i + symbols.Length <= s.Length && ll == 0 && s.Substring(i, symbols.Length) == symbols)
@@ -163,9 +190,9 @@ namespace Compilat
 
             for (int i = 0; i < pos; i++)
             {
-                if (s[i] == leftBracket)
+                if (s[i] == '(' || s[i] == '[')
                     nowLevel++;
-                if (s[i] == rightBracket)
+                if (s[i] == ')' || s[i] == ']')
                     nowLevel--;
             }
             return (nowLevel == level) ? pos : -1;

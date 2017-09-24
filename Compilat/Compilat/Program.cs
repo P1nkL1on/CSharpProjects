@@ -15,7 +15,6 @@ namespace Compilat
                 string code = "";
                 string[] lines = System.IO.File.ReadAllLines(@"EXAMPLE.txt");
 
-                System.Console.WriteLine("Contents of WriteLines2.txt = ");
                 foreach (string line in lines)
                     code += line+"\n";
 

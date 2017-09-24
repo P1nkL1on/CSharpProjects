@@ -12,12 +12,10 @@ namespace Compilat
         public Assum(IOperation left, IOperation right)
         {
             operationString = "=";
-            TypeConvertion tpcv = new TypeConvertion("II_DD_BB_CC_SS_$$_", 2);
+            TypeConvertion tpcv = new TypeConvertion("II_DD_BB_CC_SS_$$_AA_", 2);
             a = left; b = right;
-            returnType = MISC.CheckTypeCorrect(tpcv, a.returnTypes(), b.returnTypes());
-            //a = left; b = right;
-            //if (a.GetType().FullName.IndexOf("Value") < 0)
-            //    throw new Exception("Only values can be in part left of assuming!");
+            ValueType at = a.returnTypes(), bt = b.returnTypes();
+            returnType = MISC.CheckTypeCorrect(tpcv, at, bt);
         }
     }
 

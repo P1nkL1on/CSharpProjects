@@ -207,10 +207,11 @@ namespace Compilat
         {
 
             char c = S[pos], c2 = ' ';
-            if (c != '(' && c != '{')
+            if (c != '(' && c != '{' && c != '[')
                 return S;
             if (c == '(') c2 = ')';
             if (c == '{') c2 = '}';
+            if (c == '[') c2 = ']';
 
             int nowLevel = 0;
             string res = "";

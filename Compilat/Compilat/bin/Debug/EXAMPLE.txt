@@ -1,22 +1,12 @@
-int mult (int x, int y);
-int diff (int x, int y);
-double mult( double x, double y);
-double diff (double x, double y);
+int main (){
+	char d = 'd';
+	char carr[10];
 
-int main(){
-	double MD = mult (10.0, 20.0);
+	for (int i = 0; i < 10; i++){
+		carr[i] = 'a';
+	}
+
+	char* dp = &d;
 	return 0;
 }
 
-int mult (int x, int y){
-	return x*y;
-}
-int diff (int x, int y){
-	return x/y;
-}
-double mult( double x, double y){
-	return x*y;
-}
-double diff (double x, double y){
-	return x/y;
-}

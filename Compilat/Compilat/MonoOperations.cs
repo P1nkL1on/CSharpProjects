@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Compilat
 {
-    class Define : MonoOperation
+    class Define : BinaryOperation
     {
         ValueType defineType;
         public Define(string s)
@@ -17,7 +17,7 @@ namespace Compilat
             if (ss[1].Length > 0)
                 varName = ss[1];
             else
-                throw new Exception("Can not define variable with name \""+ss[1]+"\"");
+                throw new Exception("Can not define variable with name \"" + ss[1] + "\"");
 
             ss[0].ToLower();
             varType = detectType(ss[0]);
@@ -29,19 +29,26 @@ namespace Compilat
             //for (int i =0; i < varName.Length; i++){
             bool isPointer = false;
             if (varName.IndexOf('*') == 0) { isPointer = true; varName = varName.Substring(1); returnType = ValueType.Cint; }
-            
+            if (varName.LastIndexOf("]") == varName.Length - 1 && varName.IndexOf("[") > 0)
+            {
+                IOperation arrayLength = BinaryOperation.ParseFrom(MISC.getIn(varName, varName.IndexOf('[')));
+                if (arrayLength as ASTvalue == null || arrayLength.returnTypes() != ValueType.Cint)
+                    throw new Exception("Incorrect array length parameters!");
+                isPointer = true; varName = varName.Substring(0, varName.IndexOf('['));
+                // push an array
+                int length = (int)(arrayLength as ASTvalue).getValue;
+                if (length < 1)
+                    throw new Exception("Array length should be 1 and more!");
+                for (int i = 0; i < length; i++)
+                {
+                    // as default variable
+                    ASTvariable newVar = new ASTvariable(varType, varName + "#" + i);
+                    ASTTree.variables.Add(newVar);
+                    MISC.pushVariable(ASTTree.variables.Count - 1);
+                    ASTTree.tokens.Add(newVar);
+                }
+            }
 
-            //ASTValue newVariable = new ASTValue(varName, varType);
-            //newVariable.isPointer = isPointer;
-
-            //ASTTree.variables.Add(newVariable);
-            //MISC.pushVariable(ASTTree.variables.Count - 1);
-
-            //ASTValue newToken = new ASTValue(varName, varType);
-            //newToken.isPointer = isPointer;
-            //newToken.index = ASTTree.tokens.Count;
-            //ASTTree.tokens.Add(newToken);
-            //a = newToken;
             if (!isPointer)
             {
                 ASTvariable newVar = new ASTvariable(varType, varName);
@@ -51,9 +58,18 @@ namespace Compilat
                 ASTTree.tokens.Add(newVar);
                 a = newVar;
             }
-            
-            
-            
+            else
+            {
+                ASTpointer newPointer = new ASTpointer(varType, varName);
+                defineType = ValueType.Cadress;
+                ASTTree.variables.Add(newPointer);
+                MISC.pushVariable(ASTTree.variables.Count - 1);
+
+                ASTTree.tokens.Add(newPointer);
+                a = newPointer;
+            }
+            returnType = defineType;
+            b = new ASTvalue(ValueType.Cadress, (object)(ASTTree.variables.Count - 1));
         }
         public static ValueType detectType(string s)
         {
@@ -61,15 +77,16 @@ namespace Compilat
             if (s == "int") return ValueType.Cint;
             if (s == "string") return ValueType.Cstring;
             if (s == "char") return ValueType.Cchar;
-            if (s == "bool") return  ValueType.Cboolean;
+            if (s == "bool") return ValueType.Cboolean;
             if (s == "void") return ValueType.Cvoid;
             return ValueType.Unknown;
         }
         public override void Trace(int depth)
         {
             Console.WriteLine(MISC.tabs(depth) + "DEFINE [" + defineType.ToString() + "]");
-            MISC.finish = true;
             a.Trace(depth + 1);
+            MISC.finish = true;
+            b.Trace(depth + 1);
         }
     }
 
@@ -81,7 +98,7 @@ namespace Compilat
             a = val;
             returnType = val.returnTypes();
         }
-        
+
     }
     class Nega : MonoOperation
     {
@@ -91,7 +108,7 @@ namespace Compilat
             a = val;
             returnType = val.returnTypes();
         }
-        
+
     }
 
     class Incr : MonoOperation
@@ -114,27 +131,57 @@ namespace Compilat
     }
     class Adrs : MonoOperation
     {
+        //public ValueType wantType;
         public Adrs(IOperation val)
         {
+            if (val as GetValByAdress == null)
+                throw new Exception("Can not get adress of non-variable token!");
             operationString = "Get adress";
             a = val;
-            returnType = ValueType.Cint;
+            returnType = ValueType.Cadress;
         }
+
     }
     class GetValByAdress : MonoOperation
     {
-        int adrs;
-        public GetValByAdress(int adress, ValueType retType)
+        public ValueType pointerType;
+
+        public GetValByAdress(IOperation adress, ValueType retType)
         {
             operationString = "Get value by adress";
-            adrs = adress;
+            a = adress;
+            if (a.returnTypes() != ValueType.Cadress)
+                throw new Exception("You can get value only by number of memory slot!");
+
             returnType = retType;
+            
+            if (retType == ValueType.Cadress)
+            {
+                IOperation dep = a; int res = -1;
+                while ((a as GetValByAdress) != null)
+                {
+                    a.Trace(0);
+                    res = (a as GetValByAdress).GetAdress();
+                    a = (a as GetValByAdress).a;
+                }
+                if (res >= 0)
+                    returnType = ASTTree.variables[res].returnTypes();
+                //Console.WriteLine(a.returnTypes() + " /// " + res + " //// " + returnType.ToString());
+                //Console.ReadKey();
+                a = dep;
+            }
+                
         }
-        public override void Trace(int depth)
-        {
-            Console.WriteLine(String.Format("{0}{1} ({2})", MISC.tabs(depth), ASTTree.variables[adrs].name, adrs));
-            //Console.WriteLine(String.Format("{0}{1} [{2}]", MISC.tabs(depth), operationString, adrs));
+
+        public int GetAdress (){
+            if (a as ASTvalue != null)
+            {
+                int variableNumber = (int)((a as ASTvalue).getValue);
+                if (variableNumber >= ASTTree.variables.Count)
+                    return -1;
+                return variableNumber;
+            }
+            return -1;
         }
-        
     }
 }

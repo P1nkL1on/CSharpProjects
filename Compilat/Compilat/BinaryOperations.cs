@@ -11,7 +11,7 @@ namespace Compilat
         public Summ(IOperation left, IOperation right)
         {
             operationString = "+";
-            TypeConvertion tpcv = new TypeConvertion("IIIDDDSSS", 2);
+            TypeConvertion tpcv = new TypeConvertion("IIIDDDSSSAAAAIAIAA", 2);
             a = left; b = right;
             returnType = MISC.CheckTypeCorrect(tpcv, a.returnTypes(), b.returnTypes());
         }
@@ -21,7 +21,7 @@ namespace Compilat
         public Diff(IOperation left, IOperation right)
         {
             operationString = "-";
-            TypeConvertion tpcv = new TypeConvertion("IIIDDD", 2);
+            TypeConvertion tpcv = new TypeConvertion("IIIDDDAAAAIAIAA", 2);
             a = left; b = right;
             returnType = MISC.CheckTypeCorrect(tpcv, a.returnTypes(), b.returnTypes());
         }

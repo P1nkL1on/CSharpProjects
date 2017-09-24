@@ -75,8 +75,8 @@ namespace Compilat
                             ASTvariable foundedVar = new ASTvariable(ValueType.Unknown, "NONE");
 
                             for (int i = 0; i < ASTTree.variables.Count; i++)
-                                if (ASTTree.variables[i].name == varName && MISC.isVariableAvailable(i))
-                                { foundedVar = ASTTree.variables[i]; found = i; }
+                                if (ASTTree.variables[i].name ==varName && MISC.isVariableAvailable(i))
+                                { foundedVar = ASTTree.variables[i]; found = i; break; }
 
                             if (found < 0)
                                 throw new Exception("Used a variable \"" + varName + "\", that was never defined in this context!");
@@ -84,7 +84,6 @@ namespace Compilat
                             {
                                 this.valType = foundedVar.getValueType;
                                 throw new Exception("GetAddr_" +found);
-                                
                             }
                         }
                     }
@@ -98,6 +97,7 @@ namespace Compilat
             string br = "";
             if (this.getValueType == ValueType.Cstring) br = "\"";
             if (this.getValueType == ValueType.Cchar) br = "\'";
+            if (this.getValueType == ValueType.Cadress) br = "#";
             if (data == null)
                 Console.WriteLine(String.Format("{0}{1}", MISC.tabs(depth), "null"));
             else
@@ -125,6 +125,12 @@ namespace Compilat
         public string name;
         int adress;
 
+        public ASTvariable()
+        {
+            this.valType = ValueType.Unknown;
+            this.name = "-";
+            this.adress = -1;
+        }
         public ASTvariable(ValueType vt, string name)
         {
             this.valType = vt;
@@ -132,22 +138,54 @@ namespace Compilat
             this.adress = ASTTree.variables.Count;
         }
 
-        public void Trace(int depth)
+        public virtual void Trace(int depth)
         {
             Console.WriteLine(String.Format("{0}${1}   [{2}]", MISC.tabs(depth), name, valType.ToString()));
         }
-        public void TraceMore(int depth)
+        public virtual void TraceMore(int depth)
         {
             Console.WriteLine(String.Format("{0}\t\t[{1}]", name, valType.ToString()));
         }
 
-        public ValueType getValueType { get { return valType; } }
-        public Object getValue { get { return null; } }
-        public ValueType returnTypes() { return valType; }
+        public virtual ValueType getValueType 
+        { get { return valType; } }
+        public Object getValue
+        { get { return null; } }
+        public virtual ValueType returnTypes()
+        { return getValueType; }
+        public virtual bool IsPointer { get { return false; } }
     }
 
-    //class ASTpointer : IASTtoken
-    //{
+    public class ASTpointer : ASTvariable
+    {
+        ValueType valType;
+        ValueType returnType;
+        //int adress;
 
-    //}
+        public ASTpointer(ValueType vt, string name)
+        {
+            this.returnType = ValueType.Cadress;
+            this.valType = vt;
+            this.name = name;
+        }
+
+        public override void Trace(int depth)
+        {
+            Console.WriteLine(String.Format("{0}*{1}   [{2} -> {3}]", MISC.tabs(depth), name, returnType.ToString(), valType.ToString()));
+            //MISC.finish = true;
+            //adress.Trace(depth + 1);
+        }
+        public override void TraceMore(int depth)
+        {
+            Console.WriteLine(String.Format("*{0}\t\t[{1} -> {2}]", name, returnType.ToString(), valType.ToString()));
+        }
+
+        public override ValueType returnTypes()
+        { return valType; }
+
+        public override ValueType getValueType { get { return returnType; } }
+
+
+        public override bool IsPointer { get { return true; } }
+    }
 }
