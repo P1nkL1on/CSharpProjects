@@ -38,6 +38,13 @@ namespace Compilat
     {
         bool doFirst;
 
+        public CycleWhile(string parseCondition, CommandOrder actions, bool doFirst)
+        {
+            condition = new Equal(BinaryOperation.ParseFrom(parseCondition), new ASTvalue(ValueType.Cboolean, (object)true));
+            this.actions = actions;
+            this.doFirst = doFirst;
+        }
+
         public CycleWhile(string parseCondition, string parseActions, bool doFirst)
         {
             condition = new Equal(BinaryOperation.ParseFrom(parseCondition), new ASTvalue(ValueType.Cboolean, (object)true));

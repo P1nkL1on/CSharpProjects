@@ -1,10 +1,12 @@
 int main (){
 	char d = 'd';
-	char carr[10];
+	int dor = 1100;
+	int carr[10] = {56+16, 88/444, (dor * dor / dor)};
+	int cadd[10] = {};	
 
-	for (int i = 0; i < 10; i++){
-		carr[i] = 'a';
-	}
+	for (int i = 3; i < 10; i++){
+		carr[i] = i;
+	};
 
 	char* dp = &d;
 	return 0;

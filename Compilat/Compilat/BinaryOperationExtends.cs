@@ -9,6 +9,7 @@ namespace Compilat
 
     class Assum : BinaryOperation
     {
+        public string requiredUpdate;
         public Assum(IOperation left, IOperation right)
         {
             operationString = "=";
@@ -16,6 +17,22 @@ namespace Compilat
             a = left; b = right;
             ValueType at = a.returnTypes(), bt = b.returnTypes();
             returnType = MISC.CheckTypeCorrect(tpcv, at, bt);
+            requiredUpdate = "none";
+        }
+        public string GetAssumableName
+        {
+            get
+            {
+                if ((a as ASTvariable) != null) return (a as ASTvariable).name;
+                if ((a as Define) != null) return (a as Define).varName;
+                return "-";
+            }
+        }
+        public List<IOperation> GetStructDefine()
+        {
+            if (b as StructureDefine == null)
+                return new List<IOperation>();
+            return (b as StructureDefine).values;
         }
     }
 

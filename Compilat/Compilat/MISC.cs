@@ -223,7 +223,7 @@ namespace Compilat
             }
             return res; // get operand or commands
         }
-
+        
         public static int IndexOfOnLevel0(string S, string subS, int from)
         {
             int pos = S.IndexOf(subS, from);
@@ -231,7 +231,7 @@ namespace Compilat
                 return -1;
 
             int level = 0;
-            for (int i = 0; i <= S.Length; i++)
+            for (int i = 0; i < S.Length; i++)
             {
                 level += (S[i] == '(' || S[i] == '{') ? 1 : ((S[i] == ')' || S[i] == '}') ? -1 : 0);
                 if (level == 0 && S.Substring(i).IndexOf(subS) == 0)

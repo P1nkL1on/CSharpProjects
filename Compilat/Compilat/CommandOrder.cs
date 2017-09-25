@@ -29,19 +29,42 @@ namespace Compilat
             List<string> commandArr = MISC.splitBy(S, separators);
 
             for (int i = 0; i < commandArr.Count; i++)
-                commands.Add(ParseCommand(commandArr[i]));
+            {
+                ICommand[] parsedCommands = ParseCommand(commandArr[i]);
+                for (int c = 0; c < parsedCommands.Length; c++)
+                    commands.Add(parsedCommands[c]);
+            }
 
         }
 
 
-        public ICommand ParseCommand(String S)
+        public ICommand[] ParseCommand(String S)
         {
             // here we get a 1 string between ;...;
             // it can be cycle or simple operation
-            if (S.IndexOf("{") < 0 && S.ToLower().IndexOf("if") != 0/* && S.ToLower().IndexOf("else") != 0*/)
-                // it can not be cycle
-                return BinaryOperation.ParseFrom(S);
+            if ((S.IndexOf("{") < 0 || (MISC.IndexOfOnLevel0(S, "=", 0) > 0))
+                && S.ToLower().IndexOf("if") != 0/* && S.ToLower().IndexOf("else") != 0*/)
+            {
+                IOperation newBO = BinaryOperation.ParseFrom(S);
+                if ((newBO as Assum) != null && (newBO as Assum).requiredUpdate != "none")
+                {
+                    string needUpdate = (newBO as Assum).requiredUpdate;
+                    if (needUpdate.IndexOf("structdefineinfor") == 0)
+                    {
+                        string nam = (newBO as Assum).GetAssumableName;
+                        if (nam == "-")
+                            throw new Exception("What are you doing!?");
+                        List<IOperation> values = (newBO as Assum).GetStructDefine();
+                        List<ICommand> res = new List<ICommand>();
+                        for (int i = 0; i < values.Count; i++)
+                            res.Add(new Assum(BinaryOperation.ParseFrom(nam + "[" + i + "]"), values[i]));
 
+                        return res.ToArray();
+                    }
+                }
+                else
+                    return new ICommand[] { newBO };
+            }
             #region Cycles
             //try to parse while cycles
             if (S.ToLower().IndexOf("for") == 0)
@@ -63,13 +86,13 @@ namespace Compilat
                 MISC.GoBack();
                 if (conditionParts[2].Length > 0)
                     actions.MergeWith(new CommandOrder(conditionParts[2], ','));
-                return new CycleFor(conditionParts[1], actions);
+                return new ICommand[] { new CycleFor(conditionParts[1], actions) };
 
             }
             if (S.ToLower().IndexOf("while") == 0)
-                return new CycleWhile(MISC.getIn(S, S.IndexOf('(')), MISC.getIn(S, S.IndexOf('{')), false);
+                return new ICommand[] { new CycleWhile(MISC.getIn(S, S.IndexOf('(')), MISC.getIn(S, S.IndexOf('{')), false) };
             if (S.ToLower().IndexOf("do") == 0)
-                return new CycleWhile(MISC.getIn(S, S.IndexOf('(')), MISC.getIn(S, S.IndexOf('{')), true);
+                return new ICommand[] { new CycleWhile(MISC.getIn(S, S.IndexOf('(')), MISC.getIn(S, S.IndexOf('{')), true) };
             #endregion
             #region Operators
             if (S.ToLower().IndexOf("if") == 0)
@@ -81,19 +104,19 @@ namespace Compilat
                         pos2 = MISC.IndexOfOnLevel0(S, "}", pos1 + 1),
                         posElse = MISC.IndexOfOnLevel0(S, "}else{", 0);
                     if (pos2 < pos1)
-                        return new OperatorIf(MISC.getIn(S, S.IndexOf('(')), MISC.getIn(S, S.IndexOf('{')), "");
+                        return new ICommand[] { new OperatorIf(MISC.getIn(S, S.IndexOf('(')), MISC.getIn(S, S.IndexOf('{')), "") };
                     else
-                        return new OperatorIf(MISC.getIn(S, S.IndexOf('(')), MISC.getIn(S, S.IndexOf('{')), MISC.getIn(S, S.LastIndexOf("{")));
+                        return new ICommand[] { new OperatorIf(MISC.getIn(S, S.IndexOf('(')), MISC.getIn(S, S.IndexOf('{')), MISC.getIn(S, S.LastIndexOf("{"))) };
                 }
                 else
                 {
                     int indexElse = MISC.IndexOfOnLevel0(S, "else", 0);
                     if (indexElse < 0)
-                        return new OperatorIf(MISC.getIn(S, S.IndexOf('(')), S.Substring(indexOfConditionRightBrakket + 1), "");
+                        return new ICommand[] { new OperatorIf(MISC.getIn(S, S.IndexOf('(')), S.Substring(indexOfConditionRightBrakket + 1), "") };
                     else
-                        return new OperatorIf(MISC.getIn(S, S.IndexOf('(')), 
+                        return new ICommand[]{new OperatorIf(MISC.getIn(S, S.IndexOf('(')),
                             S.Substring(indexOfConditionRightBrakket + 1, indexElse - indexOfConditionRightBrakket - 1),
-                            S.Substring(indexElse + 4));
+                            S.Substring(indexElse + 4))};
                 }
             }
             #endregion

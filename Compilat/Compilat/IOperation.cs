@@ -34,8 +34,11 @@ namespace Compilat
         }
         public static IOperation ParseFrom(string s)
         {
+            if (s.IndexOf('{') == 0 && s.LastIndexOf('}') == s.Length - 1)
+                return new StructureDefine(MISC.getIn(s, 0));
             if (s.IndexOf('(') == 0 && s.LastIndexOf(')') == s.Length - 1)
                 return BinaryOperation.ParseFrom(MISC.breakBrackets(s));
+            
 
             if (s.Length > 2 && s.IndexOf("--") == s.Length - 2)
                 return new Dscr(ParseFrom(s.Substring(0, s.Length - 2)));
@@ -214,6 +217,9 @@ namespace Compilat
             if (s.IndexOf("return") == 0)
             { return new Ret(ParseFrom(s.Substring(6))); }
 
+            if (s.IndexOf('{') == 0 && s.LastIndexOf('}') == s.Length - 1)
+                return MonoOperation.ParseFrom(s);
+
             if (!onLevel(s, "==", 0) && !onLevel(s, "!=", 0) && onLevel(s, "=", 0))
             {
                 MISC.separate(s, "=", ref left, ref right, lastIndex);
@@ -231,7 +237,16 @@ namespace Compilat
                         default:
                             break;
                     }
-                return new Assum(ParseFrom(left), ParseFrom(right));
+                IOperation rightOperation = ParseFrom(right);
+                IOperation leftOperation = ParseFrom(left);
+                if ((rightOperation as StructureDefine) == null)
+                    return new Assum(leftOperation, rightOperation);
+                else
+                {
+                    Assum needUPdatedAssum =  new Assum(leftOperation, rightOperation);
+                    needUPdatedAssum.requiredUpdate = "structdefineinfor";
+                    return needUPdatedAssum;
+                }
             }
             if (onLevel(s, "||", 0))
             {

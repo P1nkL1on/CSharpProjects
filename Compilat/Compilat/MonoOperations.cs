@@ -9,10 +9,12 @@ namespace Compilat
     class Define : BinaryOperation
     {
         ValueType defineType;
+
+        public string varName;
         public Define(string s)
         {
             string[] ss = s.Split('$');
-            string varName;
+            //string varName;
             ValueType varType;
             if (ss[1].Length > 0)
                 varName = ss[1];
@@ -182,6 +184,49 @@ namespace Compilat
                 return variableNumber;
             }
             return -1;
+        }
+    }
+
+
+    class StructureDefine : MonoOperation
+    {
+        public List<IOperation> values;
+
+        public StructureDefine(string S)
+        {
+            operationString = "List values";
+            returnType = ValueType.Cadress;
+            values = new List<IOperation>();
+
+            if (S.Length == 0) return;
+            string[] sSplited = S.Split(',');
+            for (int i = 0; i < sSplited.Length; i++)
+            {
+                try
+                {
+                    values.Add(BinaryOperation.ParseFrom(sSplited[i]));
+                }
+                catch (Exception e)
+                {
+                    throw new Exception("Can not parse define from \""+sSplited[i]+"\"");
+                }
+            }
+        }
+        public StructureDefine(List<IOperation> val)
+        {
+            operationString = "List values";
+            returnType = ValueType.Cadress;
+            values = val;
+        }
+        public override void Trace(int depth)
+        {
+            Console.WriteLine(MISC.tabs(depth) + operationString);
+            for (int i = 0; i < values.Count; i++)
+            {
+                if (i == values.Count - 1)
+                    MISC.finish = true;
+                values[i].Trace(depth + 1);
+            }
         }
     }
 }
