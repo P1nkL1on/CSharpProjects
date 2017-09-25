@@ -12,6 +12,7 @@ namespace Compilat
         string original;
         public static List<IASTtoken> tokens = new List<IASTtoken>();
         public static List<ASTvariable> variables = new List<ASTvariable>();
+        public static ConsoleColor clr = ConsoleColor.Black;
 
         public void Trace()
         {
@@ -21,10 +22,10 @@ namespace Compilat
             for (int i = 0; i < funcs.Count; i++)
                 if (funcs[i] != null)
                 {
-                    Console.BackgroundColor = (funcs[i].getName.ToLower() == "main") ? ConsoleColor.DarkRed : ConsoleColor.Black;
+                    clr = (funcs[i].getName.ToLower() == "main") ? ConsoleColor.DarkRed : ConsoleColor.DarkGreen;
                     funcs[i].Trace(0);
                 }
-            Console.BackgroundColor = ConsoleColor.Black;
+            clr = ConsoleColor.Black;
 
             Console.WriteLine("\nTokens:");
             for (int i = 0; i < tokens.Count; i++)

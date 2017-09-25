@@ -25,7 +25,8 @@ namespace Compilat
         protected IOperation a;   // pointer
         public virtual void Trace(int depth)
         {
-            Console.WriteLine(MISC.tabs(depth) + operationString + "    >" + returnType.ToString());
+            Console.Write(MISC.tabs(depth)); MISC.ConsoleWriteLine(operationString, ConsoleColor.Yellow);
+            
             MISC.finish = true;
             if (a != null)
                 a.Trace(depth + 1);
@@ -123,7 +124,7 @@ namespace Compilat
         protected IOperation b;   // pointer
         public virtual void Trace(int depth)
         {
-            Console.WriteLine(MISC.tabs(depth) + operationString + "\t" + returnType.ToString());
+            Console.Write(MISC.tabs(depth)); MISC.ConsoleWriteLine(operationString, ConsoleColor.Yellow);
             a.Trace(depth + 1);
             MISC.finish = true;
             b.Trace(depth + 1);

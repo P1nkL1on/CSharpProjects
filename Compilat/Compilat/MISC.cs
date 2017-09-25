@@ -9,6 +9,19 @@ namespace Compilat
 {
     public class MISC
     {
+        public static void ConsoleWrite(string S, ConsoleColor clr)
+        {
+            Console.ForegroundColor = clr;
+            Console.Write(S);
+            Console.ForegroundColor = ConsoleColor.Black;
+        }
+        public static void ConsoleWriteLine(string S, ConsoleColor clr)
+        {
+            Console.ForegroundColor = clr;
+            Console.WriteLine(S);
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+
         public static ValueType CheckTypeCorrect(TypeConvertion accept, params ValueType[] hadTypes)
         {
             // I D

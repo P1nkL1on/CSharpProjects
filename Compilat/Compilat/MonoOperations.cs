@@ -85,7 +85,8 @@ namespace Compilat
         }
         public override void Trace(int depth)
         {
-            Console.WriteLine(MISC.tabs(depth) + "DEFINE [" + defineType.ToString() + "]");
+            Console.Write(MISC.tabs(depth));
+            MISC.ConsoleWriteLine("DEFINE [" + defineType.ToString() + "]", ConsoleColor.DarkGreen);
             a.Trace(depth + 1);
             MISC.finish = true;
             b.Trace(depth + 1);
@@ -156,7 +157,7 @@ namespace Compilat
                 throw new Exception("You can get value only by number of memory slot!");
 
             returnType = retType;
-            
+
             if (retType == ValueType.Cadress)
             {
                 IOperation dep = a; int res = -1;
@@ -172,10 +173,11 @@ namespace Compilat
                 //Console.ReadKey();
                 a = dep;
             }
-                
+
         }
 
-        public int GetAdress (){
+        public int GetAdress()
+        {
             if (a as ASTvalue != null)
             {
                 int variableNumber = (int)((a as ASTvalue).getValue);
@@ -184,6 +186,14 @@ namespace Compilat
                 return variableNumber;
             }
             return -1;
+        }
+
+        public override void Trace(int depth)
+        {
+            Console.Write(MISC.tabs(depth)); MISC.ConsoleWriteLine(operationString, ConsoleColor.Green);
+
+            MISC.finish = true;
+            a.Trace(depth + 1);
         }
     }
 
@@ -208,7 +218,7 @@ namespace Compilat
                 }
                 catch (Exception e)
                 {
-                    throw new Exception("Can not parse define from \""+sSplited[i]+"\"");
+                    throw new Exception("Can not parse define from \"" + sSplited[i] + "\"");
                 }
             }
         }

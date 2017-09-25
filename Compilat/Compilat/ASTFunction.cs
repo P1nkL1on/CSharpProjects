@@ -66,14 +66,18 @@ namespace Compilat
         //
         public void Trace(int depth)
         {
-            Console.WriteLine(String.Format("{0}FUNCTION \"{1}\"", MISC.tabs(depth), this.name));
-            Console.WriteLine(String.Format("{0}<<", MISC.tabs(depth + 1)));
+            Console.Write(MISC.tabs(depth));
+            MISC.ConsoleWriteLine(String.Format("FUNCTION \"{0}\"", this.name), ConsoleColor.Red);
+            Console.Write(MISC.tabs(depth + 1));
+            MISC.ConsoleWriteLine("<<", ConsoleColor.DarkRed);
 
             for (int i = 0; i < input.Count; i++) { if (i == input.Count - 1)MISC.finish = true; input[i].Trace(depth + 2); }
 
-            Console.WriteLine(String.Format("{0}>>", MISC.tabs(depth + 1)));
+            Console.Write(MISC.tabs(depth + 1));
+            MISC.ConsoleWriteLine(">>",ConsoleColor.DarkRed);
             MISC.finish = true;
-            Console.WriteLine(String.Format("{0}{1}", MISC.tabs(depth + 2), returnTypes().ToString()));
+            Console.Write(MISC.tabs(depth + 2));
+            MISC.ConsoleWriteLine(returnTypes().ToString(), ConsoleColor.DarkRed);
             MISC.finish = true;
             actions.Trace(depth + 1);
         }

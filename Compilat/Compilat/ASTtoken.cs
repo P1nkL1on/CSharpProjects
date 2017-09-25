@@ -21,12 +21,20 @@ namespace Compilat
     {
         ValueType valType;
         Object data;
+        ConsoleColor clr;
 
         public ASTvalue(ValueType vt, Object data)
         {
             this.valType = vt;
             this.data = data;
             ASTTree.tokens.Add(this);
+            clr = ConsoleColor.White;
+            if (vt == ValueType.Cchar) clr = ConsoleColor.Blue;
+            if (vt == ValueType.Cstring) clr = ConsoleColor.DarkBlue;
+            if (vt == ValueType.Cint) clr = ConsoleColor.Cyan;
+            if (vt == ValueType.Cdouble) clr = ConsoleColor.DarkCyan;
+            if (vt == ValueType.Cboolean) clr = ConsoleColor.Yellow;
+            if (vt == ValueType.Cadress) clr = ConsoleColor.DarkGray;
         }
         public ASTvalue(string s)
         {
@@ -43,8 +51,8 @@ namespace Compilat
             // calculate a number
             if (isnum)
             {
-                if (numPoints == 0) { this.valType = ValueType.Cint; this.data = (object)(int.Parse(s)); }
-                else { this.valType = ValueType.Cdouble; this.data = (object)(double.Parse(s.Replace('.', ','))); }
+                if (numPoints == 0) { this.valType = ValueType.Cint; this.data = (object)(int.Parse(s)); clr = ConsoleColor.Cyan; }
+                else { this.valType = ValueType.Cdouble; this.data = (object)(double.Parse(s.Replace('.', ','))); clr = ConsoleColor.DarkCyan; }
             }
             else
             {
@@ -52,7 +60,7 @@ namespace Compilat
                 if (s.IndexOf('\'') == 0 && s.LastIndexOf('\'') == s.Length - 1)
                 {
                     if (s.Length == 3)
-                    { this.valType = ValueType.Cchar; this.data = (object)(s[1]); }
+                    { this.valType = ValueType.Cchar; this.data = (object)(s[1]); clr = ConsoleColor.Blue; }
                     else
                     { throw new Exception("Char can not be more than 1 symbol"); }
                 }
@@ -60,12 +68,13 @@ namespace Compilat
                 {
                     // detect string
                     if (s.IndexOf('\"') == 0 && s.LastIndexOf('\"') == s.Length - 1)
-                    { this.valType = ValueType.Cstring; this.data = (object)(s.Substring(1, s.Length - 2)); }
+                    { this.valType = ValueType.Cstring; this.data = (object)(s.Substring(1, s.Length - 2)); clr = ConsoleColor.DarkBlue; }
                     else
                     {
                         if (s.ToLower() == "true" || s.ToLower() == "false")
                         {
                             this.valType = ValueType.Cboolean; this.data = (object)((s.ToLower() == "true"));
+                            clr = ConsoleColor.Yellow;
                         }
                         else
                         {
@@ -99,9 +108,17 @@ namespace Compilat
             if (this.getValueType == ValueType.Cchar) br = "\'";
             if (this.getValueType == ValueType.Cadress) br = "#";
             if (data == null)
-                Console.WriteLine(String.Format("{0}{1}", MISC.tabs(depth), "null"));
+            {
+                //Console.WriteLine(String.Format("{0}{1}", MISC.tabs(depth), "null"));
+                Console.Write(MISC.tabs(depth));
+                MISC.ConsoleWriteLine("null", ConsoleColor.Red);
+            }
             else
-                Console.WriteLine(String.Format("{0}{1}", MISC.tabs(depth), (br + data.ToString() + br)));
+            {
+                //Console.WriteLine(String.Format("{0}{1}", MISC.tabs(depth), (br + data.ToString() + br)));
+                Console.Write(MISC.tabs(depth));
+                MISC.ConsoleWriteLine((br + data.ToString() + br), clr);
+            }
         }
         public void TraceMore(int depth)
         {
@@ -109,9 +126,9 @@ namespace Compilat
             if (this.getValueType == ValueType.Cstring) br = "\"";
             if (this.getValueType == ValueType.Cchar) br = "\'";
             if (data == null)
-                Console.WriteLine(String.Format("null\t\t[{0}]", valType.ToString()));
+                MISC.ConsoleWriteLine(String.Format("null\t\t[{0}]", valType.ToString()), clr);
             else
-                Console.WriteLine(String.Format("{0}\t\t[{1}]", (br + data.ToString() + br), valType.ToString()));
+                MISC.ConsoleWriteLine(String.Format("{0}\t\t[{1}]", (br + data.ToString() + br), valType.ToString()), clr);
         }
 
         public ValueType getValueType { get { return valType; } }
@@ -140,11 +157,14 @@ namespace Compilat
 
         public virtual void Trace(int depth)
         {
-            Console.WriteLine(String.Format("{0}${1}   [{2}]", MISC.tabs(depth), name, valType.ToString()));
+            //Console.WriteLine(String.Format("{0}${1}   [{2}]", MISC.tabs(depth), name, valType.ToString()));
+            Console.Write(MISC.tabs(depth));
+            MISC.ConsoleWrite(name, ConsoleColor.Green);
+            MISC.ConsoleWriteLine("\t[" +  valType.ToString() + "]", ConsoleColor.DarkGreen);
         }
         public virtual void TraceMore(int depth)
         {
-            Console.WriteLine(String.Format("{0}\t\t[{1}]", name, valType.ToString()));
+            MISC.ConsoleWriteLine(String.Format("{0}\t\t{1}", name, valType.ToString().Substring(1)), ConsoleColor.DarkGreen);
         }
 
         public virtual ValueType getValueType 
@@ -171,13 +191,16 @@ namespace Compilat
 
         public override void Trace(int depth)
         {
-            Console.WriteLine(String.Format("{0}*{1}   [{2} -> {3}]", MISC.tabs(depth), name, returnType.ToString(), valType.ToString()));
+            //Console.WriteLine(String.Format("{0}*{1}   [{2} -> {3}]", MISC.tabs(depth), name, returnType.ToString(), valType.ToString()));
+            Console.Write(MISC.tabs(depth)+"*");
+            MISC.ConsoleWrite(name, ConsoleColor.Green);
+            MISC.ConsoleWriteLine("\t"+returnType.ToString()+"->"+ valType.ToString()+"", ConsoleColor.DarkGreen);
             //MISC.finish = true;
             //adress.Trace(depth + 1);
         }
         public override void TraceMore(int depth)
         {
-            Console.WriteLine(String.Format("*{0}\t\t[{1} -> {2}]", name, returnType.ToString(), valType.ToString()));
+            MISC.ConsoleWriteLine(String.Format("*{0}\t\t[{1} -> {2}]", name, returnType.ToString().Substring(1), valType.ToString().Substring(1)), ConsoleColor.Green);
         }
 
         public override ValueType returnTypes()

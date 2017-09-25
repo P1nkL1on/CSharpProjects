@@ -70,8 +70,12 @@ namespace Compilat
 
         public void Trace(int depth)
         {
-            Console.WriteLine(String.Format("{0}{1}  #{3}[{2}]", MISC.tabs(depth), ASTTree.funcs[functionCallNumber].getName,
-                              ASTTree.funcs[functionCallNumber].returnTypes().ToString(), functionCallNumber));
+            //Console.WriteLine(String.Format("{0}{1}  #{3}[{2}]", MISC.tabs(depth), ASTTree.funcs[functionCallNumber].getName,
+            //                  ASTTree.funcs[functionCallNumber].returnTypes().ToString(), functionCallNumber));
+            Console.Write(MISC.tabs(depth));
+            MISC.ConsoleWrite(ASTTree.funcs[functionCallNumber].getName + " #" + functionCallNumber, ConsoleColor.Red);
+            MISC.ConsoleWriteLine(" ->" + ASTTree.funcs[functionCallNumber].returnTypes().ToString(), ConsoleColor.DarkGreen);
+
             for (int i = 0; i < arguments.Count; i++)
             {
                 if (i == arguments.Count - 1)

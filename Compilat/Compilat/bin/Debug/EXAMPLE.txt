@@ -1,3 +1,7 @@
+int foo (int a){
+	return 0;
+}
+
 int main (){
 	char d = 'd';
 	int dor = 1100;
@@ -5,7 +9,7 @@ int main (){
 	int cadd[10] = {};	
 
 	for (int i = 3; i < 10; i++){
-		carr[i] = i;
+		carr[i] = foo(1) + foo(2) / 4;
 	};
 
 	char* dp = &d;
