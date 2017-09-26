@@ -37,7 +37,7 @@ namespace Compilat
             else
             {
                 callingTypes = new List<ValueType>();
-                callingTypes.Add(ValueType.Cvoid);
+                //callingTypes.Add(ValueType.Cvoid);
             }
 
 

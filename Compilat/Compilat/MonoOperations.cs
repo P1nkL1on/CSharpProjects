@@ -148,29 +148,44 @@ namespace Compilat
     class GetValByAdress : MonoOperation
     {
         public ValueType pointerType;
-
+        public GetValByAdress(IOperation adress, ValueType retType, bool stop)
+        {
+            operationString = "Get value by adress";
+            a = adress;
+            returnType = retType;
+        }
         public GetValByAdress(IOperation adress, ValueType retType)
         {
             operationString = "Get value by adress";
             a = adress;
-            if (a.returnTypes() != ValueType.Cadress)
-                throw new Exception("You can get value only by number of memory slot!");
+            //if (a.returnTypes() != ValueType.Cadress)
+            //    throw new Exception("You can get value only by number of memory slot!");
 
             returnType = retType;
 
             if (retType == ValueType.Cadress)
             {
-                IOperation dep = a; int res = -1;
-                while ((a as GetValByAdress) != null)
-                {
-                    a.Trace(0);
-                    res = (a as GetValByAdress).GetAdress();
-                    a = (a as GetValByAdress).a;
-                }
-                if (res >= 0)
-                    returnType = ASTTree.variables[res].returnTypes();
+                //IOperation dep = a; int res = -1;
+                //while ((a as GetValByAdress) != null)
+                //{
+                //    a.Trace(0);
+                //    res = (a as GetValByAdress).GetAdress();
+                //    a = (a as GetValByAdress).a;
+                //}
+                //if (res >= 0)
+                //    returnType = ASTTree.variables[res].returnTypes();
+
                 //Console.WriteLine(a.returnTypes() + " /// " + res + " //// " + returnType.ToString());
                 //Console.ReadKey();
+                IOperation dep = a; int res = -1;
+                while (a.returnTypes() == ValueType.Cadress)
+                {
+                    a.Trace(0);
+                    res = ((a as GetValByAdress) != null) ? (a as GetValByAdress).GetAdress() : (int)((a as ASTvalue).getValue);
+                    a = ASTTree.variables[res];
+                    returnType = a.returnTypes();
+                    dep = new GetValByAdress(new ASTvalue(ValueType.Cadress, (object)res), returnType, true);
+                }
                 a = dep;
             }
 
@@ -190,7 +205,7 @@ namespace Compilat
 
         public override void Trace(int depth)
         {
-            Console.Write(MISC.tabs(depth)); MISC.ConsoleWriteLine(operationString, ConsoleColor.Green);
+            Console.Write(MISC.tabs(depth)); MISC.ConsoleWriteLine(operationString + "->" + returnType.ToString(), ConsoleColor.Green);
 
             MISC.finish = true;
             a.Trace(depth + 1);

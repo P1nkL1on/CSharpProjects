@@ -204,7 +204,11 @@ namespace Compilat
         }
 
         public override ValueType returnTypes()
-        { return valType; }
+        { 
+            //if (valType == ValueType.Cadress) 
+            //    return ASTTree.variables[(int) this.getValue].getValueType;
+            return valType; 
+        }
 
         public override ValueType getValueType { get { return returnType; } }
 
