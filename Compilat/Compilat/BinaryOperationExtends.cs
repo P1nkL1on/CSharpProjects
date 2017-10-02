@@ -58,6 +58,7 @@ namespace Compilat
             IOperation[] children = new IOperation[2] { left, right };
             returnType = MISC.CheckTypeCorrect(this, tpcv, ref children);
             a = children[0]; b = children[1];
+            
         }
     }
 

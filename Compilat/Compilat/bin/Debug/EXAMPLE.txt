@@ -1,6 +1,9 @@
 int main (){
-	//string S = 5 + "rofelalot";
+	string S = 5 + "rofelalot";
 	string S1 = "5" + "abs";
+	while (1){
+		int x = 2+2;
+	};
 	return 0;
 }
 

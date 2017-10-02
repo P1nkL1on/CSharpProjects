@@ -79,7 +79,7 @@ namespace Compilat
             if (s == "int") return ValueType.Cint;
             if (s == "string") return ValueType.Cstring;
             if (s == "char") return ValueType.Cchar;
-            if (s == "bool") return ValueType.Cboolean;
+            if (s == "bool" || s == "boolean") return ValueType.Cboolean;
             if (s == "void") return ValueType.Cvoid;
             return ValueType.Unknown;
         }
@@ -260,9 +260,9 @@ namespace Compilat
         }
     }
 
-    class Convert : MonoOperation
+    class Conv : MonoOperation
     {
-        public Convert(IOperation val, ValueType toType)
+        public Conv(IOperation val, ValueType toType)
         {
             operationString = String.Format("Convert to ({0})", toType.ToString());
             a = val;

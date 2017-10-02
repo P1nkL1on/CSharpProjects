@@ -38,8 +38,29 @@ namespace Compilat
             catch (Exception e)
             {
                 string getErr = e.Message;
-                throw new Exception("Can not apply convertation chain!");
-                return ValueType.Unknown;
+                string[] splitedTypes = getErr.Split('_');
+                for (int i = 0; i < splitedTypes.Length; i++)
+                    if (splitedTypes[i] != "-")
+                    {
+                        string parseFrom = splitedTypes[i].Substring(splitedTypes[i].IndexOf(", "), 
+                            splitedTypes[i].IndexOf(")") - splitedTypes[i].IndexOf(", ")).ToLower().Remove(0, 3);
+                        ValueType convertType = Define.detectType(parseFrom);
+                        parts[i] = new Conv(parts[i],convertType);
+                    }
+                try
+                {
+                    ValueType[] inputValueTypes = new ValueType[parts.Length];
+                    for (int i = 0; i < parts.Length; i++)
+                        inputValueTypes[i] = parts[i].returnTypes();
+
+                    ValueType res = CheckType(accept, inputValueTypes);
+                    return res;
+                }
+                catch (Exception r)
+                {
+                    throw new Exception("Can not apply convertation chain!");
+                    return ValueType.Unknown;
+                }
             }
 
         }
