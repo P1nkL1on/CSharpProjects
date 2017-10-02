@@ -1,9 +1,12 @@
-int main (){
+double sqrt (double base){
+	return base / 10.0;
+}
+
+void main (int a, int b){
 	string S = 5 + "rofelalot";
-	string S1 = "5" + "abs";
-	while (1){
-		int x = 2+2;
-	};
-	return 0;
+	double sqr = sqrt(15);
+
+	double db = (double)(10);
+	//return 0;
 }
 

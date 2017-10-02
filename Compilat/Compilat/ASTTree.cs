@@ -161,6 +161,8 @@ namespace Compilat
                         vt = ValueType.Cvoid; break;
                     case 'A':
                         vt = ValueType.Cadress; break;
+                    case 'V':
+                        vt = ValueType.Cvoid; break;
                     default:
                         vt = ValueType.Cvariable; break;
                 }

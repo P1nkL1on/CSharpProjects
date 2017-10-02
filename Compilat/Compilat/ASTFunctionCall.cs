@@ -40,28 +40,43 @@ namespace Compilat
                 //callingTypes.Add(ValueType.Cvoid);
             }
 
-
+            i = 0;
             while (!foundAnalog && i < ASTTree.funcs.Count)
             {
                 bool nameSame = (ASTTree.funcs[i].getName == approximateFuncName);
-                // if same name then check correct of all types including
-                if (nameSame)
+
+                if (nameSame && ASTTree.funcs[i].returnTypesList().Count == callingTypes.Count)
                 {
-                    foundAnalog = true;
-                    List<ValueType> requiredArgTypes = ASTTree.funcs[i].returnTypesList();
-                    if (requiredArgTypes.Count == callingTypes.Count)
+                    IOperation[] children = new IOperation[arguments.Count];
+                    for (int j = 0; j < arguments.Count; j++)
+                        children[j] = arguments[j];
+                    try
                     {
-                        for (int j = 0; j < callingTypes.Count; j++)
-                            if (callingTypes[j] != requiredArgTypes[j])
-                                foundAnalog = false;    // не совпадает тип соответствующих аргументов
+                        ValueType returnType = MISC.CheckTypeCorrect(null, ASTTree.funcs[i].tpcv, ref children);
+                        arguments = children.ToList();
+                        foundAnalog = true;
+                        break;
                     }
-                    else
-                        foundAnalog = false;    // не совпадает количество параметров
+                    catch (Exception e) { };
                 }
+                //// if same name then check correct of all types including
+                //if (nameSame)
+                //{
+                //    foundAnalog = true;
+                //    List<ValueType> requiredArgTypes = ASTTree.funcs[i].returnTypesList();
+                //    if (requiredArgTypes.Count == callingTypes.Count)
+                //    {
+                //        for (int j = 0; j < callingTypes.Count; j++)
+                //            if (callingTypes[j] != requiredArgTypes[j])
+                //                foundAnalog = false;    // не совпадает тип соответствующих аргументов
+                //    }
+                //    else
+                //        foundAnalog = false;    // не совпадает количество параметров
+                //}
                 i++;
             }
             // declare
-            functionCallNumber = i - 1;
+            functionCallNumber = i;
 
             //make bug
             if (!foundAnalog)

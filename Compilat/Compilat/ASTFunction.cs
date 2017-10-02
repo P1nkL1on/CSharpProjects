@@ -14,9 +14,14 @@ namespace Compilat
         List<Define> input;
         CommandOrder actions;
         //
+        public TypeConvertion tpcv;
+        //
         public ASTFunction(string S)
         {
-            string s = S.Substring(0, S.IndexOf('('));
+            //TypeConvertion tpcv = new TypeConvertion("IIBDDBDIBIDBCCB", 2);
+            string s = S.Substring(0, S.IndexOf('(')),
+                   tpcvString = "";
+
 
             int varType = Math.Max((s.IndexOf("int") >= 0) ? 2 : -1, Math.Max((s.IndexOf("double") >= 0) ? 5 : -1, Math.Max((s.IndexOf("char") >= 0) ? 3 : -1,
                 Math.Max((s.IndexOf("string") >= 0) ? 5 : -1, Math.Max((s.IndexOf("bool") >= 0) ? 3 : -1, (s.IndexOf("void") >= 0) ? 3 : -1)))));
@@ -35,7 +40,12 @@ namespace Compilat
                 MISC.GoDeep("FDEFINED");
 
                 for (int i = 0; i < vars.Count; i++)
+                {
                     input.Add((Define)MonoOperation.ParseFrom(vars[i]));
+                    tpcvString += vars[i][0].ToString().ToUpper();
+                }
+                tpcvString += returnTypes().ToString()[1].ToString().ToUpper();
+                tpcv = new TypeConvertion(tpcvString, input.Count);
                 // check name uniq!
                 //bool foundFunc = false;
                 for (int i = 0; i < ASTTree.funcs.Count; i++)
