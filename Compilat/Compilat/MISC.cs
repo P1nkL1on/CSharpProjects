@@ -24,7 +24,28 @@ namespace Compilat
 
         static List<Tuple<ValueType, ValueType>> availableConvertation = new List<Tuple<ValueType, ValueType>>();
 
-        public static ValueType CheckTypeCorrect(TypeConvertion accept, params ValueType[] hadTypes)
+        public static ValueType CheckTypeCorrect(IOperation o, TypeConvertion accept, ref IOperation[] parts)
+        {
+            try
+            {
+                ValueType[] inputValueTypes = new ValueType[parts.Length];
+                for (int i = 0; i < parts.Length; i++)
+                    inputValueTypes[i] = parts[i].returnTypes();
+
+                ValueType res = CheckType(accept, inputValueTypes);
+                return res;
+            }
+            catch (Exception e)
+            {
+                string getErr = e.Message;
+                throw new Exception("Can not apply convertation chain!");
+                return ValueType.Unknown;
+            }
+
+        }
+
+
+        public static ValueType CheckType(TypeConvertion accept, params ValueType[] hadTypes)
         {
             // I D
             // IIB DDB CCB
@@ -79,11 +100,23 @@ namespace Compilat
                 if (foundAcceptance)
                 {
                     int n = 0;
+                    convertionFound = true;
+                    break;
                 }
             }
-
             //
-            return ValueType.Unknown;
+            if (convertionFound)
+            {
+                string ConvertNeed = "";
+                for (int i = 0; i < convertion.Length; i++)
+                    if (convertion[i] >= 0)
+                        ConvertNeed += "" + availableConvertation[convertion[i]] + "_";
+                    else
+                        ConvertNeed += "-_";
+                throw new Exception(ConvertNeed.Remove(ConvertNeed.Length - 1));
+            }
+            //
+            //return ValueType.Unknown;
             throw new Exception("DID NOT FOUND");
         }
 

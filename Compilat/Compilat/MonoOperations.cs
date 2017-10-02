@@ -25,7 +25,7 @@ namespace Compilat
             varType = detectType(ss[0]);
 
             TypeConvertion tpcv = new TypeConvertion("IIDDBBCCSS$$", 1);
-            returnType = MISC.CheckTypeCorrect(tpcv, varType);
+            returnType = MISC.CheckType(tpcv, varType);
 
             defineType = varType;
             //for (int i =0; i < varName.Length; i++){

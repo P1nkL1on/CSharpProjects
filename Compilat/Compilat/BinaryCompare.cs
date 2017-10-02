@@ -12,8 +12,9 @@ namespace Compilat
         {
             operationString = "<=";
             TypeConvertion tpcv = new TypeConvertion("IIBDDBDIBIDBCCB", 2);
-            a = left; b = right;
-            returnType = MISC.CheckTypeCorrect(tpcv, a.returnTypes(), b.returnTypes());
+            IOperation[] children = new IOperation[2] { left, right };
+            returnType = MISC.CheckTypeCorrect(this, tpcv, ref children);
+            a = children[0]; b = children[1];
         }
     }
     class Less : BinaryOperation
@@ -22,8 +23,9 @@ namespace Compilat
         {
             operationString = "<";
             TypeConvertion tpcv = new TypeConvertion("IIBDDBDIBIDBCCB", 2);
-            a = left; b = right;
-            returnType = MISC.CheckTypeCorrect(tpcv, a.returnTypes(), b.returnTypes());
+            IOperation[] children = new IOperation[2] { left, right };
+            returnType = MISC.CheckTypeCorrect(this, tpcv, ref children);
+            a = children[0]; b = children[1];
         }
     }
     class MrEq : BinaryOperation
@@ -32,8 +34,9 @@ namespace Compilat
         {
             operationString = ">=";
             TypeConvertion tpcv = new TypeConvertion("IIBDDBDIBIDBCCB", 2);
-            a = left; b = right;
-            returnType = MISC.CheckTypeCorrect(tpcv, a.returnTypes(), b.returnTypes());
+            IOperation[] children = new IOperation[2] { left, right };
+            returnType = MISC.CheckTypeCorrect(this, tpcv, ref children);
+            a = children[0]; b = children[1];
         }
     }
     class More : BinaryOperation
@@ -42,8 +45,9 @@ namespace Compilat
         {
             operationString = ">";
             TypeConvertion tpcv = new TypeConvertion("IIBDDBDIBIDBCCB", 2);
-            a = left; b = right;
-            returnType = MISC.CheckTypeCorrect(tpcv, a.returnTypes(), b.returnTypes());
+            IOperation[] children = new IOperation[2] { left, right };
+            returnType = MISC.CheckTypeCorrect(this, tpcv, ref children);
+            a = children[0]; b = children[1];
         }
     }
 }

@@ -12,8 +12,9 @@ namespace Compilat
         {
             operationString = "+";
             TypeConvertion tpcv = new TypeConvertion("IIIDDDSSSAAAAIAIAA", 2);
-            a = left; b = right;
-            returnType = MISC.CheckTypeCorrect(tpcv, a.returnTypes(), b.returnTypes());
+            IOperation[] children = new IOperation[2] { left, right };
+            returnType = MISC.CheckTypeCorrect(this, tpcv, ref children);
+            a = children[0]; b = children[1];
         }
     }
     class Diff : BinaryOperation
@@ -22,8 +23,9 @@ namespace Compilat
         {
             operationString = "-";
             TypeConvertion tpcv = new TypeConvertion("IIIDDDAAAAIAIAA", 2);
-            a = left; b = right;
-            returnType = MISC.CheckTypeCorrect(tpcv, a.returnTypes(), b.returnTypes());
+            IOperation[] children = new IOperation[2] { left, right };
+            returnType = MISC.CheckTypeCorrect(this, tpcv, ref children);
+            a = children[0]; b = children[1];
         }
     }
 
@@ -33,8 +35,9 @@ namespace Compilat
         {
             operationString = "*";
             TypeConvertion tpcv = new TypeConvertion("IIIDDD", 2);
-            a = left; b = right;
-            returnType = MISC.CheckTypeCorrect(tpcv, a.returnTypes(), b.returnTypes());
+            IOperation[] children = new IOperation[2] { left, right };
+            returnType = MISC.CheckTypeCorrect(this, tpcv, ref children);
+            a = children[0]; b = children[1];
         }
     }
 
@@ -44,8 +47,9 @@ namespace Compilat
         {
             operationString = "/";
             TypeConvertion tpcv = new TypeConvertion("IIIDDD", 2);
-            a = left; b = right;
-            returnType = MISC.CheckTypeCorrect(tpcv, a.returnTypes(), b.returnTypes());
+            IOperation[] children = new IOperation[2] { left, right };
+            returnType = MISC.CheckTypeCorrect(this, tpcv, ref children);
+            a = children[0]; b = children[1];
         }
     }
 }
