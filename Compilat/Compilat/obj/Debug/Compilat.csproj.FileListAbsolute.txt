@@ -22,3 +22,4 @@ C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\Compilat\Compilat\obj\Debug\C
 C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\Compilat\Compilat\bin\Debug\Compilat.exe
 C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\Compilat\Compilat\bin\Debug\Compilat.pdb
 C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\Compilat\Compilat\obj\Debug\Compilat.csprojResolveAssemblyReference.cache
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\Compilat\Compilat\obj\Debug\Compilat.csproj.CoreCompileInputs.cache

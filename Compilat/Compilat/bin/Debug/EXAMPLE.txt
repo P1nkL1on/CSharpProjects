@@ -1,29 +1,6 @@
-int lol (){
-	return 1;
-}
-
-
-int foo (int a){
-	return lol();
-}
-
-int fac (int d);
-
-int main (double x1, double y1){
-	char d = 'd';
-	int dor = 1100;
-	char carr[10] = {'a','b'};
-	int cadd[10] = {};	
-
-	for (int i = 3; i < 10; i++){
-		carr[i] = 'd';
-		int x = foo(1) + foo(2) / 4 + fac(20);
-	};
-
-	char* dp = &d;
+int main (){
+	string S = 5 + "rofelalot";
+	string S1 = "5" + "abs";
 	return 0;
 }
 
-int fac (int d){
-	return d * d;
-}

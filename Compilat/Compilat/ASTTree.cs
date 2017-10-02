@@ -12,6 +12,7 @@ namespace Compilat
         string original;
         public static List<IASTtoken> tokens = new List<IASTtoken>();
         public static List<ASTvariable> variables = new List<ASTvariable>();
+
         public static ConsoleColor clr = ConsoleColor.Black;
 
         public void Trace()

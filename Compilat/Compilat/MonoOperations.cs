@@ -157,6 +157,11 @@ namespace Compilat
         public GetValByAdress(IOperation adress, ValueType retType)
         {
             operationString = "Get value by adress";
+            try
+            {
+                operationString = ASTTree.variables[(int)((adress as ASTvalue).getValue)].name;
+            }
+            catch (Exception e) { };
             a = adress;
             //if (a.returnTypes() != ValueType.Cadress)
             //    throw new Exception("You can get value only by number of memory slot!");
@@ -252,6 +257,16 @@ namespace Compilat
                     MISC.finish = true;
                 values[i].Trace(depth + 1);
             }
+        }
+    }
+
+    class Convert : MonoOperation
+    {
+        public Convert(IOperation val, ValueType toType)
+        {
+            operationString = String.Format("Convert to ({0})", toType.ToString());
+            a = val;
+            returnType = toType;
         }
     }
 }

@@ -22,6 +22,8 @@ namespace Compilat
             Console.ForegroundColor = ConsoleColor.White;
         }
 
+        static List<Tuple<ValueType, ValueType>> availableConvertation = new List<Tuple<ValueType, ValueType>>();
+
         public static ValueType CheckTypeCorrect(TypeConvertion accept, params ValueType[] hadTypes)
         {
             // I D
@@ -35,6 +37,52 @@ namespace Compilat
                 if (found)
                     return accept.to[i];
             }
+            // we can found some kostils
+            if (availableConvertation.Count == 0)
+            {
+                availableConvertation.Add(new Tuple<ValueType, ValueType>(ValueType.Cint, ValueType.Cdouble));
+                availableConvertation.Add(new Tuple<ValueType, ValueType>(ValueType.Cint, ValueType.Cstring));
+                availableConvertation.Add(new Tuple<ValueType, ValueType>(ValueType.Cint, ValueType.Cboolean));
+                availableConvertation.Add(new Tuple<ValueType, ValueType>(ValueType.Cdouble, ValueType.Cstring));
+                availableConvertation.Add(new Tuple<ValueType, ValueType>(ValueType.Cdouble, ValueType.Cboolean));
+                availableConvertation.Add(new Tuple<ValueType, ValueType>(ValueType.Cchar, ValueType.Cstring));
+                availableConvertation.Add(new Tuple<ValueType, ValueType>(ValueType.Cchar, ValueType.Cboolean));
+            }
+
+
+            // I -> D
+            // checking in cyccle
+            bool convertionFound = false;
+            int[] convertion = new int[hadTypes.Length];
+            for (int i = 0; i < convertion.Length; i++)
+                convertion[i] = -1;                     // -1 -1 -1 -1 -1 -1 for each variable in signature
+
+            for (int i = 0; i < accept.from.Length; i++)
+            {
+                bool foundAcceptance = true;
+                for (int j = 0; j < hadTypes.Length; j++)
+                {
+                    bool geted = false;
+                    if (hadTypes[j] != accept.from[i][j])
+                        for (int k = 0; k < availableConvertation.Count; k++)
+                        {
+                            if (hadTypes[j] == availableConvertation[k].Item1
+                                && accept.from[i][j] == availableConvertation[k].Item2)
+                            { geted = true; convertion[j] = k; break; }
+                        }
+                    else
+                        geted = true;
+                    // if geted then we have conversion for a current parameter
+                    if (!geted)
+                        foundAcceptance = false;
+                }
+                if (foundAcceptance)
+                {
+                    int n = 0;
+                }
+            }
+
+            //
             return ValueType.Unknown;
             throw new Exception("DID NOT FOUND");
         }
@@ -116,7 +164,7 @@ namespace Compilat
                 for (int j = 0; j < levelVariables[i].Count; j++)
                     Console.Write(" " + levelVariables[i][j]);
             }
-            Thread.Sleep(500);
+            Thread.Sleep(1000);
         }
 
         public static bool CompareFunctionSignature(ASTFunction f1, ASTFunction f2)
@@ -236,7 +284,7 @@ namespace Compilat
             }
             return res; // get operand or commands
         }
-        
+
         public static int IndexOfOnLevel0(string S, string subS, int from)
         {
             int pos = S.IndexOf(subS, from);
