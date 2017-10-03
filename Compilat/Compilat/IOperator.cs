@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Compilat
 {
+
     public abstract class IOperator : ICommand
     {
         protected IOperation condition;   // if (...){}
@@ -15,6 +16,29 @@ namespace Compilat
         public virtual void Trace(int depth)
         {
             Console.WriteLine(MISC.tabs(depth) + "Default operator trace");
+        }
+    }
+
+    public class OperatorZone : IOperator
+    {
+        public OperatorZone(string parseActions)
+        {
+            condition = new Equal(new ASTvalue(ValueType.Cboolean, (object)true), new ASTvalue(ValueType.Cboolean, (object)true));
+            actions = new List<CommandOrder>();
+            MISC.GoDeep("OZONE");
+            actions.Add(new CommandOrder(parseActions,';'));
+            MISC.GoBack();
+        }
+        public override void Trace(int depth)
+        {
+            Console.WriteLine(String.Format("{0}BLOCK", MISC.tabs(depth)));
+            for (int i = 0; i < actions.Count; i++)
+            {
+                if (i == actions.Count - 1)
+                    MISC.finish = true;
+                actions[i].Trace(depth + 1);
+            }
+
         }
     }
 

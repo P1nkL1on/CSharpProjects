@@ -1,12 +1,19 @@
-double sqrt (double base){
-	return base / 10.0;
+int pow (int x){
+	return -x;
 }
 
-void main (int a, int b){
-	string S = 5 + "rofelalot";
-	double sqr = sqrt(15);
-
-	double db = (double)(10);
-	//return 0;
+int main(){
+	while (true){
+		while (true){
+			int c = 0;
+		}
+		int b = 1;
+	}
+	int s = 0;
+	for (int i = 0; i < 100; i++, s--){
+		if (i < 50){s+=i*10;}else{s-=i*5;}
+		s++;
+	}
+	int a = 0;
+	return 0;
 }
-

@@ -42,10 +42,10 @@ namespace Compilat
                 for (int i = 0; i < splitedTypes.Length; i++)
                     if (splitedTypes[i] != "-")
                     {
-                        string parseFrom = splitedTypes[i].Substring(splitedTypes[i].IndexOf(", "), 
+                        string parseFrom = splitedTypes[i].Substring(splitedTypes[i].IndexOf(", "),
                             splitedTypes[i].IndexOf(")") - splitedTypes[i].IndexOf(", ")).ToLower().Remove(0, 3);
                         ValueType convertType = Define.detectType(parseFrom);
-                        parts[i] = new Conv(parts[i],convertType);
+                        parts[i] = new Conv(parts[i], convertType);
                     }
                 try
                 {
@@ -302,15 +302,16 @@ namespace Compilat
             List<string> res = new List<string>();
             res.Add("");
             int founded = 0, level = 0;
-            for (int i = 0; i < S.Length;
+            for (int i = -1; i < S.Length;
                 i++, level += (i < S.Length) ? ((S[i] == '(' || S[i] == '{') ? 1 : (S[i] == ')' || S[i] == '}') ? -1 : 0) : 0)
-
-                for (int j = 0; j < seps.Length; j++)   // count separate
-                    if (S[i] == seps[j] && level == 0)
-                    { founded++; res.Add(""); }
-                    else
-                        res[founded] += S[i];
-
+                if (i >= 0)
+                {
+                    for (int j = 0; j < seps.Length; j++)   // count separate
+                        if (S[i] == seps[j] && level == 0)
+                        { founded++; res.Add(""); }
+                        else
+                            res[founded] += S[i];
+                }
             List<string> res2 = new List<string>(); // delete zero long
             for (int i = 0; i < res.Count; i++)
                 if (res[i].Length > 0)
@@ -344,6 +345,8 @@ namespace Compilat
             int pos = S.IndexOf(subS, from);
             if (pos < 0)
                 return -1;
+            if (pos == 0)
+                return 0;
 
             int level = 0;
             for (int i = 0; i < S.Length; i++)

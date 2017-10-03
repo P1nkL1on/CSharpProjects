@@ -42,6 +42,12 @@ namespace Compilat
         {
             // here we get a 1 string between ;...;
             // it can be cycle or simple operation
+            int p1 = MISC.IndexOfOnLevel0(S, "{", 0),
+                p2 = MISC.IndexOfOnLevel0(S, "}", 0);
+            if (p1 == 0 && p2 == S.Length - 1)
+            {
+                return new ICommand[] { new OperatorZone(MISC.getIn(S, S.IndexOf('{'))) };
+            }
             if ((S.IndexOf("{") < 0 || (MISC.IndexOfOnLevel0(S, "=", 0) > 0))
                 && S.ToLower().IndexOf("if") != 0/* && S.ToLower().IndexOf("else") != 0*/)
             {
