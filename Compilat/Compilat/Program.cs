@@ -28,7 +28,8 @@ namespace Compilat
                 while (command.Length == 0)
                 {
                     Console.Clear();
-                    Console.WriteLine("↑ ↓ -- select file from list;\n q  -- exit.\n\n" + codeNames[currentCodeName] + ".txt");
+                    Console.WriteLine("↑ ↓ -- select file from list;\n q  -- exit.\n\n");
+                    MISC.ConsoleWriteLine(" > Load \'"+codeNames[currentCodeName] + ".txt\'", ConsoleColor.Green);
                     try
                     {
                         string[] lines = System.IO.File.ReadAllLines(@"codes/" + codeNames[currentCodeName] + ".txt");

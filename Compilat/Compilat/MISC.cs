@@ -9,6 +9,20 @@ namespace Compilat
 {
     public class MISC
     {
+
+        public static void ClearStack()
+        {
+
+            availableConvertation = new List<Tuple<ValueType, ValueType>>();
+            nowParsing = new List<string>();
+            levelVariables = new List<List<int>>();
+            isSlide = new List<bool>();
+            nowOpen = "│ ";
+            lastDepth = 0;
+            finish = false;
+            rmColomn = false;
+
+        }
         public static void ConsoleWrite(string S, ConsoleColor clr)
         {
             Console.ForegroundColor = clr;

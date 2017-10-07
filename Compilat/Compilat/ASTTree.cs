@@ -54,6 +54,12 @@ namespace Compilat
         {
             string sTrim = "";
             int bracketLevel = 0;
+
+            funcs = new List<ASTFunction>();
+            tokens = new List<IASTtoken>();
+            variables = new List<ASTvariable>();
+            MISC.ClearStack();
+
             int isComment = 0, isSpacedComment = 0;
             s += '\n';
             for (int i = 0; i < s.Length; i++)
