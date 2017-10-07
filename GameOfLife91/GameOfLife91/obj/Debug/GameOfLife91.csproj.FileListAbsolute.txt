@@ -4,3 +4,9 @@ D:\microsoft visual studio projects\GameOfLife91\GameOfLife91\bin\Debug\GameOfLi
 D:\microsoft visual studio projects\GameOfLife91\GameOfLife91\obj\Debug\GameOfLife91.csprojResolveAssemblyReference.cache
 D:\microsoft visual studio projects\GameOfLife91\GameOfLife91\obj\Debug\GameOfLife91.exe
 D:\microsoft visual studio projects\GameOfLife91\GameOfLife91\obj\Debug\GameOfLife91.pdb
+D:\microsoft visual studio projects\C_Sharp_Sheets\GameOfLife91\GameOfLife91\bin\Debug\GameOfLife91.exe.config
+D:\microsoft visual studio projects\C_Sharp_Sheets\GameOfLife91\GameOfLife91\obj\Debug\GameOfLife91.exe
+D:\microsoft visual studio projects\C_Sharp_Sheets\GameOfLife91\GameOfLife91\obj\Debug\GameOfLife91.pdb
+D:\microsoft visual studio projects\C_Sharp_Sheets\GameOfLife91\GameOfLife91\bin\Debug\GameOfLife91.exe
+D:\microsoft visual studio projects\C_Sharp_Sheets\GameOfLife91\GameOfLife91\bin\Debug\GameOfLife91.pdb
+D:\microsoft visual studio projects\C_Sharp_Sheets\GameOfLife91\GameOfLife91\obj\Debug\GameOfLife91.csprojResolveAssemblyReference.cache

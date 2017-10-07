@@ -82,18 +82,21 @@ namespace Compilat
                 if (conditionParts.Length != 3)
                     throw new Exception("Invalid count of FOR-cycle condition parts");
                 // first one - is simple commands of initialization
+
+                MISC.GoDeep("FOR");
                 if (conditionParts[0].Length > 0)
                     this.MergeWith(new CommandOrder(conditionParts[0], ','));    // included
                 if (conditionParts[1].Length <= 0)
                     conditionParts[1] = "true";
                 // parse commands
-                MISC.GoDeep("FOR");
+                
                 CommandOrder actions = new CommandOrder(parseAction, ';');
-                MISC.GoBack();
                 if (conditionParts[2].Length > 0)
                     actions.MergeWith(new CommandOrder(conditionParts[2], ','));
-                return new ICommand[] { new CycleFor(conditionParts[1], actions) };
-
+                
+                ICommand[] res = new ICommand[] { new CycleFor(conditionParts[1], actions) };
+                MISC.GoBack();
+                return res;
             }
             if (S.ToLower().IndexOf("while") == 0)
                 return new ICommand[] { new CycleWhile(MISC.getIn(S, S.IndexOf('(')), MISC.getIn(S, S.IndexOf('{')), false) };

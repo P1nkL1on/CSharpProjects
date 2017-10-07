@@ -84,7 +84,7 @@ namespace Compilat
                             ASTvariable foundedVar = new ASTvariable(ValueType.Unknown, "NONE");
 
                             for (int i = 0; i < ASTTree.variables.Count; i++)
-                                if (ASTTree.variables[i].name ==varName && MISC.isVariableAvailable(i))
+                                if (ASTTree.variables[i].name == varName && MISC.isVariableAvailable(i))
                                 { foundedVar = ASTTree.variables[i]; found = i; break; }
 
                             if (found < 0)
@@ -126,9 +126,9 @@ namespace Compilat
             if (this.getValueType == ValueType.Cstring) br = "\"";
             if (this.getValueType == ValueType.Cchar) br = "\'";
             if (data == null)
-                MISC.ConsoleWriteLine(String.Format("null\t\t[{0}]", valType.ToString()), clr);
+                MISC.ConsoleWriteLine(String.Format("\tnull\t\t[{0}]", valType.ToString()), clr);
             else
-                MISC.ConsoleWriteLine(String.Format("{0}\t\t[{1}]", (br + data.ToString() + br), valType.ToString()), clr);
+                MISC.ConsoleWriteLine(String.Format("\t{0}\t\t[{1}]", (br + data.ToString() + br), valType.ToString()), clr);
         }
 
         public ValueType getValueType { get { return valType; } }
@@ -141,18 +141,21 @@ namespace Compilat
         ValueType valType;
         public string name;
         int adress;
+        string localSpace;
 
         public ASTvariable()
         {
             this.valType = ValueType.Unknown;
             this.name = "-";
             this.adress = -1;
+            this.localSpace = string.Join("/", MISC.nowParsing.ToArray());
         }
         public ASTvariable(ValueType vt, string name)
         {
             this.valType = vt;
             this.name = name;
             this.adress = ASTTree.variables.Count;
+            this.localSpace = string.Join("/", MISC.nowParsing.ToArray());
         }
 
         public virtual void Trace(int depth)
@@ -164,7 +167,8 @@ namespace Compilat
         }
         public virtual void TraceMore(int depth)
         {
-            MISC.ConsoleWriteLine(String.Format("{0}\t\t{1}", name, valType.ToString().Substring(1)), ConsoleColor.DarkGreen);
+            MISC.ConsoleWrite(String.Format("\t{0}\t\t{1}\t\t", name, valType.ToString().Substring(1)), ConsoleColor.DarkGreen);
+            MISC.ConsoleWriteLine(localSpace, ConsoleColor.DarkMagenta);
         }
 
         public virtual ValueType getValueType 
@@ -200,7 +204,7 @@ namespace Compilat
         }
         public override void TraceMore(int depth)
         {
-            MISC.ConsoleWriteLine(String.Format("*{0}\t\t[{1} -> {2}]", name, returnType.ToString().Substring(1), valType.ToString().Substring(1)), ConsoleColor.Green);
+            MISC.ConsoleWriteLine(String.Format("\t*{0}\t\t[{1} -> {2}]", name, returnType.ToString().Substring(1), valType.ToString().Substring(1)), ConsoleColor.Green);
         }
 
         public override ValueType returnTypes()

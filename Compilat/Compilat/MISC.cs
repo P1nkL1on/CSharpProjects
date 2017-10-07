@@ -19,7 +19,7 @@ namespace Compilat
         {
             Console.ForegroundColor = clr;
             Console.WriteLine(S);
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
 
         static List<Tuple<ValueType, ValueType>> availableConvertation = new List<Tuple<ValueType, ValueType>>();
@@ -91,7 +91,6 @@ namespace Compilat
                 availableConvertation.Add(new Tuple<ValueType, ValueType>(ValueType.Cchar, ValueType.Cboolean));
             }
 
-
             // I -> D
             // checking in cyccle
             bool convertionFound = false;
@@ -141,8 +140,9 @@ namespace Compilat
             throw new Exception("DID NOT FOUND");
         }
 
-        static List<string> nowParsing = new List<string>();
+        public static List<string> nowParsing = new List<string>();
         static List<List<int>> levelVariables = new List<List<int>>();
+        
         public static void GoDeep(string parseFolder)
         {
             nowParsing.Add(parseFolder);
@@ -218,7 +218,7 @@ namespace Compilat
                 for (int j = 0; j < levelVariables[i].Count; j++)
                     Console.Write(" " + levelVariables[i][j]);
             }
-            Thread.Sleep(1000);
+            Thread.Sleep(500);
         }
 
         public static bool CompareFunctionSignature(ASTFunction f1, ASTFunction f2)

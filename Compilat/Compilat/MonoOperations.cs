@@ -16,10 +16,15 @@ namespace Compilat
             string[] ss = s.Split('$');
             //string varName;
             ValueType varType;
-            if (ss[1].Length > 0)
+            bool everDefined = false;
+            for (int i = 0; i < ASTTree.variables.Count; i++)
+                if (ASTTree.variables[i].name == ss[1] && MISC.isVariableAvailable(i))
+                { everDefined = true; break; }
+
+            if (ss[1].Length > 0 && !everDefined)
                 varName = ss[1];
             else
-                throw new Exception("Can not define variable with name \"" + ss[1] + "\"");
+                throw new Exception("Can not define " + ((everDefined) ? "again " : "") + "variable with name \"" + ss[1] + "\"");
 
             ss[0].ToLower();
             varType = detectType(ss[0]);
@@ -210,10 +215,12 @@ namespace Compilat
 
         public override void Trace(int depth)
         {
-            Console.Write(MISC.tabs(depth)); MISC.ConsoleWriteLine(operationString + "->" + returnType.ToString(), ConsoleColor.Green);
-
-            MISC.finish = true;
-            a.Trace(depth + 1);
+            Console.Write(MISC.tabs(depth)); MISC.ConsoleWrite(operationString, ConsoleColor.Green); MISC.ConsoleWriteLine("\t[" + returnType.ToString()+"]", ConsoleColor.DarkGreen);
+            if (returnType == ValueType.Cadress)
+            {
+                MISC.finish = true;
+                a.Trace(depth + 1);
+            }
         }
     }
 
