@@ -1,6 +1,7 @@
-int D (int* a){
-	
-	return 1;
+int D (int* a, int* b){
+	*a = 10;
+	*b = 5;
+	return *a + *b;
 }
 
 int F(int a){
@@ -9,8 +10,12 @@ int F(int a){
 
 int main (){
 	int originalA = 100;
+	int originalB = 120;
+
 	int* Ap = &originalA;
-	int reS = D(&originalA);
+	int* Bp = &originalB;
+
+	int reS = D(Ap, Bp);
 	int res = F(originalA);
 	return 0;
 }

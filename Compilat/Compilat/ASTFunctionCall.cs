@@ -50,14 +50,19 @@ namespace Compilat
                     IOperation[] children = new IOperation[arguments.Count];
                     for (int j = 0; j < arguments.Count; j++)
                         children[j] = arguments[j];
-                    try
-                    {
-                        ValueType returnType = MISC.CheckTypeCorrect(null, ASTTree.funcs[i].tpcv, ref children);
-                        arguments = children.ToList();
-                        foundAnalog = true;
-                        break;
-                    }
-                    catch (Exception e) { };
+                    if (callingTypes.Count != 0)
+                        try
+                        {
+                            ValueType returnType = MISC.CheckTypeCorrect(null, ASTTree.funcs[i].tpcv, ref children);
+                            arguments = children.ToList();
+                            foundAnalog = true;
+                            break;
+                        }
+                        catch (Exception e) { };
+                }
+                else
+                {
+                    foundAnalog = true;
                 }
                 //// if same name then check correct of all types including
                 //if (nameSame)

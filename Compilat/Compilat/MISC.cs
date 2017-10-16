@@ -45,6 +45,11 @@ namespace Compilat
                 ValueType[] inputValueTypes = new ValueType[parts.Length];
                 for (int i = 0; i < parts.Length; i++)
                     inputValueTypes[i] = parts[i].returnTypes();
+                //if ((parts[i] as GetValByAdress) != null)
+                //{
+                //    ValueType vt = (parts[i] as GetValByAdress).pointerType;
+                //    int n = 0;
+                //}
 
                 ValueType res = CheckType(accept, inputValueTypes);
                 return res;
@@ -156,7 +161,7 @@ namespace Compilat
 
         public static List<string> nowParsing = new List<string>();
         static List<List<int>> levelVariables = new List<List<int>>();
-        
+
         public static void GoDeep(string parseFolder)
         {
             nowParsing.Add(parseFolder);
