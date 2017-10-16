@@ -77,17 +77,17 @@ namespace Compilat
         public void Trace(int depth)
         {
             Console.Write(MISC.tabs(depth));
-            MISC.ConsoleWriteLine(String.Format("FUNCTION \"{0}\"", this.name), ConsoleColor.Red);
+            MISC.ConsoleWriteLine(String.Format("FUNCTION \"{0}\"", this.name), ConsoleColor.Blue);
             Console.Write(MISC.tabs(depth + 1));
-            MISC.ConsoleWriteLine("<<", ConsoleColor.DarkRed);
+            MISC.ConsoleWriteLine("<<", ConsoleColor.DarkBlue);
 
             for (int i = 0; i < input.Count; i++) { if (i == input.Count - 1)MISC.finish = true; input[i].Trace(depth + 2); }
 
             Console.Write(MISC.tabs(depth + 1));
-            MISC.ConsoleWriteLine(">>",ConsoleColor.DarkRed);
+            MISC.ConsoleWriteLine(">>",ConsoleColor.DarkBlue);
             MISC.finish = true;
             Console.Write(MISC.tabs(depth + 2));
-            MISC.ConsoleWriteLine(returnTypes().ToString(), ConsoleColor.DarkRed);
+            MISC.ConsoleWriteLine(returnTypes().ToString(), ConsoleColor.DarkBlue);
             MISC.finish = true;
             actions.Trace(depth + 1);
         }

@@ -50,6 +50,7 @@
     <Compile Include="BinaryOperationExtends.cs" />
     <Compile Include="BinaryOperations.cs" />
     <Compile Include="CommandOrder.cs" />
+    <Compile Include="FLoader.cs" />
     <Compile Include="ICycle.cs" />
     <Compile Include="IOperator.cs" />
     <Compile Include="IOperation.cs" />

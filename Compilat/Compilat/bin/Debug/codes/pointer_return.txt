@@ -1,3 +1,8 @@
+
+void kek(string s){
+	
+}
+
 double lol (int xx){
 	double res = 100.0;
 	double* pres = &res;
@@ -8,9 +13,9 @@ double lol2 (){
 	return 100.0;
 }
 
-
-
 int main (){
+	string s = "hi, mom!";
+	kek(s);
 	double p = lol(1);
 	double d = lol2();
 	return 0;

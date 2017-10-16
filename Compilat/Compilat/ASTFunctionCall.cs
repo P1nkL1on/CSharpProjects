@@ -44,13 +44,16 @@ namespace Compilat
             while (!foundAnalog && i < ASTTree.funcs.Count)
             {
                 bool nameSame = (ASTTree.funcs[i].getName == approximateFuncName);
+                int haveTypes = ASTTree.funcs[i].returnTypesList().Count,
+                    callTypes = callingTypes.Count;
 
-                if (nameSame && ASTTree.funcs[i].returnTypesList().Count == callingTypes.Count)
+                if (nameSame && haveTypes == callTypes)
                 {
                     IOperation[] children = new IOperation[arguments.Count];
                     for (int j = 0; j < arguments.Count; j++)
                         children[j] = arguments[j];
                     if (callingTypes.Count != 0)
+                    {
                         try
                         {
                             ValueType returnType = MISC.CheckTypeCorrect(null, ASTTree.funcs[i].tpcv, ref children);
@@ -58,12 +61,21 @@ namespace Compilat
                             foundAnalog = true;
                             break;
                         }
-                        catch (Exception e) { };
+                        catch (Exception e) {};
+                    }
+                    else
+                    {
+                        if (nameSame && callTypes == 0 && callTypes == haveTypes)
+                        { foundAnalog = true; break; }
+                    }
                 }
-                else
-                {
-                    foundAnalog = true;
-                }
+                //else
+                //{
+                //    if (nameSame)
+                //    {
+                //        foundAnalog = true; break;
+                //    }
+                //}
                 //// if same name then check correct of all types including
                 //if (nameSame)
                 //{
@@ -93,7 +105,7 @@ namespace Compilat
             //Console.WriteLine(String.Format("{0}{1}  #{3}[{2}]", MISC.tabs(depth), ASTTree.funcs[functionCallNumber].getName,
             //                  ASTTree.funcs[functionCallNumber].returnTypes().ToString(), functionCallNumber));
             Console.Write(MISC.tabs(depth));
-            MISC.ConsoleWrite(ASTTree.funcs[functionCallNumber].getName + " #" + functionCallNumber, ConsoleColor.Red);
+            MISC.ConsoleWrite(ASTTree.funcs[functionCallNumber].getName + " #" + functionCallNumber, ConsoleColor.Blue);
             MISC.ConsoleWriteLine(" ->" + ASTTree.funcs[functionCallNumber].returnTypes().ToString(), ConsoleColor.DarkGreen);
 
             for (int i = 0; i < arguments.Count; i++)

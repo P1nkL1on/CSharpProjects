@@ -1,0 +1,10 @@
+
+	// basic input
+	void printf(string s){
+
+	}
+
+	// absolute value
+	int ddd(int x){
+		return 0;
+	}
