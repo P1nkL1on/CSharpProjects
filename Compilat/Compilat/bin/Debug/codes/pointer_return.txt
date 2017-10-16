@@ -1,3 +1,5 @@
+#include <IO.txt>
+
 
 void kek(string s){
 	
@@ -14,8 +16,8 @@ double lol2 (){
 }
 
 int main (){
-	string s = "hi, mom!";
-	kek(s);
+	string s = "hi mom";
+	printf("hi mom");
 	double p = lol(1);
 	double d = lol2();
 	return 0;
