@@ -101,6 +101,7 @@ namespace Compilat
             // we can found some kostils
             if (availableConvertation.Count == 0)
             {
+                availableConvertation.Add(new Tuple<ValueType, ValueType>(ValueType.Cboolean, ValueType.Cint)); 
                 availableConvertation.Add(new Tuple<ValueType, ValueType>(ValueType.Cint, ValueType.Cdouble));
                 availableConvertation.Add(new Tuple<ValueType, ValueType>(ValueType.Cint, ValueType.Cstring));
                 availableConvertation.Add(new Tuple<ValueType, ValueType>(ValueType.Cint, ValueType.Cboolean));
@@ -108,6 +109,7 @@ namespace Compilat
                 availableConvertation.Add(new Tuple<ValueType, ValueType>(ValueType.Cdouble, ValueType.Cboolean));
                 availableConvertation.Add(new Tuple<ValueType, ValueType>(ValueType.Cchar, ValueType.Cstring));
                 availableConvertation.Add(new Tuple<ValueType, ValueType>(ValueType.Cchar, ValueType.Cboolean));
+                availableConvertation.Add(new Tuple<ValueType, ValueType>(ValueType.Cchar, ValueType.Cint));
             }
 
             // I -> D

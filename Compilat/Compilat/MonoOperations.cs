@@ -216,7 +216,7 @@ namespace Compilat
         public override void Trace(int depth)
         {
             Console.Write(MISC.tabs(depth)); MISC.ConsoleWrite(operationString, ConsoleColor.Green); MISC.ConsoleWriteLine("\t[" + returnType.ToString()+"]", ConsoleColor.DarkGreen);
-            if (returnType == ValueType.Cadress)
+            if (true || returnType == ValueType.Cadress)
             {
                 MISC.finish = true;
                 a.Trace(depth + 1);

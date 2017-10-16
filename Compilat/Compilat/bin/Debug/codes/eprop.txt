@@ -14,5 +14,8 @@ printf(s);
 printf("100");
 printf(*sp);
 
+{
+
+}
 return 0;
 }

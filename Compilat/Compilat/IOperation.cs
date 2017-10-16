@@ -249,27 +249,7 @@ namespace Compilat
                     return needUPdatedAssum;
                 }
             }
-            if (onLevel(s, "||", 0))
-            {
-                MISC.separate(s, "||", ref left, ref right, lastIndex);
-                return new ORS(ParseFrom(left), ParseFrom(right));
-            }
-            if (onLevel(s, "|", 0))
-            {
-                MISC.separate(s, "|", ref left, ref right, lastIndex);
-                return new OR(ParseFrom(left), ParseFrom(right));
-            }
-            if (onLevel(s, "&&", 0))
-            {
-                MISC.separate(s, "&&", ref left, ref right, lastIndex);
-                return new ANDS(ParseFrom(left), ParseFrom(right));
-            }
-            if (onLevel(s, "&", 0) && s.IndexOf("&") > 0)
-            {
-                MISC.separate(s, "&", ref left, ref right, lastIndex);
-                return new AND(ParseFrom(left), ParseFrom(right));
-            }
-
+            
             if (onLevel(s, "==", 0))
             {
                 MISC.separate(s, "==", ref left, ref right, lastIndex);
@@ -325,6 +305,29 @@ namespace Compilat
                 MISC.separate(s, "/", ref left, ref right, lastIndex);
                 return new Qout(ParseFrom(left), ParseFrom(right));
             }
+
+            if(onLevel(s, "||", 0))
+            {
+                MISC.separate(s, "||", ref left, ref right, lastIndex);
+                return new ORS(ParseFrom(left), ParseFrom(right));
+            }
+            if (onLevel(s, "|", 0))
+            {
+                MISC.separate(s, "|", ref left, ref right, lastIndex);
+                return new OR(ParseFrom(left), ParseFrom(right));
+            }
+            if (onLevel(s, "&&", 0))
+            {
+                MISC.separate(s, "&&", ref left, ref right, lastIndex);
+                return new ANDS(ParseFrom(left), ParseFrom(right));
+            }
+            if (onLevel(s, "&", 0) && s.IndexOf("&") > 0)
+            {
+                MISC.separate(s, "&", ref left, ref right, lastIndex);
+                return new AND(ParseFrom(left), ParseFrom(right));
+            }
+
+
             if (s.IndexOf('(') == 0 && s.LastIndexOf(')') == s.Length - 1)
                 return ParseFrom(MISC.breakBrackets(s));
             try

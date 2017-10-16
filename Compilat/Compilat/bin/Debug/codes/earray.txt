@@ -1,0 +1,12 @@
+double getfive (double *arr){
+	return arr[5];
+	return *(arr + 5*8);
+}
+
+
+int main (){
+	double a[10] = {10,10,110,100,115};
+
+	double res = getfive(a);
+	return 0;
+}

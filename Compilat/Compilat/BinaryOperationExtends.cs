@@ -41,7 +41,7 @@ namespace Compilat
         public Equal(IOperation left, IOperation right)
         {
             operationString = "==";
-            TypeConvertion tpcv = new TypeConvertion("IIBDDBBBBCCBSSB", 2);
+            TypeConvertion tpcv = new TypeConvertion("BBBIIBDDBCCBSSB", 2);
             //a = left; b = right;
             //returnType = MISC.CheckTypeCorrect(this, tpcv, a, b);
             IOperation[] children = new IOperation[2] {left, right };
