@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="text_get.Text" xml:space="preserve">
+    <value>В мифологии западноевропейских народов феями называют сверхъестественные существа в обличие прекрасных молодых женщин или старух. Наделены они способностью творить чудеса, бывают как добрыми, так и злыми. Вопреки распространенному мнению, феи бывают не только женского, но и мужского рода. В большинстве европейских сказаний и легенд феи имеют крылья. Они перелетают с цветка на цветок, наслаждаются жизнью и, кажется, что они неспособны постоять за себя. На самом же деле феи — храбрые воины, которые могут нагнать страху на врагов.
+Собственно, происхождение слова фея остается неизвестным, но в мифологиях европейских стран оно весьма схоже. Слову фея в Испании и Италии соответствуют «fada» и «fata». Очевидно, они являются производными от латинского слова «fatum», то есть судьба, рок, что являлось признанием умения предсказывать и даже управлять человеческой судьбой. Во Франции слово «fee» происходит от старофранцузского «feer», которое видимо появилось на основе латинского «fatare», означавшее «очаровывать, околдовывать». Это слово говорит о способности фей изменять обычный мир людей. От этого же слова происходит английское слово «faerie» - «волшебное царство», которое включает в себя искусство колдовства и весь мир фей. Слова «fairy» и «fay», означающие фея, эльф, являются другими производными слова «faerie».
+Обычный рост фей не более 40 — 50 сантиметров, но они могут уменьшаться и увеличиваться в размерах. В отличие от животных, которым феи хорошо видны, люди, как правило, способны видеть их лишь короткий миг между тем как моргнут два раза — разумеется, если феи не произнесли предварительно особые магические заклинания, после которого они не исчезают из поля зрения людей. Говорят, что легче всего увидеть фей в ночь накануне летнего солнцестояния, когда они танцуют и водят хороводы при свете луны. Но люди опытные предостерегают: не стоит подходить слишком близко, феи могут рассердиться и наказать человека, например, сделать лунатиком.
+Феи очень любят танцевать и устраивать веселые балы. Но не все время они проводят в танцах. Их можно увидеть за пряжей, ткачеством, шитьем. Быстрота, тонкость и красота их работы вошли в пословицу. Их искусные руки, гласит предание, производят те плащи и ковры, одаренные всякими чудесными свойствами, те шапочки, колпачки-невидимки и тонкие сорочки, защищающие тело лучше всякой кольчуги, которыми феи часто дарят своих любимцев. Знатоки утверждают, что Волшебной страны фей как таковой нет. Феи живут рядом с людьми, которые, к сожалению, плохо понимают и чувствуют их. Питаются феи в основном растительной пищей, ягодами, фруктами, не откажутся также от меда и птичьих яиц. Но самое их любимое лакомство — пирожные.
+Феи, как правило, живут общинами. В каждой общине фей — своя королева, которая поддерживает там строгую дисциплину. Раз в году все королевы собираются на совет, но, как и положено женщинам, они почти не обсуждают дел, а сплетничают, демонстрируют наряды, веселятся. На самом верху иерархии — самая главная королева, Титания, правящая вместе с принцем Обероном. Однако указы, исходящие из двора Титании, не являются строго обязательными для всех общин.
+Как правило, феи ладят с окружающим миром. Как правило, но не всегда.</value>
+  </data>
+</root>
