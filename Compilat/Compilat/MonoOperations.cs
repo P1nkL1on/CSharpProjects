@@ -155,13 +155,13 @@ namespace Compilat
         public ValueType pointerType;
         public GetValByAdress(IOperation adress, ValueType retType, bool stop)
         {
-            operationString = "Get value by adress";
+            operationString = "get";
             a = adress;
             returnType = retType;
         }
         public GetValByAdress(IOperation adress, ValueType retType)
         {
-            operationString = "Get value by adress";
+            operationString = "get";
             try
             {
                 operationString = ASTTree.variables[(int)((adress as ASTvalue).getValue)].name;
@@ -215,7 +215,7 @@ namespace Compilat
 
         public override void Trace(int depth)
         {
-            Console.Write(MISC.tabs(depth)); MISC.ConsoleWrite(operationString, ConsoleColor.Green); MISC.ConsoleWriteLine("\t[" + returnType.ToString()+"]", ConsoleColor.DarkGreen);
+            Console.Write(MISC.tabs(depth)); MISC.ConsoleWrite(operationString, ConsoleColor.Green); MISC.ConsoleWriteLine(" " + returnType.ToString().Substring(1), ConsoleColor.DarkGreen);
             if (true || returnType == ValueType.Cadress)
             {
                 MISC.finish = true;
@@ -271,7 +271,7 @@ namespace Compilat
     {
         public Conv(IOperation val, ValueType toType)
         {
-            operationString = String.Format("Convert to ({0})", toType.ToString());
+            operationString = String.Format("{0}<-", toType.ToString().Substring(1));
             a = val;
             returnType = toType;
         }

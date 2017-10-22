@@ -28,12 +28,12 @@ namespace Compilat
             List<string> commandArr = (sep == ';') ? commandSplitter(S) : MISC.splitBy(S, sep);
 
             for (int i = 0; i < commandArr.Count; i++)
-            {
-                ICommand parsedCommand = ParseCommand2(commandArr[i]);
-                //ICommand[] parsedCommands = ParseCommand(commandArr[i]);
-                //for (int c = 0; c < parsedCommands.Length; c++){
-                //    commands.Add(parsedCommands[c]);
-            }
+                commands.Add(ParseCommand2(commandArr[i]));
+
+            //ICommand[] parsedCommands = ParseCommand(commandArr[i]);
+            //for (int c = 0; c < parsedCommands.Length; c++){
+            //    commands.Add(parsedCommands[c]);
+
         }
 
         List<string> commandSplitter(string S)
@@ -75,6 +75,8 @@ namespace Compilat
                     }
                 }
             }
+            if (current.Length > 0)
+                res.Add(current);
             return res;
         }
 
@@ -91,6 +93,31 @@ namespace Compilat
             if (p1 == 0 && p2 == S.Length - 1)
                 return new CommandOrder(MISC.getIn(S, 0), ';');
 
+            // Binary operation usuall
+            if ((p1 < 0 || (MISC.IndexOfOnLevel0(S, "=", 0) > 0))
+                && S.ToLower().IndexOf("if") != 0 && S.ToLower().IndexOf("for") != 0)
+            {
+                IOperation newBO = BinaryOperation.ParseFrom(S);
+                if ((newBO as Assum) != null && (newBO as Assum).requiredUpdate != "none")
+                {
+                    string needUpdate = (newBO as Assum).requiredUpdate;
+                    if (needUpdate.IndexOf("structdefineinfor") == 0)
+                    {
+                        string nam = (newBO as Assum).GetAssumableName;
+                        if (nam == "-")
+                            throw new Exception("What are you doing!?");
+                        List<IOperation> values = (newBO as Assum).GetStructDefine();
+                        List<ICommand> res = new List<ICommand>();
+                        for (int i = 0; i < values.Count; i++)
+                            res.Add(new Assum(BinaryOperation.ParseFrom(nam + "[" + i + "]"), values[i]));
+
+                        return new CommandOrder(res.ToArray());
+                    }
+                }
+                else
+                    return newBO;
+            }
+            // _______________________
             if (s1 > 0)
             {
                 string operatorFind = S.Remove(s1);
@@ -120,16 +147,34 @@ namespace Compilat
                     return new CycleWhile(conditionParse, iterationParse, false);
                 }
                 // reverse while
-                if (p1 == 3 && S.Remove(p1) == "do")
+                if (p1 == 2 && S.Remove(p1) == "do")
                 {
                     int whilePos = MISC.IndexOfOnLevel0(S, "while", 0);
 
                     if (whilePos < -1)
                         throw new Exception("No while, but used \"do\"" + S);
 
-                    string conditionParse = MISC.getIn(S, 2),
-                           iterationParse = S.Substring(s2 + 1);
+                    string iterationParse = MISC.getIn(S, 2),
+                           conditionParse = MISC.getIn(S, s1);
 
+                    return new CycleWhile(conditionParse, iterationParse, true);
+                }
+                // FOR mazafaka
+                if (operatorFind == "for")
+                {
+                    string partsParse = MISC.getIn(S, 3),
+                           allOther = S.Substring(s2 + 1);
+                    string[] spp = partsParse.Split(';');
+                    if (spp.Length != 3)
+                        throw new Exception("Invalid count of FOR-cycle condition parts");
+
+                    MISC.GoDeep("FOR");
+                    this.MergeWith(new CommandOrder(spp[0], ','));
+                    if (spp[1] == "") spp[1] = "true";  // condition
+                    CommandOrder actions = new CommandOrder(allOther, ';'); actions.MergeWith(new CommandOrder(spp[2], ','));
+                    MISC.GoBack();
+
+                    return new CycleFor(spp[1], actions);
                 }
             }
 

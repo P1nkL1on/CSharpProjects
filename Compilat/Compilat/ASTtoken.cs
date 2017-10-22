@@ -28,12 +28,10 @@ namespace Compilat
             this.valType = vt;
             this.data = data;
             ASTTree.tokens.Add(this);
-            clr = ConsoleColor.White;
-            if (vt == ValueType.Cchar) clr = ConsoleColor.Blue;
-            if (vt == ValueType.Cstring) clr = ConsoleColor.DarkBlue;
-            if (vt == ValueType.Cint) clr = ConsoleColor.Cyan;
-            if (vt == ValueType.Cdouble) clr = ConsoleColor.DarkCyan;
-            if (vt == ValueType.Cboolean) clr = ConsoleColor.Yellow;
+            clr = ConsoleColor.Cyan;
+            if (vt == ValueType.Cchar || vt == ValueType.Cstring) clr = ConsoleColor.DarkCyan;
+            if (vt == ValueType.Cint || vt == ValueType.Cdouble) clr = ConsoleColor.Cyan;
+            if (vt == ValueType.Cboolean) clr = ConsoleColor.Gray;
             if (vt == ValueType.Cadress) clr = ConsoleColor.DarkGray;
         }
         public ASTvalue(string s)
@@ -52,7 +50,7 @@ namespace Compilat
             if (isnum)
             {
                 if (numPoints == 0) { this.valType = ValueType.Cint; this.data = (object)(int.Parse(s)); clr = ConsoleColor.Cyan; }
-                else { this.valType = ValueType.Cdouble; this.data = (object)(double.Parse(s.Replace('.', ','))); clr = ConsoleColor.DarkCyan; }
+                else { this.valType = ValueType.Cdouble; this.data = (object)(double.Parse(s.Replace('.', ','))); clr = ConsoleColor.Cyan; }
             }
             else
             {
@@ -60,7 +58,7 @@ namespace Compilat
                 if (s.IndexOf('\'') == 0 && s.LastIndexOf('\'') == s.Length - 1)
                 {
                     if (s.Length == 3 || (s.Length == 4 && s[1] == '\\'))
-                    { this.valType = ValueType.Cchar; this.data = (object)(s[1]); clr = ConsoleColor.Blue; }
+                    { this.valType = ValueType.Cchar; this.data = (object)(s[1]); clr = ConsoleColor.DarkCyan; }
                     else
                     { throw new Exception("Char can not be more than 1 symbol"); }
                 }
@@ -68,13 +66,13 @@ namespace Compilat
                 {
                     // detect string
                     if (s.IndexOf('\"') == 0 && s.LastIndexOf('\"') == s.Length - 1)
-                    { this.valType = ValueType.Cstring; this.data = (object)(s.Substring(1, s.Length - 2)); clr = ConsoleColor.DarkBlue; }
+                    { this.valType = ValueType.Cstring; this.data = (object)(s.Substring(1, s.Length - 2)); clr = ConsoleColor.DarkCyan; }
                     else
                     {
                         if (s.ToLower() == "true" || s.ToLower() == "false")
                         {
                             this.valType = ValueType.Cboolean; this.data = (object)((s.ToLower() == "true"));
-                            clr = ConsoleColor.Yellow;
+                            clr = ConsoleColor.Gray;
                         }
                         else
                         {
