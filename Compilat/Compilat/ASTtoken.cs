@@ -59,7 +59,7 @@ namespace Compilat
                 // detect char
                 if (s.IndexOf('\'') == 0 && s.LastIndexOf('\'') == s.Length - 1)
                 {
-                    if (s.Length == 3)
+                    if (s.Length == 3 || (s.Length == 4 && s[1] == '\\'))
                     { this.valType = ValueType.Cchar; this.data = (object)(s[1]); clr = ConsoleColor.Blue; }
                     else
                     { throw new Exception("Char can not be more than 1 symbol"); }

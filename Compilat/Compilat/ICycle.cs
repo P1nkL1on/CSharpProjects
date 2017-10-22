@@ -59,14 +59,12 @@ namespace Compilat
             Console.WriteLine(String.Format("{0}WHILE", MISC.tabs(depth)));
             if (!doFirst)
             {
-                //Console.WriteLine(String.Format("{0}WHILE", MISC.tabs(depth)));
                 condition.Trace(depth + 1);
                 MISC.finish = true;
                 actions.Trace(depth + 1);
             }
             else
             {
-                //Console.WriteLine(String.Format("{0}WHILE", MISC.tabs(depth)));
                 actions.Trace(depth + 1);
                 MISC.finish = true;
                 condition.Trace(depth + 1);

@@ -6,37 +6,135 @@ using System.Threading.Tasks;
 
 namespace Compilat
 {
-    public class CommandOrder : IAstNode
+    public class CommandOrder : ICommand
     {
         // there can be any ASI doing one by one
         protected List<ICommand> commands;
+
+
 
         public CommandOrder(params ICommand[] cmnds)
         {
             commands = cmnds.ToList<ICommand>();
         }
-
-        public CommandOrder(String S, params char[] separators)
+        public CommandOrder()
+        {
+            commands = new List<ICommand>();
+        }
+        public CommandOrder(String S, char sep)
         {
             commands = new List<ICommand>();
 
-            // calculate a line enters
-            string S0 = S; S = "";
-            for (int i = 0; i < S0.Length; i++)
-                if (S0[i] != '\n')
-                    S += S0[i];
-
-            List<string> commandArr = MISC.splitBy(S, separators);
+            List<string> commandArr = (sep == ';') ? commandSplitter(S) : MISC.splitBy(S, sep);
 
             for (int i = 0; i < commandArr.Count; i++)
             {
-                ICommand[] parsedCommands = ParseCommand(commandArr[i]);
-                for (int c = 0; c < parsedCommands.Length; c++)
-                    commands.Add(parsedCommands[c]);
+                ICommand parsedCommand = ParseCommand2(commandArr[i]);
+                //ICommand[] parsedCommands = ParseCommand(commandArr[i]);
+                //for (int c = 0; c < parsedCommands.Length; c++){
+                //    commands.Add(parsedCommands[c]);
             }
-
         }
 
+        List<string> commandSplitter(string S)
+        {
+            List<string> res = new List<string>();
+            List<char> brs = new List<char>();
+            string current = "";
+            int doC = 0;
+
+            for (int i = 0; i < S.Length; i++)
+            {
+                if ((brs.Count == 0 || brs.Last() != '\"') && (S[i] == '{' || S[i] == '(' || S[i] == '\"'))
+                    brs.Add(S[i]);
+                else
+                    if (brs.Count > 0 && ((brs.Last() == '\"' && S[i] == '\"') || (brs.Last() == '{' && S[i] == '}')
+                        || (brs.Last() == '(' && S[i] == ')')))
+                        brs.RemoveAt(brs.Count - 1);
+
+                if (brs.Count == 0 && (S[i] == ';' || (S[i] == '}' && !(doC == 3 && S.Substring(i + 1).IndexOf("while") == 0))))
+                {
+                    if (S[i] == '}')
+                        current += S[i];
+                    if (!(i < S.Length - 6 && S.Substring(i + 1, 4) == "else"))
+                    {
+                        if (current.Length > 0)
+                            res.Add(current);
+                        current = "";
+                    }
+                }
+                else
+                {
+                    current += S[i];
+                    if (doC < 3)
+                    {
+                        if (S[i] == ("do{")[doC])
+                            doC++;
+                        else
+                            doC = 0;
+                    }
+                }
+            }
+            return res;
+        }
+
+        public ICommand ParseCommand2(String S)
+        {
+            int s1 = MISC.IndexOfOnLevel0(S, "(", 0),
+                s2 = MISC.IndexOfOnLevel0(S, ")", 0),
+                p1 = MISC.IndexOfOnLevel0(S, "{", 0),
+                p2 = MISC.IndexOfOnLevel0(S, "}", 0);
+
+            if (s2 < s1 || p2 < p1)
+                throw new Exception("Invalid command! " + S);
+
+            if (p1 == 0 && p2 == S.Length - 1)
+                return new CommandOrder(MISC.getIn(S, 0), ';');
+
+            if (s1 > 0)
+            {
+                string operatorFind = S.Remove(s1);
+                // simple if
+                if (operatorFind == "if")
+                {
+                    // we gonna parse IF from this shit!
+                    string conditionParse = MISC.getIn(S, 2),
+                           firstActionParse = S.Substring(s2 + 1);
+
+                    int indElse = MISC.IndexOfOnLevel0(firstActionParse, "else", 0);
+                    if (indElse > 0)
+                    {
+                        string secondActionParse = firstActionParse.Substring(indElse + 4);
+                        firstActionParse = firstActionParse.Substring(0, indElse);
+
+                        return new OperatorIf(conditionParse, firstActionParse, secondActionParse);
+                    }
+                    return new OperatorIf(conditionParse, firstActionParse, "");
+                }
+                // simple while
+                if (operatorFind == "while")
+                {
+
+                    string conditionParse = MISC.getIn(S, 5),
+                           iterationParse = S.Substring(s2 + 1);
+                    return new CycleWhile(conditionParse, iterationParse, false);
+                }
+                // reverse while
+                if (p1 == 3 && S.Remove(p1) == "do")
+                {
+                    int whilePos = MISC.IndexOfOnLevel0(S, "while", 0);
+
+                    if (whilePos < -1)
+                        throw new Exception("No while, but used \"do\"" + S);
+
+                    string conditionParse = MISC.getIn(S, 2),
+                           iterationParse = S.Substring(s2 + 1);
+
+                }
+            }
+
+            return new CommandOrder();
+        }
 
         public ICommand[] ParseCommand(String S)
         {
@@ -44,6 +142,8 @@ namespace Compilat
             // it can be cycle or simple operation
             int p1 = MISC.IndexOfOnLevel0(S, "{", 0),
                 p2 = MISC.IndexOfOnLevel0(S, "}", 0);
+
+            #region 0Zone and array assume
             if (p1 == 0 && p2 == S.Length - 1)
             {
                 return new ICommand[] { new OperatorZone(MISC.getIn(S, S.IndexOf('{'))) };
@@ -71,6 +171,7 @@ namespace Compilat
                 else
                     return new ICommand[] { newBO };
             }
+            #endregion
             #region Cycles
             //try to parse while cycles
             if (S.ToLower().IndexOf("for") == 0)
@@ -89,11 +190,11 @@ namespace Compilat
                 if (conditionParts[1].Length <= 0)
                     conditionParts[1] = "true";
                 // parse commands
-                
+
                 CommandOrder actions = new CommandOrder(parseAction, ';');
                 if (conditionParts[2].Length > 0)
                     actions.MergeWith(new CommandOrder(conditionParts[2], ','));
-                
+
                 ICommand[] res = new ICommand[] { new CycleFor(conditionParts[1], actions) };
                 MISC.GoBack();
                 return res;

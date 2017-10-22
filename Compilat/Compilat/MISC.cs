@@ -373,7 +373,7 @@ namespace Compilat
             for (int i = 0; i < S.Length; i++)
             {
                 level += (S[i] == '(' || S[i] == '{') ? 1 : ((S[i] == ')' || S[i] == '}') ? -1 : 0);
-                if (level == 0 && S.Substring(i).IndexOf(subS) == 0)
+                if ((level == 0 || (level == 1 && (subS == "(" || subS == "{"))) && S.Substring(i).IndexOf(subS) == 0)
                     return i;
             }
             return -1; //(level == 0) ? pos :

@@ -60,7 +60,7 @@ namespace Compilat
                     MISC.GoBack();
                 }
                 else
-                    actions = new CommandOrder("");
+                    actions = new CommandOrder();
 
                 MISC.GoBack();
                 return;

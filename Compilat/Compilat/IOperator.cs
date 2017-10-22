@@ -26,7 +26,7 @@ namespace Compilat
             condition = new Equal(new ASTvalue(ValueType.Cboolean, (object)true), new ASTvalue(ValueType.Cboolean, (object)true));
             actions = new List<CommandOrder>();
             MISC.GoDeep("OZONE");
-            actions.Add(new CommandOrder(parseActions,';'));
+            actions.Add(new CommandOrder(parseActions, ';'));
             MISC.GoBack();
         }
         public override void Trace(int depth)
@@ -48,8 +48,8 @@ namespace Compilat
         {
             condition = new Equal(BinaryOperation.ParseFrom(parseCondition), new ASTvalue(ValueType.Cboolean, (object)true));
             actions = new List<CommandOrder>();
-            actions.Add(new CommandOrder(""));
-            actions.Add(new CommandOrder(""));
+            actions.Add(new CommandOrder());
+            actions.Add(new CommandOrder());
 
             MISC.GoDeep("IFTHEN");
             actions[0].MergeWith(new CommandOrder(parseActions, ';'));
@@ -64,7 +64,6 @@ namespace Compilat
 
         public override void Trace(int depth)
         {
-
             Console.WriteLine(String.Format("{0}IF", MISC.tabs(depth)));
             condition.Trace(depth + 1);
             if (actions[1].CommandCount == 0)
