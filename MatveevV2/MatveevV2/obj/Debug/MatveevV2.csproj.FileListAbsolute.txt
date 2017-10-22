@@ -7,3 +7,12 @@ D:\microsoft visual studio projects\MatveevV2\MatveevV2\obj\Debug\MatveevV2.Prop
 D:\microsoft visual studio projects\MatveevV2\MatveevV2\obj\Debug\MatveevV2.csproj.GenerateResource.Cache
 D:\microsoft visual studio projects\MatveevV2\MatveevV2\obj\Debug\MatveevV2.exe
 D:\microsoft visual studio projects\MatveevV2\MatveevV2\obj\Debug\MatveevV2.pdb
+D:\microsoft visual studio projects\C_Sharp_Sheets\MatveevV2\MatveevV2\bin\Debug\MatveevV2.exe.config
+D:\microsoft visual studio projects\C_Sharp_Sheets\MatveevV2\MatveevV2\obj\Debug\MatveevV2.exe
+D:\microsoft visual studio projects\C_Sharp_Sheets\MatveevV2\MatveevV2\obj\Debug\MatveevV2.pdb
+D:\microsoft visual studio projects\C_Sharp_Sheets\MatveevV2\MatveevV2\bin\Debug\MatveevV2.exe
+D:\microsoft visual studio projects\C_Sharp_Sheets\MatveevV2\MatveevV2\bin\Debug\MatveevV2.pdb
+D:\microsoft visual studio projects\C_Sharp_Sheets\MatveevV2\MatveevV2\obj\Debug\MatveevV2.csprojResolveAssemblyReference.cache
+D:\microsoft visual studio projects\C_Sharp_Sheets\MatveevV2\MatveevV2\obj\Debug\MatveevV2.Form1.resources
+D:\microsoft visual studio projects\C_Sharp_Sheets\MatveevV2\MatveevV2\obj\Debug\MatveevV2.Properties.Resources.resources
+D:\microsoft visual studio projects\C_Sharp_Sheets\MatveevV2\MatveevV2\obj\Debug\MatveevV2.csproj.GenerateResource.Cache

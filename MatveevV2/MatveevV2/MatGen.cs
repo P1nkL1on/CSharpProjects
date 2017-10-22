@@ -80,7 +80,7 @@ namespace MatveevV2
                 if (cas < 2)
                 {
                     // we have somehing like 3 4 6 10
-                    float randomedWord = rnd.Next((int)(chances[chances.Count - 1] * 10.0)) / 10.0f;
+                    float randomedWord = rnd.Next(Math.Max((int)(chances[chances.Count - 1] * 10.0), 0)) / 10.0f;
                     //
                     int choosenWord = chances.Count - 1;
                     for (int j = 0; j < chances.Count; j++)
@@ -93,7 +93,7 @@ namespace MatveevV2
                 else
                 {
                     // we have somehing like 3 4 6 10
-                    float randomedWord = rnd.Next((int)(chances[chances.Count - 1] * 10.0)) / 10.0f;
+                    float randomedWord = rnd.Next(Math.Max(0, (int)(chances[chances.Count - 1] * 10.0))) / 10.0f;
                     //
                     int choosenWord = chances.Count - 1;
                     for (int j = 0; j < chances.Count; j++)
