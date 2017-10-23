@@ -16,3 +16,13 @@ D:\microsoft visual studio projects\C_Sharp_Sheets\MatveevV2\MatveevV2\obj\Debug
 D:\microsoft visual studio projects\C_Sharp_Sheets\MatveevV2\MatveevV2\obj\Debug\MatveevV2.Form1.resources
 D:\microsoft visual studio projects\C_Sharp_Sheets\MatveevV2\MatveevV2\obj\Debug\MatveevV2.Properties.Resources.resources
 D:\microsoft visual studio projects\C_Sharp_Sheets\MatveevV2\MatveevV2\obj\Debug\MatveevV2.csproj.GenerateResource.Cache
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\MatveevV2\MatveevV2\bin\Debug\MatveevV2.exe.config
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\MatveevV2\MatveevV2\bin\Debug\MatveevV2.exe
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\MatveevV2\MatveevV2\bin\Debug\MatveevV2.pdb
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\MatveevV2\MatveevV2\obj\Debug\MatveevV2.csprojResolveAssemblyReference.cache
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\MatveevV2\MatveevV2\obj\Debug\MatveevV2.Form1.resources
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\MatveevV2\MatveevV2\obj\Debug\MatveevV2.Properties.Resources.resources
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\MatveevV2\MatveevV2\obj\Debug\MatveevV2.csproj.GenerateResource.Cache
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\MatveevV2\MatveevV2\obj\Debug\MatveevV2.csproj.CoreCompileInputs.cache
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\MatveevV2\MatveevV2\obj\Debug\MatveevV2.exe
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\MatveevV2\MatveevV2\obj\Debug\MatveevV2.pdb
