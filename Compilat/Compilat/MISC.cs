@@ -50,8 +50,11 @@ namespace Compilat
                 //    ValueType vt = (parts[i] as GetValByAdress).pointerType;
                 //    int n = 0;
                 //}
+                if ((o as Assum) != null && parts[0].returnTypes() == parts[1].returnTypes())
+                    return parts[0].returnTypes();
 
-                ValueType res = CheckType(accept, inputValueTypes);
+                ValueType res = CheckType(accept, inputValueTypes);  
+
                 return res;
             }
             catch (Exception e)
@@ -63,7 +66,7 @@ namespace Compilat
                     {
                         string parseFrom = splitedTypes[i].Substring(splitedTypes[i].IndexOf(", "),
                             splitedTypes[i].IndexOf(")") - splitedTypes[i].IndexOf(", ")).ToLower().Remove(0, 3);
-                        ValueType convertType = Define.detectType(parseFrom);
+                        ValueType convertType = new ValueType(Define.detectType(parseFrom));
                         parts[i] = new Conv(parts[i], convertType);
                     }
                 try
@@ -78,7 +81,7 @@ namespace Compilat
                 catch (Exception r)
                 {
                     throw new Exception("Can not apply convertation chain!");
-                    return ValueType.Unknown;
+                    return new ValueType(VT.Cunknown);
                 }
             }
 
@@ -86,9 +89,10 @@ namespace Compilat
 
 
         public static ValueType CheckType(TypeConvertion accept, params ValueType[] hadTypes)
-        {
+        {          
             // I D
             // IIB DDB CCB
+            
             for (int i = 0; i < accept.from.Length; i++)
             {
                 bool found = true;
@@ -101,15 +105,15 @@ namespace Compilat
             // we can found some kostils
             if (availableConvertation.Count == 0)
             {
-                availableConvertation.Add(new Tuple<ValueType, ValueType>(ValueType.Cboolean, ValueType.Cint)); 
-                availableConvertation.Add(new Tuple<ValueType, ValueType>(ValueType.Cint, ValueType.Cdouble));
-                availableConvertation.Add(new Tuple<ValueType, ValueType>(ValueType.Cint, ValueType.Cstring));
-                availableConvertation.Add(new Tuple<ValueType, ValueType>(ValueType.Cint, ValueType.Cboolean));
-                availableConvertation.Add(new Tuple<ValueType, ValueType>(ValueType.Cdouble, ValueType.Cstring));
-                availableConvertation.Add(new Tuple<ValueType, ValueType>(ValueType.Cdouble, ValueType.Cboolean));
-                availableConvertation.Add(new Tuple<ValueType, ValueType>(ValueType.Cchar, ValueType.Cstring));
-                availableConvertation.Add(new Tuple<ValueType, ValueType>(ValueType.Cchar, ValueType.Cboolean));
-                availableConvertation.Add(new Tuple<ValueType, ValueType>(ValueType.Cchar, ValueType.Cint));
+                availableConvertation.Add(new Tuple<ValueType, ValueType>(new ValueType(VT.Cboolean), new ValueType(VT.Cint))); 
+                availableConvertation.Add(new Tuple<ValueType, ValueType>(new ValueType(VT.Cint),new ValueType(VT.Cdouble)));
+                availableConvertation.Add(new Tuple<ValueType, ValueType>(new ValueType(VT.Cint), new ValueType(VT.Cstring)));
+                availableConvertation.Add(new Tuple<ValueType, ValueType>(new ValueType(VT.Cint), new ValueType(VT.Cboolean)));
+                availableConvertation.Add(new Tuple<ValueType, ValueType>(new ValueType(VT.Cdouble), new ValueType(VT.Cstring)));
+                availableConvertation.Add(new Tuple<ValueType, ValueType>(new ValueType(VT.Cdouble), new ValueType(VT.Cboolean)));
+                availableConvertation.Add(new Tuple<ValueType, ValueType>(new ValueType(VT.Cchar), new ValueType(VT.Cstring)));
+                availableConvertation.Add(new Tuple<ValueType, ValueType>(new ValueType(VT.Cchar), new ValueType(VT.Cboolean)));
+                availableConvertation.Add(new Tuple<ValueType, ValueType>(new ValueType(VT.Cchar), new ValueType(VT.Cint)));
             }
 
             // I -> D

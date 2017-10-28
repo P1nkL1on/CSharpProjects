@@ -15,7 +15,6 @@ D:\microsoft visual studio projects\C_Sharp_Sheets\Compilat\Compilat\obj\Debug\C
 D:\microsoft visual studio projects\C_Sharp_Sheets\Compilat\Compilat\obj\Debug\Compilat.pdb
 D:\microsoft visual studio projects\C_Sharp_Sheets\Compilat\Compilat\bin\Debug\Compilat.exe
 D:\microsoft visual studio projects\C_Sharp_Sheets\Compilat\Compilat\bin\Debug\Compilat.pdb
-D:\microsoft visual studio projects\C_Sharp_Sheets\Compilat\Compilat\obj\Debug\Compilat.csprojResolveAssemblyReference.cache
 C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\Compilat\Compilat\bin\Debug\Compilat.exe.config
 C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\Compilat\Compilat\obj\Debug\Compilat.exe
 C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\Compilat\Compilat\obj\Debug\Compilat.pdb

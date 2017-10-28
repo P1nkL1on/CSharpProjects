@@ -13,7 +13,7 @@ namespace Compilat
         public Assum(IOperation left, IOperation right)
         {
             operationString = "=";
-            TypeConvertion tpcv = new TypeConvertion("II_DD_BB_CC_SS_$$_AA_", 2);
+            TypeConvertion tpcv = new TypeConvertion("IIIDDDBBBCCCSSS$$$AAA", 2);
             IOperation[] children = new IOperation[2] { left, right };
             returnType = MISC.CheckTypeCorrect(this, tpcv, ref children);
             a = children[0]; b = children[1]; ;

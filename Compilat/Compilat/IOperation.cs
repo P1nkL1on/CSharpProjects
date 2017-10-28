@@ -25,13 +25,13 @@ namespace Compilat
         protected IOperation a;   // pointer
         public virtual void Trace(int depth)
         {
-            Console.Write(MISC.tabs(depth)); MISC.ConsoleWriteLine(operationString, ConsoleColor.Yellow);
+            Console.Write(MISC.tabs(depth)); MISC.ConsoleWrite(operationString, ConsoleColor.Yellow); MISC.ConsoleWriteLine(" [" + returnTypes().ToString()+"]", ConsoleColor.DarkGreen);
             
             MISC.finish = true;
-            if (a != null)
+            //if (a != null)
                 a.Trace(depth + 1);
-            else
-                Console.WriteLine(MISC.tabs(depth + 1) + " NULL");
+            //else
+            //    Console.WriteLine(MISC.tabs(depth + 1) + " NULL");
         }
         public static IOperation ParseFrom(string s)
         {
@@ -101,7 +101,7 @@ namespace Compilat
                 if (e.Message.IndexOf("GetAddr") == 0)
                 {
                     int newAdress = int.Parse(e.Message.Split('_')[1]);
-                    return new GetValByAdress(new ASTvalue(ValueType.Cadress, (object)newAdress),
+                    return new GetValByAdress(new ASTvalue(new ValueType(VT.Cadress), (object)newAdress),
                                               ASTTree.variables[newAdress].getValueType);
                 }
                 throw new Exception(e.Message);
@@ -224,22 +224,28 @@ namespace Compilat
             if (!onLevel(s, "==", 0) && !onLevel(s, "!=", 0) && onLevel(s, "=", 0))
             {
                 MISC.separate(s, "=", ref left, ref right, lastIndex);
-                if (left.Length > 0)
+
+                IOperation rightOperation = ParseFrom(right);
+                IOperation leftOperation = MonoOperation.ParseFrom(left);
+                if (left.Length > 0 && ("+-*/").IndexOf(left[left.Length - 1]) >= 0)
+                {
+                    
+                    IOperation leftMinusOne = MonoOperation.ParseFrom(left.Remove(left.Length - 1));
                     switch (left[left.Length - 1])
                     {
                         case '+':
-                            return new Assum(ParseFrom(left.Remove(left.Length - 1)), new Summ(ParseFrom(left.Remove(left.Length - 1)), ParseFrom(right)));
+                            return new Assum(leftMinusOne, new Summ(leftMinusOne, rightOperation));
                         case '-':
-                            return new Assum(ParseFrom(left.Remove(left.Length - 1)), new Diff(ParseFrom(left.Remove(left.Length - 1)), ParseFrom(right)));
+                            return new Assum(leftMinusOne, new Diff(leftMinusOne, rightOperation));
                         case '*':
-                            return new Assum(ParseFrom(left.Remove(left.Length - 1)), new Mult(ParseFrom(left.Remove(left.Length - 1)), ParseFrom(right)));
+                            return new Assum(leftMinusOne, new Mult(leftMinusOne, rightOperation));
                         case '/':
-                            return new Assum(ParseFrom(left.Remove(left.Length - 1)), new Qout(ParseFrom(left.Remove(left.Length - 1)), ParseFrom(right)));
+                            return new Assum(leftMinusOne, new Qout(leftMinusOne, rightOperation));
                         default:
                             break;
                     }
-                IOperation rightOperation = ParseFrom(right);
-                IOperation leftOperation = ParseFrom(left);
+                }
+                
                 if ((rightOperation as StructureDefine) == null)
                     return new Assum(leftOperation, rightOperation);
                 else
@@ -297,7 +303,7 @@ namespace Compilat
             {
                 MISC.separate(s, "*", ref left, ref right, lastIndex);
                 // can be initialization of pointer!
-                if (Define.detectType(left) == ValueType.Unknown)
+                if (new ValueType(VT.Cunknown) == Define.detectType(left))
                     return new Mult(ParseFrom(left), ParseFrom(right));
             }
             if (onLevel(s, "/", 0))

@@ -33,7 +33,7 @@ namespace Compilat
                 name = type_name[1];
                 
                 // !
-                IO.to = new ValueType[] { Define.detectType(type_name[0]) };
+                IO.to = new ValueType[] { new ValueType(Define.detectType(type_name[0])) };
                 // try to parse signature and actions
                 List<string> vars = MISC.splitBy(MISC.getIn(S, S.IndexOf('(')), ',');
                 input = new List<Define>();

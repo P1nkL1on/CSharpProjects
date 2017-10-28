@@ -15,6 +15,7 @@ namespace Compilat
         Object getValue { get; }
         ValueType returnTypes();
 
+        int getPointerLevel { get; }
     }
 
     public class ASTvalue : IASTtoken
@@ -29,10 +30,10 @@ namespace Compilat
             this.data = data;
             ASTTree.tokens.Add(this);
             clr = ConsoleColor.Cyan;
-            if (vt == ValueType.Cchar || vt == ValueType.Cstring) clr = ConsoleColor.DarkCyan;
-            if (vt == ValueType.Cint || vt == ValueType.Cdouble) clr = ConsoleColor.Cyan;
-            if (vt == ValueType.Cboolean) clr = ConsoleColor.Gray;
-            if (vt == ValueType.Cadress) clr = ConsoleColor.DarkGray;
+            if (vt == VT.Cchar || vt == VT.Cstring) clr = ConsoleColor.DarkCyan;
+            if (vt == VT.Cint || vt == VT.Cdouble) clr = ConsoleColor.Cyan;
+            if (vt == VT.Cboolean) clr = ConsoleColor.Gray;
+            if (vt == VT.Cadress) clr = ConsoleColor.DarkGray;
         }
         public ASTvalue(string s)
         {
@@ -49,8 +50,8 @@ namespace Compilat
             // calculate a number
             if (isnum)
             {
-                if (numPoints == 0) { this.valType = ValueType.Cint; this.data = (object)(int.Parse(s)); clr = ConsoleColor.Cyan; }
-                else { this.valType = ValueType.Cdouble; this.data = (object)(double.Parse(s.Replace('.', ','))); clr = ConsoleColor.Cyan; }
+                if (numPoints == 0) { this.valType = new ValueType(VT.Cint); this.data = (object)(int.Parse(s)); clr = ConsoleColor.Cyan; }
+                else { this.valType =new ValueType(VT.Cdouble); this.data = (object)(double.Parse(s.Replace('.', ','))); clr = ConsoleColor.Cyan; }
             }
             else
             {
@@ -58,7 +59,7 @@ namespace Compilat
                 if (s.IndexOf('\'') == 0 && s.LastIndexOf('\'') == s.Length - 1)
                 {
                     if (s.Length == 3 || (s.Length == 4 && s[1] == '\\'))
-                    { this.valType = ValueType.Cchar; this.data = (object)(s[1]); clr = ConsoleColor.DarkCyan; }
+                    { this.valType = new ValueType(VT.Cchar); this.data = (object)(s[1]); clr = ConsoleColor.DarkCyan; }
                     else
                     { throw new Exception("Char can not be more than 1 symbol"); }
                 }
@@ -66,12 +67,12 @@ namespace Compilat
                 {
                     // detect string
                     if (s.IndexOf('\"') == 0 && s.LastIndexOf('\"') == s.Length - 1)
-                    { this.valType = ValueType.Cstring; this.data = (object)(s.Substring(1, s.Length - 2)); clr = ConsoleColor.DarkCyan; }
+                    { this.valType = new ValueType(VT.Cstring); this.data = (object)(s.Substring(1, s.Length - 2)); clr = ConsoleColor.DarkCyan; }
                     else
                     {
                         if (s.ToLower() == "true" || s.ToLower() == "false")
                         {
-                            this.valType = ValueType.Cboolean; this.data = (object)((s.ToLower() == "true"));
+                            this.valType = new ValueType(VT.Cboolean); this.data = (object)((s.ToLower() == "true"));
                             clr = ConsoleColor.Gray;
                         }
                         else
@@ -79,7 +80,7 @@ namespace Compilat
                             // finally trying to find variable
                             string varName = s;
                             int found = -1;
-                            ASTvariable foundedVar = new ASTvariable(ValueType.Unknown, "NONE");
+                            ASTvariable foundedVar = new ASTvariable(new ValueType(VT.Cunknown), "NONE", 0);
 
                             for (int i = 0; i < ASTTree.variables.Count; i++)
                                 if (ASTTree.variables[i].name == varName && MISC.isVariableAvailable(i))
@@ -102,9 +103,9 @@ namespace Compilat
         public void Trace(int depth)
         {
             string br = "";
-            if (this.getValueType == ValueType.Cstring) br = "\"";
-            if (this.getValueType == ValueType.Cchar) br = "\'";
-            if (this.getValueType == ValueType.Cadress) br = "#";
+            if (this.getValueType == VT.Cstring) br = "\"";
+            if (this.getValueType == VT.Cchar) br = "\'";
+            if (this.getValueType == VT.Cadress) br = "#";
             if (data == null)
             {
                 //Console.WriteLine(String.Format("{0}{1}", MISC.tabs(depth), "null"));
@@ -121,8 +122,8 @@ namespace Compilat
         public void TraceMore(int depth)
         {
             string br = "";
-            if (this.getValueType == ValueType.Cstring) br = "\"";
-            if (this.getValueType == ValueType.Cchar) br = "\'";
+            if (this.getValueType == VT.Cstring) br = "\"";
+            if (this.getValueType == VT.Cchar) br = "\'";
             if (data == null)
                 MISC.ConsoleWriteLine(String.Format("\tnull\t\t[{0}]", valType.ToString()), clr);
             else
@@ -132,24 +133,30 @@ namespace Compilat
         public ValueType getValueType { get { return valType; } }
         public Object getValue { get { return data; } }
         public ValueType returnTypes() { return valType; }
+
+        public int getPointerLevel { get { return 0; } }
     }
 
     public class ASTvariable : IASTtoken
     {
+
         ValueType valType;
+        int pointerLevel;
         public string name;
+
         int adress;
         string localSpace;
 
         public ASTvariable()
         {
-            this.valType = ValueType.Unknown;
+            this.valType = new ValueType(VT.Cunknown);
             this.name = "-";
             this.adress = -1;
             this.localSpace = string.Join("/", MISC.nowParsing.ToArray());
         }
-        public ASTvariable(ValueType vt, string name)
+        public ASTvariable(ValueType vt, string name, int level)
         {
+            this.pointerLevel = level;
             this.valType = vt;
             this.name = name;
             this.adress = ASTTree.variables.Count;
@@ -160,61 +167,35 @@ namespace Compilat
         {
             //Console.WriteLine(String.Format("{0}${1}   [{2}]", MISC.tabs(depth), name, valType.ToString()));
             Console.Write(MISC.tabs(depth));
+            MISC.ConsoleWrite(pointerMuch(pointerLevel), ConsoleColor.Red);
             MISC.ConsoleWrite(name, ConsoleColor.Green);
-            MISC.ConsoleWriteLine("\t[" +  valType.ToString() + "]", ConsoleColor.DarkGreen);
+            MISC.ConsoleWriteLine("\t[" + getValueType.ToString() + "]", ConsoleColor.DarkGreen);
         }
         public virtual void TraceMore(int depth)
         {
-            MISC.ConsoleWrite(String.Format("\t{0}\t\t{1}\t\t", name, valType.ToString().Substring(1)), ConsoleColor.DarkGreen);
+            MISC.ConsoleWrite(String.Format("\t{0}\t\t{1}\t\t", pointerMuch(pointerLevel) + name, getValueType.ToString().Substring(1)), ConsoleColor.DarkGreen);
             MISC.ConsoleWriteLine(localSpace, ConsoleColor.DarkMagenta);
         }
 
         public virtual ValueType getValueType 
         { get { return valType; } }
+
         public Object getValue
         { get { return null; } }
+
         public virtual ValueType returnTypes()
         { return getValueType; }
-        public virtual bool IsPointer { get { return false; } }
-    }
 
-    public class ASTpointer : ASTvariable
-    {
-        ValueType valType;
-        ValueType returnType;
-        //int adress;
+        public int getPointerLevel { get { return pointerLevel; } }
 
-        public ASTpointer(ValueType vt, string name)
+        string pointerMuch(int x)
         {
-            this.returnType = ValueType.Cadress;
-            this.valType = vt;
-            this.name = name;
+            string res = "";
+            for (int i = 0; i < x; i++)
+            {
+                res += "*";
+            }
+            return res;
         }
-
-        public override void Trace(int depth)
-        {
-            //Console.WriteLine(String.Format("{0}*{1}   [{2} -> {3}]", MISC.tabs(depth), name, returnType.ToString(), valType.ToString()));
-            Console.Write(MISC.tabs(depth)+"*");
-            MISC.ConsoleWrite(name, ConsoleColor.Green);
-            MISC.ConsoleWriteLine("\t"+returnType.ToString()+"->"+ valType.ToString()+"", ConsoleColor.DarkGreen);
-            //MISC.finish = true;
-            //adress.Trace(depth + 1);
-        }
-        public override void TraceMore(int depth)
-        {
-            MISC.ConsoleWriteLine(String.Format("\t*{0}\t\t[{1} -> {2}]", name, returnType.ToString().Substring(1), valType.ToString().Substring(1)), ConsoleColor.Green);
-        }
-
-        public override ValueType returnTypes()
-        { 
-            //if (valType == ValueType.Cadress) 
-            //    return ASTTree.variables[(int) this.getValue].getValueType;
-            return valType; 
-        }
-
-        public override ValueType getValueType { get { return returnType; } }
-
-
-        public override bool IsPointer { get { return true; } }
     }
 }

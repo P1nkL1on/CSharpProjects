@@ -83,8 +83,8 @@ namespace Compilat
             {
                 string command = SelectIO();
 
-                try
-                {
+                //try
+                //{
                     string code = "";
                     string[] lines = System.IO.File.ReadAllLines(@""+ codeFolder + "/" + command + ".txt");
 
@@ -124,17 +124,17 @@ namespace Compilat
 
                     ASTTree t = new ASTTree(code);
                     t.Trace();
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(String.Format("Can not read file @/{0}.txt!", command));
-                }
-                finally
-                {
-                    Console.WriteLine("Press any key...");
+                //}
+                //catch (Exception e)
+                //{
+                //    Console.WriteLine(String.Format("Can not read file @/{0}.txt!", command));
+                //}
+                //finally
+                //{
+                //    Console.WriteLine("Press any key...");
                     Console.ReadKey();
-                    Console.Clear();
-                }
+                //    Console.Clear();
+                //}
             }
 
         }

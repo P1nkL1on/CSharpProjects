@@ -1,0 +1,13 @@
+int main (int* arg, int** argv){
+	int a = 10;
+	
+	//int b = a + a;
+
+	//int c = a + b * a / b / b;
+	
+	int *pa = &a;
+	int** ppa = &pa;
+	int** pppa = &ppa;	
+
+	return 0;
+}
