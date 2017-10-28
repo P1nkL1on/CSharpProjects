@@ -209,7 +209,12 @@ namespace Compilat
         { 
             //if (valType == ValueType.Cadress) 
             //    return ASTTree.variables[(int) this.getValue].getValueType;
-            return valType; 
+            return ValueType.Cadress; 
+        }
+
+        public ValueType returnLinkValueType()
+        {
+            return valType;
         }
 
         public override ValueType getValueType { get { return returnType; } }

@@ -1,0 +1,15 @@
+//int  func (int a, int b, double* c, double *d, string S, double e, double *f){
+//	double cd = *c + *d;
+//	//double dfromnewaddr = (c + d + f);
+//	return a + b;
+//}
+
+int main (){
+	int a = 10;
+
+	int*b = &a;
+
+	int c = a + *b;
+
+	return 1;
+}

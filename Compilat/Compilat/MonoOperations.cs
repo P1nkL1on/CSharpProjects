@@ -152,7 +152,7 @@ namespace Compilat
     }
     class GetValByAdress : MonoOperation
     {
-        public ValueType pointerType;
+        public bool isJustPointer;
         public GetValByAdress(IOperation adress, ValueType retType, bool stop)
         {
             operationString = "get";
@@ -164,7 +164,8 @@ namespace Compilat
             operationString = "get";
             try
             {
-                operationString = ASTTree.variables[(int)((adress as ASTvalue).getValue)].name;
+                int gAd = (int)((adress as ASTvalue).getValue);
+                operationString = ASTTree.variables[gAd].name;
             }
             catch (Exception e) { };
             a = adress;
@@ -190,15 +191,29 @@ namespace Compilat
                 IOperation dep = a; int res = -1;
                 while (a.returnTypes() == ValueType.Cadress)
                 {
-                    a.Trace(0);
-                    res = ((a as GetValByAdress) != null) ? (a as GetValByAdress).GetAdress() : (int)((a as ASTvalue).getValue);
+                    //a.Trace(0);
+                    res = ((a as GetValByAdress) != null) ? (a as GetValByAdress).GetAdress() : (((a as ASTvalue) != null)?(int)((a as ASTvalue).getValue) : -1);
+                    if (res == -1)
+                        break;
                     a = ASTTree.variables[res];
-                    returnType = a.returnTypes();
+                    //returnType = a.returnTypes();
                     dep = new GetValByAdress(new ASTvalue(ValueType.Cadress, (object)res), returnType, true);
                 }
                 a = dep;
+                isJustPointer = true;
             }
 
+            // OP check
+            //string pointerCheck = (((a as GetValByAdress) != null) ? (a as GetValByAdress).GetAdress().ToString() : ((a as ASTvalue).getValue).ToString() + "%");
+            //Console.WriteLine(" -> " + pointerCheck);
+            //try
+            //{
+            //    int adr = int.Parse(pointerCheck);
+            //    if (adr >= 0)
+            //    { isJustPointer = true; }
+            //}
+            //catch (Exception e) { }
+            //int n = -0;
         }
 
         public int GetAdress()
@@ -215,12 +230,11 @@ namespace Compilat
 
         public override void Trace(int depth)
         {
-            Console.Write(MISC.tabs(depth)); MISC.ConsoleWrite(operationString, ConsoleColor.Green); MISC.ConsoleWriteLine(" " + returnType.ToString().Substring(1), ConsoleColor.DarkGreen);
-            if (true || returnType == ValueType.Cadress)
-            {
-                MISC.finish = true;
-                a.Trace(depth + 1);
-            }
+            Console.Write(MISC.tabs(depth)); MISC.ConsoleWrite(operationString, ConsoleColor.Green); MISC.ConsoleWrite(" " + returnType.ToString().Substring(1) , ConsoleColor.DarkGreen);
+            MISC.ConsoleWriteLine(" " + isJustPointer, ConsoleColor.Red);
+            //MISC.ConsoleWriteLine(" " + (((a as GetValByAdress) != null) ? (a as GetValByAdress).GetAdress().ToString() : ((a as ASTvalue).getValue).ToString() + "@"), ConsoleColor.Red);
+            //MISC.finish = true;
+            //a.Trace(depth + 1);
         }
     }
 

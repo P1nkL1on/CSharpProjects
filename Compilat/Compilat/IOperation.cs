@@ -110,6 +110,8 @@ namespace Compilat
 
         public virtual ValueType returnTypes()
         {
+            //if ((this as GetValByAdress) != null && ((this as GetValByAdress).a as IASTtoken) != null)
+            //    return ValueType.Cadress;
             return returnType;
         }
     }
@@ -343,6 +345,7 @@ namespace Compilat
         }
         public ValueType returnTypes()
         {
+            
             return returnType;
         }
     }

@@ -59,65 +59,6 @@ namespace Compilat
             variables = new List<ASTvariable>();
             MISC.ClearStack();
 
-            //int isComment = 0, isSpacedComment = 0; int bracketLevel = 0;
-            //s += '\n';
-            //for (int i = 0; i < s.Length; i++)
-            //{
-            //    // skip stroke comments
-            //    if ((s[i] == '/' || (isComment == 1 && s[i] == '*')) && isComment < 2)
-            //    {
-            //        if (isComment == 1 && s[i] == '*') isSpacedComment = 2;
-            //        isComment++;
-            //        if (isComment == 2 && isSpacedComment == 0) sTrim = sTrim.Remove(sTrim.Length - 1);
-            //    }
-            //    else
-            //    {
-            //        if (isComment < 2)
-            //        {
-            //            isComment = 0;
-            //            isSpacedComment = 0;
-            //        }
-            //        else
-            //        {
-            //            if ((s[i] == '\n' && isSpacedComment == 0) || (isSpacedComment == 4))
-            //            { isComment = 0; sTrim = sTrim.Remove(sTrim.Length - ((isSpacedComment == 0) ? 1 : 2)); isSpacedComment = 0; }
-            //            else
-            //            {
-            //                if (s[i] == '*' && isSpacedComment == 2) isSpacedComment++;
-            //                if (s[i] == '/' && isSpacedComment == 3) isSpacedComment++;
-            //                continue;
-            //            }
-            //        }
-            //    }
-            //    // skip whitespaces
-            //    //if (s[i] != ' ' && s[i] != '\n' && s[i] != '\t')
-            //    //{
-            //    //    sTrim += s[i];
-            //    //}
-
-            //    //if (bracketLevel == 1 && i > 0 && s[i] == '}')
-            //    //    sTrim += "^";
-            //    //if (bracketLevel == 0 && s[i] == ')' && s[i + 1] == ';')
-            //    //{ sTrim += "^"; i++; }
-            //    //bracketLevel += (s[i] == '{') ? 1 : ((s[i] == '}') ? -1 : 0);
-            //    if (s[i] != ' ' && s[i] != '\n' && s[i] != '\t')
-            //        sTrim += s[i];
-
-            //    if (brStack.Count > 0 &&
-            //        ((s[i] == ')' && brStack.Last() == '(') || (s[i] == '}' && brStack.Last() == '{') || (s[i] == '\"' && brStack.Last() == '\"')))
-            //        brStack.RemoveAt(brStack.Count - 1);
-            //    if (!(brStack.Count > 0 && brStack.Last() == '\"') && (s[i] == '(' || s[i] == '{' || s[i] == '\"'))
-            //        brStack.Add(s[i]);
-
-            //    bool addedtz = false;
-            //    if (s[i] == '}' && !((brStack.Count == 0) || (i < s.Length - 5 && s.Substring(i+1).IndexOf("else") == 0)))
-            //    { s = s.Substring(0, i + 1) + ";" + s.Substring(i + 1); addedtz = true; }
-
-            //    if (brStack.Count == 0 && i > 0 && s[i] == '}' && !addedtz)
-            //        sTrim += "^";
-            //    if (brStack.Count == 0 && s[i] == ')' && s[i + 1] == ';')
-            //    { sTrim += "^"; i++; }
-            //}
             sTrim = FuncTrimmer(s); // remove last ^
             original = s;
             string[] funcParseMaterial = sTrim.Split('^');
