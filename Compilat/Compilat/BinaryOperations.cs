@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace Compilat
 {
+    // 
+
     class Summ : BinaryOperation
     {
         public Summ(IOperation left, IOperation right)

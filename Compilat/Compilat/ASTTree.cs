@@ -220,7 +220,8 @@ namespace Compilat
         Cstring = 4,
         Cboolean = 5,
         Cvoid = 6,
-        Cadress = 7
+        Cadress = 7,
+        Cany = 8
     }
 
     public struct ValueType
@@ -312,6 +313,18 @@ namespace Compilat
         public List<ValueType>[] from;
         public ValueType[] to;
 
+        // conversion rules
+
+        // *I = int*
+        // ***I = int***
+        // %I = int (*) {0..inf}
+        // -1 == same as previous
+        // -2 == save as prev previous
+        // ^ - any type
+
+        // ^-1-2 == any type x3
+        // %I-1V == any integer pointers x2 -> void
+        // %II%I == any pointer on smthing + int = any pointer on that thing
 
         public TypeConvertion(string s, int IOcount)
         {
@@ -319,29 +332,35 @@ namespace Compilat
             List<List<ValueType>> flist = new List<List<ValueType>>();
             List<ValueType> tlist = new List<ValueType>();
             List<ValueType> inputVals = new List<ValueType>();
-            for (int i = 0; i < s.Length; i++)
+            for (int i = 0, nowin = 0, nowP = 0; nowin < s.Length; nowin++)
             {
-                ValueType vt;
-                switch (s[i])
+                ValueType vt; i++;
+                switch (s[nowin])
                 {
                     case 'I':
-                        vt = new ValueType(VT.Cint); break;
+                        vt = new ValueType(VT.Cint, nowP); nowP = 0; break;
                     case 'D':
-                        vt = new ValueType(VT.Cdouble); break;
+                        vt = new ValueType(VT.Cdouble, nowP); nowP = 0; break;
                     case 'B':
-                        vt = new ValueType(VT.Cboolean); break;
+                        vt = new ValueType(VT.Cboolean, nowP); nowP = 0; break;
                     case 'C':
-                        vt = new ValueType(VT.Cchar); break;
+                        vt = new ValueType(VT.Cchar, nowP); nowP = 0; break;
                     case 'S':
-                        vt = new ValueType(VT.Cstring); break;
+                        vt = new ValueType(VT.Cstring, nowP); nowP = 0; break;
                     case '_':
                         vt = new ValueType(VT.Cvoid); break;
                     case 'A':
                         vt = new ValueType(VT.Cadress); break;
                     case 'V':
                         vt = new ValueType(VT.Cvoid); break;
+                    case '^':
+                        vt = new ValueType(VT.Cany, nowP); nowP = 0; break;
+                    case '*':
+                        nowP++; i--; vt = new ValueType(VT.Cunknown); break;
+                    case '%':
+                        nowP = -1; i--; vt = new ValueType(VT.Cunknown); break;
                     default:
-                        vt = new ValueType(VT.Cunknown); break;
+                        vt = new ValueType(VT.Cunknown); i--; break;
                 }
                 if (i % IOcount == IOcount - 1)
                     tlist.Add(vt);
