@@ -152,14 +152,18 @@ namespace Compilat
         public GetValByAdress(IOperation adress, ValueType retType)
         {
             operationString = "get";
+            a = adress;
             try
             {
                 operationString = ASTTree.variables[(int)((adress as ASTvalue).getValue)].name;
                 returnType = ASTTree.variables[(int)((adress as ASTvalue).getValue)].returnTypes();
                 return;
             }
-            catch (Exception e) { };
+            catch (Exception e) {
+                returnType = retType.TypeOfPointedByThis();
+            };
 
+            
             
             //a = adress;
             ////if (a.returnTypes() != ValueType.Cadress)

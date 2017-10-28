@@ -44,7 +44,10 @@ namespace Compilat
             {
                 ValueType[] inputValueTypes = new ValueType[parts.Length];
                 for (int i = 0; i < parts.Length; i++)
-                    inputValueTypes[i] = parts[i].returnTypes();
+                    if (parts[i].returnTypes().pointerLevel == 0)
+                        inputValueTypes[i] = parts[i].returnTypes();
+                    else
+                        inputValueTypes[i] = new ValueType(VT.Cadress);
                 //if ((parts[i] as GetValByAdress) != null)
                 //{
                 //    ValueType vt = (parts[i] as GetValByAdress).pointerType;
@@ -53,7 +56,7 @@ namespace Compilat
                 if ((o as Assum) != null && parts[0].returnTypes() == parts[1].returnTypes())
                     return parts[0].returnTypes();
 
-                ValueType res = CheckType(accept, inputValueTypes);  
+                ValueType res = CheckType(accept, inputValueTypes);
 
                 return res;
             }
@@ -89,10 +92,10 @@ namespace Compilat
 
 
         public static ValueType CheckType(TypeConvertion accept, params ValueType[] hadTypes)
-        {          
+        {
             // I D
             // IIB DDB CCB
-            
+
             for (int i = 0; i < accept.from.Length; i++)
             {
                 bool found = true;
@@ -105,8 +108,8 @@ namespace Compilat
             // we can found some kostils
             if (availableConvertation.Count == 0)
             {
-                availableConvertation.Add(new Tuple<ValueType, ValueType>(new ValueType(VT.Cboolean), new ValueType(VT.Cint))); 
-                availableConvertation.Add(new Tuple<ValueType, ValueType>(new ValueType(VT.Cint),new ValueType(VT.Cdouble)));
+                availableConvertation.Add(new Tuple<ValueType, ValueType>(new ValueType(VT.Cboolean), new ValueType(VT.Cint)));
+                availableConvertation.Add(new Tuple<ValueType, ValueType>(new ValueType(VT.Cint), new ValueType(VT.Cdouble)));
                 availableConvertation.Add(new Tuple<ValueType, ValueType>(new ValueType(VT.Cint), new ValueType(VT.Cstring)));
                 availableConvertation.Add(new Tuple<ValueType, ValueType>(new ValueType(VT.Cint), new ValueType(VT.Cboolean)));
                 availableConvertation.Add(new Tuple<ValueType, ValueType>(new ValueType(VT.Cdouble), new ValueType(VT.Cstring)));
