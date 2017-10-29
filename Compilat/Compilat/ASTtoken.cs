@@ -141,7 +141,6 @@ namespace Compilat
     {
 
         ValueType valType;
-        int pointerLevel;
         public string name;
 
         int adress;
@@ -156,7 +155,6 @@ namespace Compilat
         }
         public ASTvariable(ValueType vt, string name, int level)
         {
-            this.pointerLevel = level;
             this.valType = vt;
             this.name = name;
             this.adress = ASTTree.variables.Count;
@@ -167,13 +165,13 @@ namespace Compilat
         {
             //Console.WriteLine(String.Format("{0}${1}   [{2}]", MISC.tabs(depth), name, valType.ToString()));
             Console.Write(MISC.tabs(depth));
-            MISC.ConsoleWrite(pointerMuch(pointerLevel), ConsoleColor.Red);
+            MISC.ConsoleWrite(pointerMuch(valType.pointerLevel), ConsoleColor.Red);
             MISC.ConsoleWrite(name, ConsoleColor.Green);
             MISC.ConsoleWriteLine("\t[" + getValueType.ToString() + "]", ConsoleColor.DarkGreen);
         }
         public virtual void TraceMore(int depth)
         {
-            MISC.ConsoleWrite(String.Format("\t{0}\t\t{1}\t\t", pointerMuch(pointerLevel) + name, getValueType.ToString().Substring(1)), ConsoleColor.DarkGreen);
+            MISC.ConsoleWrite(String.Format("\t{0}\t\t{1}\t\t", pointerMuch(valType.pointerLevel) + name, getValueType.ToString().Substring(1)), ConsoleColor.DarkGreen);
             MISC.ConsoleWriteLine(localSpace, ConsoleColor.DarkMagenta);
         }
 
@@ -186,7 +184,7 @@ namespace Compilat
         public virtual ValueType returnTypes()
         { return getValueType; }
 
-        public int getPointerLevel { get { return pointerLevel; } }
+        public int getPointerLevel { get { return valType.pointerLevel; } }
 
         string pointerMuch(int x)
         {

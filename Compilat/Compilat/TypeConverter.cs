@@ -13,7 +13,7 @@ namespace Compilat
         static bool[,] canConvert = new bool[,] { {true, true, true, false, true, false},
                                                   {false, true, true, false, true, false},
                                                   {false, false, true, false, false, false},
-                                                  {true, false, false, true, true, false},
+                                                  {true, false, true, true, true, false},
                                                   {true, true, false, false, true, false},
                                                   {false, false, false, false, false, false}};
 
@@ -43,7 +43,7 @@ namespace Compilat
             }
         }
 
-        static bool canConvertFromTypeToType(ValueType from, ValueType to)
+        public static bool canConvertFromTypeToType(ValueType from, ValueType to)
         {
             if (from == to)
                 return true;    // no need to convert
@@ -59,7 +59,7 @@ namespace Compilat
             catch (Exception e) { return false; }   // i doknow wat can go wrong
         }
 
-        static IOperation applyConvert(IOperation from, ValueType convertType)
+        public static IOperation applyConvert(IOperation from, ValueType convertType)
         {
             return new Conv(from, convertType);
         }
@@ -103,7 +103,7 @@ namespace Compilat
             //return new ValueType(VT.Cunknown);
         }
 
-        public static ValueType TryConvertAsum(TypeConvertion needType, ref IOperation[] args)
+        public static ValueType TryConvertAsum(ref IOperation[] args)
         {
             if (args.Length != 2)
                 throw new Exception("Used not form assum!");
@@ -118,8 +118,19 @@ namespace Compilat
             throw new Exception("Can not convert assume type!" + ArgsToString(args));
         }
 
+        public static ValueType TryConvertEqual(ref IOperation[] args)
+        {
+            if (args.Length != 2)
+                throw new Exception("Used not for equality!");
+            if (args[0].returnTypes() == args[1].returnTypes())
+                return args[0].returnTypes();
+
+            return TryConvert(new TypeConvertion("BBBIIBDDBCCBSSB", 2),ref args);
+        }
+
         public static ValueType TryConvertSumm(TypeConvertion needType, ref IOperation[] args)
         {
+            //bool inverted = false;
             if (args.Length != 2)
                 throw new Exception("Used not for summ/diff!");
             if (args[0].returnTypes() == args[1].returnTypes() && args[0].returnTypes().pointerLevel > 0)
@@ -132,8 +143,12 @@ namespace Compilat
                     // int + ***X == ***X; but we should conver this fucker to INT
                     if (args[0].returnTypes().rootType == VT.Cint || args[0].returnTypes().rootType == VT.Cchar || args[0].returnTypes().rootType == VT.Cboolean)
                     {
+                        
                         args[0] = applyConvert(args[0], new ValueType(VT.Cint));
-                        return args[1].returnTypes();
+                        if (i == 1) 
+                            args = new IOperation[]{args[1], args[0]};
+
+                        return args[(i == 0)? 1 : 0].returnTypes();
                     }
 
                 if (i == 0)

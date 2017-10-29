@@ -1,15 +1,15 @@
-int main (int* a, int**b){
-	int i = 1;
-	double d = 1;
-	
-	string s0 = "lol";
-	string* ps0 = &s0;
-	string** pps0 = &ps0;
+int* ret (double* x){
+	int a=  10;
+	return &a;
+}
 
 
-	string* ps1 = *(pps0 - 100);
+int* ret (double* xx1, double xx2, double xx3, string S){
+	int a = 100;
+	return &a;
+}
 
-	double z = 10 * '2';
-
-	return 0;
+int *main (int* a, int**b){
+	double d = 10;
+	return ret(&d,2,3.0, '1') + ret(&d, 1, false, "lol") - 100 && 10 + ret(&d);
 }

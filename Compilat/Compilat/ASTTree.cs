@@ -44,7 +44,7 @@ namespace Compilat
             for (int i = 0; i < funcs.Count; i++)
             {
                 if (funcs[i] != null)
-                    Console.WriteLine(String.Format("  {0}: {1} => {2}", funcs[i].getName, funcs[i].getInputType, funcs[i].returnTypes().ToString()));
+                    Console.WriteLine(String.Format("  {0}: {1}", funcs[i].getName, funcs[i].getArgsString));
                 else
                     Console.WriteLine(String.Format("  {0}:", "null"));
             }
@@ -324,7 +324,13 @@ namespace Compilat
                 res += " )";
             }
             return res;
-        } 
+        }
+
+        public TypeConvertion(List<ValueType> input, ValueType res)
+        {
+            from = new List<ValueType>[] {input};
+            to = new ValueType[] { res };
+        }
 
         public TypeConvertion(string s, int IOcount)
         {

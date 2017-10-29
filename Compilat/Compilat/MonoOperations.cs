@@ -37,25 +37,29 @@ namespace Compilat
             returnType = new ValueType(varType, pointerLevel);
             defineType = returnType;
 
-            //if (varName.LastIndexOf("]") == varName.Length - 1 && varName.IndexOf("[") > 0)
-            //{
-            //    IOperation arrayLength = BinaryOperation.ParseFrom(MISC.getIn(varName, varName.IndexOf('[')));
-            //    if (arrayLength as ASTvalue == null || arrayLength.returnTypes() != ValueType.Cint)
-            //        throw new Exception("Incorrect array length parameters!");
-            //    pointerLevel = 1; varName = varName.Substring(0, varName.IndexOf('['));
-            //    // push an array
-            //    int length = (int)(arrayLength as ASTvalue).getValue;
-            //    if (length < 1)
-            //        throw new Exception("Array length should be 1 and more!");
-            //    for (int i = 0; i < length; i++)
-            //    {
-            //        // as default variable
-            //        ASTvariable newVar = new ASTvariable(varType, varName + "#" + i, 0);
-            //        ASTTree.variables.Add(newVar);
-            //        MISC.pushVariable(ASTTree.variables.Count - 1);
-            //        ASTTree.tokens.Add(newVar);
-            //    }
-            //}
+            //____________________________________
+
+            if (varName.LastIndexOf("]") == varName.Length - 1 && varName.IndexOf("[") > 0)
+            {
+                IOperation arrayLength = BinaryOperation.ParseFrom(MISC.getIn(varName, varName.IndexOf('[')));
+                if (arrayLength as ASTvalue == null || arrayLength.returnTypes() != VT.Cint)
+                    throw new Exception("Incorrect array length parameters!");
+                varName = varName.Substring(0, varName.IndexOf('['));
+                // push an array
+                int length = (int)(arrayLength as ASTvalue).getValue;
+                if (length < 1)
+                    throw new Exception("Array length should be 1 and more!");
+                for (int i = 0; i < length; i++)
+                {
+                    // as default variable
+                    ASTvariable newVar = new ASTvariable(new ValueType(varType, pointerLevel), varName + "#" + i, 0);
+                    ASTTree.variables.Add(newVar);
+                    MISC.pushVariable(ASTTree.variables.Count - 1);
+                    ASTTree.tokens.Add(newVar);
+                }
+                defineType = defineType.TypeOfPointerToThis();
+            }
+            //_________________________________________
 
             ASTvariable NV = new ASTvariable(defineType, varName, pointerLevel);
             ASTTree.variables.Add(NV);
@@ -93,8 +97,10 @@ namespace Compilat
         public Mins(IOperation val)
         {
             operationString = "-";
-            a = val;
-            returnType = val.returnTypes();
+            TypeConvertion tpcv = new TypeConvertion("IIDD", 1);
+            IOperation[] children = new IOperation[1] { val };
+            returnType = TypeConverter.TryConvertSumm(tpcv, ref children);
+            a = children[0];
         }
 
     }
@@ -103,8 +109,10 @@ namespace Compilat
         public Nega(IOperation val)
         {
             operationString = "!";
-            a = val;
-            returnType = val.returnTypes();
+            TypeConvertion tpcv = new TypeConvertion("BB", 1);
+            IOperation[] children = new IOperation[1] { val };
+            returnType = TypeConverter.TryConvertSumm(tpcv, ref children);
+            a = children[0];
         }
 
     }
@@ -114,8 +122,10 @@ namespace Compilat
         public Incr(IOperation val)
         {
             operationString = "++";
-            a = val;
-            returnType = new ValueType(VT.Cboolean);
+            TypeConvertion tpcv = new TypeConvertion("IIDD", 1);
+            IOperation[] children = new IOperation[1] { val };
+            returnType = TypeConverter.TryConvertSumm(tpcv, ref children);
+            a = children[0];
         }
     }
     class Dscr : MonoOperation
@@ -123,8 +133,10 @@ namespace Compilat
         public Dscr(IOperation val)
         {
             operationString = "--";
-            a = val;
-            returnType = new ValueType(VT.Cboolean);
+            TypeConvertion tpcv = new TypeConvertion("IIDD", 1);
+            IOperation[] children = new IOperation[1] { val };
+            returnType = TypeConverter.TryConvertSumm(tpcv, ref children);
+            a = children[0];
         }
     }
     class Adrs : MonoOperation
@@ -162,8 +174,6 @@ namespace Compilat
             catch (Exception e) {
                 returnType = retType.TypeOfPointedByThis();
             };
-
-            
             
             //a = adress;
             ////if (a.returnTypes() != ValueType.Cadress)
@@ -230,28 +240,29 @@ namespace Compilat
         public StructureDefine(string S)
         {
             operationString = "List values";
-            returnType = new ValueType(VT.Cadress);
+            //returnType = new ValueType(VT.Cadress);
+            ValueType curVt = new ValueType(VT.Cunknown);
             values = new List<IOperation>();
 
             if (S.Length == 0) return;
-            string[] sSplited = S.Split(',');
+            string[] sSplited = MISC.splitBy(S, ',').ToArray();
             for (int i = 0; i < sSplited.Length; i++)
             {
                 try
                 {
                     values.Add(BinaryOperation.ParseFrom(sSplited[i]));
+
+                    if (i > 0 && curVt != values[values.Count - 1].returnTypes())
+                        throw new Exception("Define struct must contain only monotype args");
+
+                    curVt = values[values.Count - 1].returnTypes();
                 }
                 catch (Exception e)
                 {
                     throw new Exception("Can not parse define from \"" + sSplited[i] + "\"");
                 }
             }
-        }
-        public StructureDefine(List<IOperation> val)
-        {
-            operationString = "List values";
-            returnType = new ValueType(VT.Cadress);
-            values = val;
+            returnType = curVt.TypeOfPointerToThis();
         }
         public override void Trace(int depth)
         {

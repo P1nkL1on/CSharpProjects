@@ -56,7 +56,8 @@ namespace Compilat
                     {
                         try
                         {
-                            ValueType returnType = MISC.CheckTypeCorrect(null, ASTTree.funcs[i].tpcv, ref children);
+                            //ValueType returnType = MISC.CheckTypeCorrect(null, ASTTree.funcs[i].tpcv, ref children);
+                            ValueType returnType = TypeConverter.TryConvert( ASTTree.funcs[i].tpcv, ref children);
                             arguments = children.ToList();
                             foundAnalog = true;
                             break;

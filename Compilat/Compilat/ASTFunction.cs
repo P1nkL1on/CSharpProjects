@@ -10,7 +10,7 @@ namespace Compilat
     {
         // int func (double a, double y, double z, bool XX){....with only those variables.... return int();}
         string name;
-        TypeConvertion IO;
+        ValueType retType;
         List<Define> input;
         CommandOrder actions;
         //
@@ -19,8 +19,9 @@ namespace Compilat
         public ASTFunction(string S)
         {
             //TypeConvertion tpcv = new TypeConvertion("IIBDDBDIBIDBCCB", 2);
-            string s = S.Substring(0, S.IndexOf('(')),
-                   tpcvString = "";
+            string s = S.Substring(0, S.IndexOf('('));
+                   //tpcvString = "";
+            List<ValueType> vtList = new List<ValueType>();
 
 
             int varType = Math.Max((s.IndexOf("int") >= 0) ? 2 : -1, Math.Max((s.IndexOf("double") >= 0) ? 5 : -1, Math.Max((s.IndexOf("char") >= 0) ? 3 : -1,
@@ -31,9 +32,13 @@ namespace Compilat
                 string[] type_name = new
                     string[] { s.Substring(0, varType), s.Substring(varType, s.Length - varType) };//s.Split(s[varType + 1]);
                 name = type_name[1];
-                
+                int returnPointerLevel = 0;
+                while (name[0] == '*') { returnPointerLevel++; name = name.Substring(1); }
+
+                if (name.Length == 0) throw new Exception("Invalid function name!");
+
                 // !
-                IO.to = new ValueType[] { new ValueType(Define.detectType(type_name[0])) };
+                retType=  new ValueType(Define.detectType(type_name[0]), returnPointerLevel);
                 // try to parse signature and actions
                 List<string> vars = MISC.splitBy(MISC.getIn(S, S.IndexOf('(')), ',');
                 input = new List<Define>();
@@ -42,10 +47,14 @@ namespace Compilat
                 for (int i = 0; i < vars.Count; i++)
                 {
                     input.Add((Define)MonoOperation.ParseFrom(vars[i]));
-                    tpcvString += vars[i][0].ToString().ToUpper();
+                    vtList.Add((input[input.Count - 1] as Define).returnTypes());
+                    //tpcvString += vars[i][0].ToString().ToUpper();
                 }
-                tpcvString += returnTypes().ToString()[1].ToString().ToUpper();
-                tpcv = new TypeConvertion(tpcvString, input.Count);
+                //tpcvString += returnTypes().ToString()[1].ToString().ToUpper();
+                tpcv = new TypeConvertion(vtList, retType);
+                
+
+
                 // check name uniq!
                 //bool foundFunc = false;
                 for (int i = 0; i < ASTTree.funcs.Count; i++)
@@ -71,7 +80,7 @@ namespace Compilat
         //
         public ValueType returnTypes()
         {
-            return IO.to[0];
+            return retType;
         }
         //
         public void Trace(int depth)
@@ -97,16 +106,18 @@ namespace Compilat
             get { return name; }
         }
 
-        public string getInputType
+        public string getArgsString
         {
             get
             {
-                if (input.Count == 0)
-                    return "None arguments";
-                string res = "";
-                for (int i = 0; i < input.Count; i++)
-                    res += " " + input[i].returnTypes().ToString() + ((i < input.Count - 1) ? "," : "");
-                return res;
+                //if (input.Count == 0)
+                //    return "None arguments";
+                //string res = "";
+                //for (int i = 0; i < input.Count; i++)
+                //    res += " " + input[i].returnTypes().ToString() + ((i < input.Count - 1) ? "," : "");
+                //return res;
+                string res = tpcv.ToString();
+                return res.Substring(0, res.Length - 1);
             }
         }
         public List<ValueType> returnTypesList()
