@@ -58,6 +58,7 @@
     <Compile Include="MonoOperations.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TypeConverter.cs" />
     <Compile Include="UniqOperation.cs" />
   </ItemGroup>
   <ItemGroup>

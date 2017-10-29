@@ -124,7 +124,7 @@ namespace Compilat
         protected IOperation b;   // pointer
         public virtual void Trace(int depth)
         {
-            Console.Write(MISC.tabs(depth)); MISC.ConsoleWriteLine(operationString + "   " + returnType.ToString(), ConsoleColor.Yellow);
+            Console.Write(MISC.tabs(depth)); MISC.ConsoleWrite(operationString, ConsoleColor.Yellow); MISC.ConsoleWriteLine("   " + returnType.ToString(), ConsoleColor.DarkGreen);
             a.Trace(depth + 1);
             MISC.finish = true;
             b.Trace(depth + 1);

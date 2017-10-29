@@ -44,10 +44,11 @@ namespace Compilat
             {
                 ValueType[] inputValueTypes = new ValueType[parts.Length];
                 for (int i = 0; i < parts.Length; i++)
-                    if (parts[i].returnTypes().pointerLevel == 0)
-                        inputValueTypes[i] = parts[i].returnTypes();
-                    else
-                        inputValueTypes[i] = new ValueType(VT.Cadress);
+                    //if (parts[i].returnTypes().pointerLevel == 0)
+                    inputValueTypes[i] = parts[i].returnTypes();
+                //else
+                //    inputValueTypes[i] = new ValueType(VT.Cadress);
+
                 //if ((parts[i] as GetValByAdress) != null)
                 //{
                 //    ValueType vt = (parts[i] as GetValByAdress).pointerType;
@@ -87,9 +88,7 @@ namespace Compilat
                     return new ValueType(VT.Cunknown);
                 }
             }
-
         }
-
 
         public static ValueType CheckType(TypeConvertion accept, params ValueType[] hadTypes)
         {

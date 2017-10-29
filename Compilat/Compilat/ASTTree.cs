@@ -307,11 +307,24 @@ namespace Compilat
 
 
 
+
     public struct TypeConvertion
     {
         public List<ValueType>[] from;
         public ValueType[] to;
 
+        public override string ToString()
+        {
+            string res = "";
+            for (int i = 0; i < to.Length; i++, res += "\n")
+            {
+                res += to[i].ToString() + " ( ";
+                for (int j = 0; j < from[i].Count; j++, res += (from[i].Count > j)?", " : "")
+                    res += from[i][j].ToString();
+                res += " )";
+            }
+            return res;
+        } 
 
         public TypeConvertion(string s, int IOcount)
         {
