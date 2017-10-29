@@ -11,9 +11,9 @@ namespace Compilat
         public LsEq(IOperation left, IOperation right)
         {
             operationString = "<=";
-            TypeConvertion tpcv = new TypeConvertion("IIBDDBDIBIDBCCB", 2);
+            TypeConvertion tpcv = new TypeConvertion("IIBDDB", 2);
             IOperation[] children = new IOperation[2] { left, right };
-            returnType = MISC.CheckTypeCorrect(this, tpcv, ref children);
+            returnType = TypeConverter.TryConvert(tpcv, ref children);
             a = children[0]; b = children[1];
         }
     }
@@ -22,9 +22,9 @@ namespace Compilat
         public Less(IOperation left, IOperation right)
         {
             operationString = "<";
-            TypeConvertion tpcv = new TypeConvertion("IIBDDBDIBIDBCCB", 2);
+            TypeConvertion tpcv = new TypeConvertion("IIBDDB", 2);
             IOperation[] children = new IOperation[2] { left, right };
-            returnType = MISC.CheckTypeCorrect(this, tpcv, ref children);
+            returnType = TypeConverter.TryConvert(tpcv, ref children);
             a = children[0]; b = children[1];
         }
     }
@@ -33,9 +33,9 @@ namespace Compilat
         public MrEq(IOperation left, IOperation right)
         {
             operationString = ">=";
-            TypeConvertion tpcv = new TypeConvertion("IIBDDBDIBIDBCCB", 2);
+            TypeConvertion tpcv = new TypeConvertion("IIBDDB", 2);
             IOperation[] children = new IOperation[2] { left, right };
-            returnType = MISC.CheckTypeCorrect(this, tpcv, ref children);
+            returnType = TypeConverter.TryConvert(tpcv, ref children);
             a = children[0]; b = children[1];
         }
     }
@@ -44,9 +44,9 @@ namespace Compilat
         public More(IOperation left, IOperation right)
         {
             operationString = ">";
-            TypeConvertion tpcv = new TypeConvertion("IIBDDBDIBIDBCCB", 2);
+            TypeConvertion tpcv = new TypeConvertion("IIBDDB", 2);
             IOperation[] children = new IOperation[2] { left, right };
-            returnType = MISC.CheckTypeCorrect(this, tpcv, ref children);
+            returnType = TypeConverter.TryConvert(tpcv, ref children);
             a = children[0]; b = children[1];
         }
     }

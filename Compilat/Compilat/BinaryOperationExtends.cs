@@ -13,9 +13,8 @@ namespace Compilat
         public Assum(IOperation left, IOperation right)
         {
             operationString = "=";
-            TypeConvertion tpcv = new TypeConvertion("II_DD_BB_CC_SS_$$_AA_", 2);
             IOperation[] children = new IOperation[2] { left, right };
-            returnType = MISC.CheckTypeCorrect(this, tpcv, ref children);
+            returnType = TypeConverter.TryConvertAsum(ref children);
             a = children[0]; b = children[1]; ;
             requiredUpdate = "none";
         }
@@ -41,11 +40,8 @@ namespace Compilat
         public Equal(IOperation left, IOperation right)
         {
             operationString = "==";
-            TypeConvertion tpcv = new TypeConvertion("BBBIIBDDBCCBSSB", 2);
-            //a = left; b = right;
-            //returnType = MISC.CheckTypeCorrect(this, tpcv, a, b);
             IOperation[] children = new IOperation[2] {left, right };
-            returnType = MISC.CheckTypeCorrect(this, tpcv, ref children);
+            returnType = TypeConverter.TryConvertEqual(ref children);
             a = children[0]; b = children[1];
         }
     }
@@ -54,9 +50,8 @@ namespace Compilat
         public Uneq(IOperation left, IOperation right)
         {
             operationString = "!=";
-            TypeConvertion tpcv = new TypeConvertion("IIBDDBBBBCCBSSB", 2);
             IOperation[] children = new IOperation[2] { left, right };
-            returnType = MISC.CheckTypeCorrect(this, tpcv, ref children);
+            returnType = TypeConverter.TryConvertEqual(ref children);
             a = children[0]; b = children[1];
         }
     }
@@ -68,7 +63,7 @@ namespace Compilat
             operationString = "&";
             TypeConvertion tpcv = new TypeConvertion("BBB", 2);
             IOperation[] children = new IOperation[2] { left, right };
-            returnType = MISC.CheckTypeCorrect(this, tpcv, ref children);
+            returnType = TypeConverter.TryConvert(tpcv, ref children);
             a = children[0]; b = children[1];
         }
     }
@@ -80,7 +75,7 @@ namespace Compilat
             operationString = "|";
             TypeConvertion tpcv = new TypeConvertion("BBB", 2);
             IOperation[] children = new IOperation[2] { left, right };
-            returnType = MISC.CheckTypeCorrect(this, tpcv, ref children);
+            returnType = TypeConverter.TryConvert(tpcv, ref children);
             a = children[0]; b = children[1];
         }
     }
@@ -92,7 +87,7 @@ namespace Compilat
             operationString = "&&";
             TypeConvertion tpcv = new TypeConvertion("BBB", 2);
             IOperation[] children = new IOperation[2] { left, right };
-            returnType = MISC.CheckTypeCorrect(this, tpcv, ref children);
+            returnType = TypeConverter.TryConvert(tpcv, ref children);
             a = children[0]; b = children[1];
         }
     }
@@ -104,7 +99,7 @@ namespace Compilat
             operationString = "||";
             TypeConvertion tpcv = new TypeConvertion("BBB", 2);
             IOperation[] children = new IOperation[2] { left, right };
-            returnType = MISC.CheckTypeCorrect(this, tpcv, ref children);
+            returnType = TypeConverter.TryConvert(tpcv, ref children);
             a = children[0]; b = children[1];
         }
     }

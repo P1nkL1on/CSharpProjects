@@ -15,7 +15,7 @@ namespace Compilat
         {
             string[] ss = s.Split('$');
             //string varName;
-            ValueType varType;
+            VT varType;
             bool everDefined = false;
             for (int i = 0; i < ASTTree.variables.Count; i++)
                 if (ASTTree.variables[i].name == ss[1] && MISC.isVariableAvailable(i))
@@ -29,19 +29,22 @@ namespace Compilat
             ss[0].ToLower();
             varType = detectType(ss[0]);
 
-            TypeConvertion tpcv = new TypeConvertion("IIDDBBCCSS$$", 1);
-            returnType = MISC.CheckType(tpcv, varType);
-
-            defineType = varType;
             //for (int i =0; i < varName.Length; i++){
-            bool isPointer = false;
-            if (varName.IndexOf('*') == 0) { isPointer = true; varName = varName.Substring(1); returnType = ValueType.Cint; }
+            //bool isPointer = false;
+            int pointerLevel = 0;
+
+            while (varName.IndexOf('*') == 0) { pointerLevel++; varName = varName.Substring(1); }
+            returnType = new ValueType(varType, pointerLevel);
+            defineType = returnType;
+
+            //____________________________________
+
             if (varName.LastIndexOf("]") == varName.Length - 1 && varName.IndexOf("[") > 0)
             {
                 IOperation arrayLength = BinaryOperation.ParseFrom(MISC.getIn(varName, varName.IndexOf('[')));
-                if (arrayLength as ASTvalue == null || arrayLength.returnTypes() != ValueType.Cint)
+                if (arrayLength as ASTvalue == null || arrayLength.returnTypes() != VT.Cint)
                     throw new Exception("Incorrect array length parameters!");
-                isPointer = true; varName = varName.Substring(0, varName.IndexOf('['));
+                varName = varName.Substring(0, varName.IndexOf('['));
                 // push an array
                 int length = (int)(arrayLength as ASTvalue).getValue;
                 if (length < 1)
@@ -49,44 +52,35 @@ namespace Compilat
                 for (int i = 0; i < length; i++)
                 {
                     // as default variable
-                    ASTvariable newVar = new ASTvariable(varType, varName + "#" + i);
+                    ASTvariable newVar = new ASTvariable(new ValueType(varType, pointerLevel), varName + "#" + i, 0);
                     ASTTree.variables.Add(newVar);
                     MISC.pushVariable(ASTTree.variables.Count - 1);
                     ASTTree.tokens.Add(newVar);
                 }
+                defineType = defineType.TypeOfPointerToThis();
             }
+            //_________________________________________
 
-            if (!isPointer)
-            {
-                ASTvariable newVar = new ASTvariable(varType, varName);
-                ASTTree.variables.Add(newVar);
-                MISC.pushVariable(ASTTree.variables.Count - 1);
+            ASTvariable NV = new ASTvariable(defineType, varName, pointerLevel);
+            ASTTree.variables.Add(NV);
+            MISC.pushVariable(ASTTree.variables.Count - 1);
 
-                ASTTree.tokens.Add(newVar);
-                a = newVar;
-            }
-            else
-            {
-                ASTpointer newPointer = new ASTpointer(varType, varName);
-                defineType = ValueType.Cadress;
-                ASTTree.variables.Add(newPointer);
-                MISC.pushVariable(ASTTree.variables.Count - 1);
+            ASTTree.tokens.Add(NV);
+            a = NV;
 
-                ASTTree.tokens.Add(newPointer);
-                a = newPointer;
-            }
-            returnType = defineType;
-            b = new ASTvalue(ValueType.Cadress, (object)(ASTTree.variables.Count - 1));
+            returnType = a.returnTypes();
+
+            b = new ASTvalue(new ValueType(VT.Cadress), (object)(ASTTree.variables.Count - 1));
         }
-        public static ValueType detectType(string s)
+        public static VT detectType(string s)
         {
-            if (s == "double") return ValueType.Cdouble;
-            if (s == "int") return ValueType.Cint;
-            if (s == "string") return ValueType.Cstring;
-            if (s == "char") return ValueType.Cchar;
-            if (s == "bool" || s == "boolean") return ValueType.Cboolean;
-            if (s == "void") return ValueType.Cvoid;
-            return ValueType.Unknown;
+            if (s == "double") return VT.Cdouble;
+            if (s == "int") return VT.Cint;
+            if (s == "string") return VT.Cstring;
+            if (s == "char") return VT.Cchar;
+            if (s == "bool" || s == "boolean") return VT.Cboolean;
+            if (s == "void") return VT.Cvoid;
+            return VT.Cunknown;
         }
         public override void Trace(int depth)
         {
@@ -103,8 +97,10 @@ namespace Compilat
         public Mins(IOperation val)
         {
             operationString = "-";
-            a = val;
-            returnType = val.returnTypes();
+            TypeConvertion tpcv = new TypeConvertion("IIDD", 1);
+            IOperation[] children = new IOperation[1] { val };
+            returnType = TypeConverter.TryConvertSumm(tpcv, ref children);
+            a = children[0];
         }
 
     }
@@ -113,8 +109,10 @@ namespace Compilat
         public Nega(IOperation val)
         {
             operationString = "!";
-            a = val;
-            returnType = val.returnTypes();
+            TypeConvertion tpcv = new TypeConvertion("BB", 1);
+            IOperation[] children = new IOperation[1] { val };
+            returnType = TypeConverter.TryConvertSumm(tpcv, ref children);
+            a = children[0];
         }
 
     }
@@ -124,8 +122,10 @@ namespace Compilat
         public Incr(IOperation val)
         {
             operationString = "++";
-            a = val;
-            returnType = ValueType.Cboolean;
+            TypeConvertion tpcv = new TypeConvertion("IIDD", 1);
+            IOperation[] children = new IOperation[1] { val };
+            returnType = TypeConverter.TryConvertSumm(tpcv, ref children);
+            a = children[0];
         }
     }
     class Dscr : MonoOperation
@@ -133,8 +133,10 @@ namespace Compilat
         public Dscr(IOperation val)
         {
             operationString = "--";
-            a = val;
-            returnType = ValueType.Cboolean;
+            TypeConvertion tpcv = new TypeConvertion("IIDD", 1);
+            IOperation[] children = new IOperation[1] { val };
+            returnType = TypeConverter.TryConvertSumm(tpcv, ref children);
+            a = children[0];
         }
     }
     class Adrs : MonoOperation
@@ -146,7 +148,7 @@ namespace Compilat
                 throw new Exception("Can not get adress of non-variable token!");
             operationString = "Get adress";
             a = val;
-            returnType = ValueType.Cadress;
+            returnType = a.returnTypes().TypeOfPointerToThis();
         }
 
     }
@@ -162,42 +164,48 @@ namespace Compilat
         public GetValByAdress(IOperation adress, ValueType retType)
         {
             operationString = "get";
+            a = adress;
             try
             {
                 operationString = ASTTree.variables[(int)((adress as ASTvalue).getValue)].name;
+                returnType = ASTTree.variables[(int)((adress as ASTvalue).getValue)].returnTypes();
+                return;
             }
-            catch (Exception e) { };
-            a = adress;
-            //if (a.returnTypes() != ValueType.Cadress)
-            //    throw new Exception("You can get value only by number of memory slot!");
+            catch (Exception e) {
+                returnType = retType.TypeOfPointedByThis();
+            };
+            
+            //a = adress;
+            ////if (a.returnTypes() != ValueType.Cadress)
+            ////    throw new Exception("You can get value only by number of memory slot!");
 
-            returnType = retType;
+            //returnType = retType;
 
-            if (retType == ValueType.Cadress)
-            {
-                //IOperation dep = a; int res = -1;
-                //while ((a as GetValByAdress) != null)
-                //{
-                //    a.Trace(0);
-                //    res = (a as GetValByAdress).GetAdress();
-                //    a = (a as GetValByAdress).a;
-                //}
-                //if (res >= 0)
-                //    returnType = ASTTree.variables[res].returnTypes();
+            //if (retType == VT.Cadress)
+            //{
+            //    //IOperation dep = a; int res = -1;
+            //    //while ((a as GetValByAdress) != null)
+            //    //{
+            //    //    a.Trace(0);
+            //    //    res = (a as GetValByAdress).GetAdress();
+            //    //    a = (a as GetValByAdress).a;
+            //    //}
+            //    //if (res >= 0)
+            //    //    returnType = ASTTree.variables[res].returnTypes();
 
-                //Console.WriteLine(a.returnTypes() + " /// " + res + " //// " + returnType.ToString());
-                //Console.ReadKey();
-                IOperation dep = a; int res = -1;
-                while (a.returnTypes() == ValueType.Cadress)
-                {
-                    a.Trace(0);
-                    res = ((a as GetValByAdress) != null) ? (a as GetValByAdress).GetAdress() : (int)((a as ASTvalue).getValue);
-                    a = ASTTree.variables[res];
-                    returnType = a.returnTypes();
-                    dep = new GetValByAdress(new ASTvalue(ValueType.Cadress, (object)res), returnType, true);
-                }
-                a = dep;
-            }
+            //    //Console.WriteLine(a.returnTypes() + " /// " + res + " //// " + returnType.ToString());
+            //    //Console.ReadKey();
+            //    IOperation dep = a; int res = -1;
+            //    while (a.returnTypes() == ValueType.Cadress)
+            //    {
+            //        a.Trace(0);
+            //        res = ((a as GetValByAdress) != null) ? (a as GetValByAdress).GetAdress() : (int)((a as ASTvalue).getValue);
+            //        a = ASTTree.variables[res];
+            //        returnType = a.returnTypes();
+            //        dep = new GetValByAdress(new ASTvalue(ValueType.Cadress, (object)res), returnType, true);
+            //    }
+            //    a = dep;
+            //}
 
         }
 
@@ -216,7 +224,7 @@ namespace Compilat
         public override void Trace(int depth)
         {
             Console.Write(MISC.tabs(depth)); MISC.ConsoleWrite(operationString, ConsoleColor.Green); MISC.ConsoleWriteLine(" " + returnType.ToString().Substring(1), ConsoleColor.DarkGreen);
-            if (true || returnType == ValueType.Cadress)
+            if (a != null) //if (returnType == VT.Cadress)
             {
                 MISC.finish = true;
                 a.Trace(depth + 1);
@@ -232,28 +240,29 @@ namespace Compilat
         public StructureDefine(string S)
         {
             operationString = "List values";
-            returnType = ValueType.Cadress;
+            //returnType = new ValueType(VT.Cadress);
+            ValueType curVt = new ValueType(VT.Cunknown);
             values = new List<IOperation>();
 
             if (S.Length == 0) return;
-            string[] sSplited = S.Split(',');
+            string[] sSplited = MISC.splitBy(S, ',').ToArray();
             for (int i = 0; i < sSplited.Length; i++)
             {
                 try
                 {
                     values.Add(BinaryOperation.ParseFrom(sSplited[i]));
+
+                    if (i > 0 && curVt != values[values.Count - 1].returnTypes())
+                        throw new Exception("Define struct must contain only monotype args");
+
+                    curVt = values[values.Count - 1].returnTypes();
                 }
                 catch (Exception e)
                 {
                     throw new Exception("Can not parse define from \"" + sSplited[i] + "\"");
                 }
             }
-        }
-        public StructureDefine(List<IOperation> val)
-        {
-            operationString = "List values";
-            returnType = ValueType.Cadress;
-            values = val;
+            returnType = curVt.TypeOfPointerToThis();
         }
         public override void Trace(int depth)
         {

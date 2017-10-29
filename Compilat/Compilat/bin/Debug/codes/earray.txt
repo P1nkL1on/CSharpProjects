@@ -1,12 +1,7 @@
-double getfive (double *arr){
-	return arr[5];
-	return *(arr + 5*8);
-}
-
-
 int main (){
-	double a[10] = {10,10,110,100,115};
+	string a[10] = {"mike", "john", "mary", "ashley"};
 
-	double res = getfive(a);
+	//int** b[2] = {{{1},{2}}, {{2},{3,6,7,8,9}}};
+	
 	return 0;
 }

@@ -44,7 +44,7 @@ namespace Compilat
             for (int i = 0; i < funcs.Count; i++)
             {
                 if (funcs[i] != null)
-                    Console.WriteLine(String.Format("  {0}: {1} => {2}", funcs[i].getName, funcs[i].getInputType, funcs[i].returnTypes().ToString()));
+                    Console.WriteLine(String.Format("  {0}: {1}", funcs[i].getName, funcs[i].getArgsString));
                 else
                     Console.WriteLine(String.Format("  {0}:", "null"));
             }
@@ -176,7 +176,7 @@ namespace Compilat
                     {
                         if (isStr == 0 && isChar > 0 && i > 0 && s[i] == '\'' && (s[i - 1] != '\\' || (s[i - 1] == '\\' && i > 1 && s[i - 2] == '\\')))
                             isChar = 0;
-                        if (isChar == 0 && isStr > 0 && i > 0 && s[i] == '\"' && (s[i - 1] != '\\'|| (s[i - 1] == '\\' && i > 1 && s[i - 2] == '\\')))
+                        if (isChar == 0 && isStr > 0 && i > 0 && s[i] == '\"' && (s[i - 1] != '\\' || (s[i - 1] == '\\' && i > 1 && s[i - 2] == '\\')))
                             isStr = 0;
                     }
                     else
@@ -185,7 +185,7 @@ namespace Compilat
                         if (isCmt == 1 && s[i] == '\n') isCmt = 0;
                         if (isCmt == 2 && s[i] == '*' && i < s.Length - 2 && s[i + 1] == '/') { isCmt = 0; i++; }
                     }
-                    
+
                 }
                 res += add;
             }
@@ -197,25 +197,140 @@ namespace Compilat
 
 
 
-    public enum ValueType
+    //public enum ValueType
+    //{
+    //    Cint = 0,
+    //    Cdouble = 1,
+    //    Cchar = 2,
+    //    Cstring = 3,
+    //    Cboolean = 4,
+    //    Carray = 5,
+    //    Cvariable = 6,
+    //    Cvoid = 7,
+    //    Cadress = 8,
+    //    Unknown = 9
+    //}
+
+    public enum VT
     {
-        Cint = 0,
-        Cdouble = 1,
-        Cchar = 2,
-        Cstring = 3,
-        Cboolean = 4,
-        Carray = 5,
-        Cvariable = 6,
-        Cvoid = 7,
-        Cadress = 8,
-        Unknown = 9
+        Cunknown = 0,
+        Cint = 1,
+        Cdouble = 2,
+        Cchar = 3,
+        Cstring = 4,
+        Cboolean = 5,
+        Cvoid = 6,
+        Cadress = 7
     }
+
+    public struct ValueType
+    {
+        public VT rootType;
+        public int pointerLevel;
+
+        public override string ToString()
+        {
+            string res = rootType.ToString();
+            for (int i = 0; i < pointerLevel; i++)
+                res += "*";
+
+            return res;
+        }
+
+        public ValueType TypeOfPointerToThis()
+        {
+            return new ValueType(rootType, pointerLevel + 1);
+        }
+
+        public ValueType TypeOfPointedByThis()
+        {
+            if (pointerLevel <= 0)
+                throw new Exception("Not pointer type can not point to anything!");
+            return new ValueType(rootType, pointerLevel - 1);
+        }
+
+        public ValueType(VT type, int level)
+        {
+            rootType = type;
+            pointerLevel = level;
+        }
+
+        public ValueType(VT type)
+        {
+            rootType = type;
+            pointerLevel = 0;
+        }
+
+        public static bool operator ==(ValueType obj1, ValueType obj2)
+        {
+            if (ReferenceEquals(obj1, obj2))
+            {
+                return true;
+            }
+
+            if (ReferenceEquals(obj1, null))
+            {
+                return false;
+            }
+            if (ReferenceEquals(obj2, null))
+            {
+                return false;
+            }
+
+            return (obj1.pointerLevel == obj2.pointerLevel && obj1.rootType == obj2.rootType);
+        }
+
+        public static bool operator !=(ValueType obj1, ValueType obj2)
+        {
+            return !(obj1 == obj2);
+        }
+
+        public static bool operator ==(ValueType obj1, VT obj2)
+        {
+            if (ReferenceEquals(obj1, null))
+            {
+                return false;
+            }
+            if (ReferenceEquals(obj2, null))
+            {
+                return false;
+            }
+
+            return (obj1.pointerLevel == 0 && obj1.rootType == obj2);
+        }
+
+        public static bool operator !=(ValueType obj1, VT obj2)
+        {
+            return !(obj1 == obj2);
+        }
+    }
+
+
+
 
     public struct TypeConvertion
     {
         public List<ValueType>[] from;
         public ValueType[] to;
 
+        public override string ToString()
+        {
+            string res = "";
+            for (int i = 0; i < to.Length; i++, res += "\n")
+            {
+                res += to[i].ToString() + " ( ";
+                for (int j = 0; j < from[i].Count; j++, res += (from[i].Count > j)?", " : "")
+                    res += from[i][j].ToString();
+                res += " )";
+            }
+            return res;
+        }
+
+        public TypeConvertion(List<ValueType> input, ValueType res)
+        {
+            from = new List<ValueType>[] {input};
+            to = new ValueType[] { res };
+        }
 
         public TypeConvertion(string s, int IOcount)
         {
@@ -228,26 +343,24 @@ namespace Compilat
                 ValueType vt;
                 switch (s[i])
                 {
-                    case '$':
-                        vt = ValueType.Cvariable; break;
                     case 'I':
-                        vt = ValueType.Cint; break;
+                        vt = new ValueType(VT.Cint); break;
                     case 'D':
-                        vt = ValueType.Cdouble; break;
+                        vt = new ValueType(VT.Cdouble); break;
                     case 'B':
-                        vt = ValueType.Cboolean; break;
+                        vt = new ValueType(VT.Cboolean); break;
                     case 'C':
-                        vt = ValueType.Cchar; break;
+                        vt = new ValueType(VT.Cchar); break;
                     case 'S':
-                        vt = ValueType.Cstring; break;
+                        vt = new ValueType(VT.Cstring); break;
                     case '_':
-                        vt = ValueType.Cvoid; break;
+                        vt = new ValueType(VT.Cvoid); break;
                     case 'A':
-                        vt = ValueType.Cadress; break;
+                        vt = new ValueType(VT.Cadress); break;
                     case 'V':
-                        vt = ValueType.Cvoid; break;
+                        vt = new ValueType(VT.Cvoid); break;
                     default:
-                        vt = ValueType.Cvariable; break;
+                        vt = new ValueType(VT.Cunknown); break;
                 }
                 if (i % IOcount == IOcount - 1)
                     tlist.Add(vt);
@@ -262,8 +375,6 @@ namespace Compilat
                         inputVals.Clear();
                     }
                 }
-
-
             }
             from = flist.ToArray<List<ValueType>>();
             to = tlist.ToArray();

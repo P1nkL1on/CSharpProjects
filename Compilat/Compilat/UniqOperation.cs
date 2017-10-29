@@ -69,7 +69,7 @@ namespace Compilat
             if (!(MISC.isLast("FOR")))
                 throw new Exception("Continue can be used only in FOR!");
             operationString = "CONTINUE";
-            returnType = ValueType.Cvoid;
+            returnType = new ValueType(VT.Cvoid);
         }
     }
     class Brk : UniqOperation
@@ -79,7 +79,7 @@ namespace Compilat
             if (!MISC.isLast("WHILE") && !(MISC.isLast("FOR")))
                 throw new Exception("Break can be used only in cycles!");
             operationString = "BREAK";
-            returnType = ValueType.Cvoid;
+            returnType = new ValueType(VT.Cvoid);
         }
     }
 }

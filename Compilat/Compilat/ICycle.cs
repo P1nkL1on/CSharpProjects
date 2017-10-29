@@ -21,7 +21,7 @@ namespace Compilat
     {
         public CycleFor(string parseCondition, CommandOrder actions)
         {
-            condition = new Equal(BinaryOperation.ParseFrom(parseCondition), new ASTvalue(ValueType.Cboolean, (object)true));
+            condition = new Equal(BinaryOperation.ParseFrom(parseCondition), new ASTvalue(new ValueType(VT.Cboolean), (object)true));
             this.actions = actions;
         }
         public override void Trace(int depth)
@@ -40,14 +40,14 @@ namespace Compilat
 
         public CycleWhile(string parseCondition, CommandOrder actions, bool doFirst)
         {
-            condition = new Equal(BinaryOperation.ParseFrom(parseCondition), new ASTvalue(ValueType.Cboolean, (object)true));
+            condition = new Equal(BinaryOperation.ParseFrom(parseCondition), new ASTvalue(new ValueType(VT.Cboolean), (object)true));
             this.actions = actions;
             this.doFirst = doFirst;
         }
 
         public CycleWhile(string parseCondition, string parseActions, bool doFirst)
         {
-            condition = new Equal(BinaryOperation.ParseFrom(parseCondition), new ASTvalue(ValueType.Cboolean, (object)true));
+            condition = new Equal(BinaryOperation.ParseFrom(parseCondition), new ASTvalue(new ValueType(VT.Cboolean), (object)true));
             MISC.GoDeep("WHILE");
             actions = new CommandOrder(parseActions, ';');
             MISC.GoBack();

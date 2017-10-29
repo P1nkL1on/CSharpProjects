@@ -23,7 +23,7 @@ namespace Compilat
     {
         public OperatorZone(string parseActions)
         {
-            condition = new Equal(new ASTvalue(ValueType.Cboolean, (object)true), new ASTvalue(ValueType.Cboolean, (object)true));
+            condition = new Equal(new ASTvalue(new ValueType(VT.Cboolean), (object)true), new ASTvalue(new ValueType(VT.Cboolean), (object)true));
             actions = new List<CommandOrder>();
             MISC.GoDeep("OZONE");
             actions.Add(new CommandOrder(parseActions, ';'));
@@ -46,7 +46,7 @@ namespace Compilat
     {
         public OperatorIf(string parseCondition, string parseActions, string parseElseAction)
         {
-            condition = new Equal(BinaryOperation.ParseFrom(parseCondition), new ASTvalue(ValueType.Cboolean, (object)true));
+            condition = new Equal(BinaryOperation.ParseFrom(parseCondition), new ASTvalue(new ValueType(VT.Cboolean), (object)true));
             actions = new List<CommandOrder>();
             actions.Add(new CommandOrder());
             actions.Add(new CommandOrder());
