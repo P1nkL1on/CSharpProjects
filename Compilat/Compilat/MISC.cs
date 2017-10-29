@@ -245,7 +245,7 @@ namespace Compilat
                 for (int j = 0; j < levelVariables[i].Count; j++)
                     Console.Write(" " + levelVariables[i][j]);
             }
-            Thread.Sleep(500);
+            Thread.Sleep(1500);
         }
 
         public static bool CompareFunctionSignature(ASTFunction f1, ASTFunction f2)

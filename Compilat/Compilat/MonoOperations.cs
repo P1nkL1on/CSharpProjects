@@ -99,7 +99,7 @@ namespace Compilat
             operationString = "-";
             TypeConvertion tpcv = new TypeConvertion("IIDD", 1);
             IOperation[] children = new IOperation[1] { val };
-            returnType = TypeConverter.TryConvertSumm(tpcv, ref children);
+            returnType = TypeConverter.TryConvert(tpcv, ref children);
             a = children[0];
         }
 
@@ -111,7 +111,7 @@ namespace Compilat
             operationString = "!";
             TypeConvertion tpcv = new TypeConvertion("BB", 1);
             IOperation[] children = new IOperation[1] { val };
-            returnType = TypeConverter.TryConvertSumm(tpcv, ref children);
+            returnType = TypeConverter.TryConvert(tpcv, ref children);
             a = children[0];
         }
 
@@ -124,7 +124,7 @@ namespace Compilat
             operationString = "++";
             TypeConvertion tpcv = new TypeConvertion("IIDD", 1);
             IOperation[] children = new IOperation[1] { val };
-            returnType = TypeConverter.TryConvertSumm(tpcv, ref children);
+            returnType = TypeConverter.TryConvert(tpcv, ref children);
             a = children[0];
         }
     }
@@ -135,7 +135,7 @@ namespace Compilat
             operationString = "--";
             TypeConvertion tpcv = new TypeConvertion("IIDD", 1);
             IOperation[] children = new IOperation[1] { val };
-            returnType = TypeConverter.TryConvertSumm(tpcv, ref children);
+            returnType = TypeConverter.TryConvert(tpcv, ref children);
             a = children[0];
         }
     }

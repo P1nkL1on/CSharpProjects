@@ -16,6 +16,7 @@ namespace Compilat
         public CommandOrder(params ICommand[] cmnds)
         {
             commands = cmnds.ToList<ICommand>();
+            CheckEmptyCommandOrders();
         }
         public CommandOrder()
         {
@@ -30,10 +31,14 @@ namespace Compilat
             for (int i = 0; i < commandArr.Count; i++)
                 commands.Add(ParseCommand2(commandArr[i]));
 
-            //ICommand[] parsedCommands = ParseCommand(commandArr[i]);
-            //for (int c = 0; c < parsedCommands.Length; c++){
-            //    commands.Add(parsedCommands[c]);
+            CheckEmptyCommandOrders();
+        }
 
+        void CheckEmptyCommandOrders()
+        {
+            for (int i = 0; i < commands.Count; i++)
+                if ((commands[i] as CommandOrder) != null && ((commands[i] as CommandOrder).CommandCount == 0))
+                { commands.RemoveAt(i); i--; }
         }
 
         List<string> commandSplitter(string S)
@@ -172,9 +177,12 @@ namespace Compilat
                     this.MergeWith(new CommandOrder(spp[0], ','));
                     if (spp[1] == "") spp[1] = "true";  // condition
                     CommandOrder actions = new CommandOrder(allOther, ';'); actions.MergeWith(new CommandOrder(spp[2], ','));
+                    
+
+                    CycleFor cf = new CycleFor(spp[1], actions);
                     MISC.GoBack();
 
-                    return new CycleFor(spp[1], actions);
+                    return cf;
                 }
             }
 

@@ -226,7 +226,6 @@ namespace Compilat
                 MISC.separate(s, "=", ref left, ref right, lastIndex);
 
                 IOperation rightOperation = ParseFrom(right);
-                IOperation leftOperation = MonoOperation.ParseFrom(left);
                 if (left.Length > 0 && ("+-*/").IndexOf(left[left.Length - 1]) >= 0)
                 {
                     
@@ -246,6 +245,8 @@ namespace Compilat
                     }
                 }
                 
+                IOperation leftOperation = MonoOperation.ParseFrom(left);
+
                 if ((rightOperation as StructureDefine) == null)
                     return new Assum(leftOperation, rightOperation);
                 else
