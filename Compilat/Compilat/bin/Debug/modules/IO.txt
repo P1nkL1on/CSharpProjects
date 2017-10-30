@@ -1,1 +1,7 @@
 void printf(string s);
+
+void put (string s);
+
+void putstring (string s);
+
+void putchar (char c);

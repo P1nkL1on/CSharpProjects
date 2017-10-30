@@ -41,14 +41,21 @@ namespace Compilat
 
             if (varName.LastIndexOf("]") == varName.Length - 1 && varName.IndexOf("[") > 0)
             {
-                IOperation arrayLength = BinaryOperation.ParseFrom(MISC.getIn(varName, varName.IndexOf('[')));
-                if (arrayLength as ASTvalue == null || arrayLength.returnTypes() != VT.Cint)
-                    throw new Exception("Incorrect array length parameters!");
-                varName = varName.Substring(0, varName.IndexOf('['));
-                // push an array
-                int length = (int)(arrayLength as ASTvalue).getValue;
-                if (length < 1)
-                    throw new Exception("Array length should be 1 and more!");
+                string inBrack = MISC.getIn(varName, varName.IndexOf('['));
+                int length = 0;
+                if (inBrack != "")
+                {
+                    IOperation arrayLength = BinaryOperation.ParseFrom(inBrack);
+                    if (arrayLength as ASTvalue == null || arrayLength.returnTypes() != VT.Cint)
+                        throw new Exception("Incorrect array length parameters!");
+                    varName = varName.Substring(0, varName.IndexOf('['));
+                    // push an array
+                    length = (int)(arrayLength as ASTvalue).getValue;
+                    if (length < 1)
+                        throw new Exception("Array length should be 1 and more!");
+                }
+                else
+                    varName = varName.Substring(0, varName.IndexOf('['));
                 for (int i = 0; i < length; i++)
                 {
                     // as default variable

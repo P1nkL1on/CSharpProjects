@@ -157,6 +157,9 @@ namespace Compilat
                         brL--;
                         if (brL == 0) add += '^';   // function separator
                     }
+                    if (s[i] == ';' && brL == 0)
+                        add = "^";
+
                     if (s[i] == '\"')
                         isStr = 1;
                     if (s[i] == '\'')
@@ -190,8 +193,9 @@ namespace Compilat
                 res += add;
             }
 
-            return res.
-            Remove(res.Length - 1); ;
+            if (res.Length < 1)
+                throw new Exception("Empty function on input!");
+            return res.Remove(res.Length - 1); ;
         }
     }
 

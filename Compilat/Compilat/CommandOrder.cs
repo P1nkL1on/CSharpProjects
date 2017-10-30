@@ -96,7 +96,12 @@ namespace Compilat
                 throw new Exception("Invalid command! " + S);
 
             if (p1 == 0 && p2 == S.Length - 1)
-                return new CommandOrder(MISC.getIn(S, 0), ';');
+            {
+                MISC.GoDeep("Block");
+                CommandOrder co = new CommandOrder(MISC.getIn(S, 0), ';');
+                MISC.GoBack();
+                return co;
+            }
 
             // Binary operation usuall
             if ((p1 < 0 || (MISC.IndexOfOnLevel0(S, "=", 0) > 0))
