@@ -1,3 +1,7 @@
+
+double a = 1000;
+int MEGA = -10;
+
 int main (){
 
 	int arr[];

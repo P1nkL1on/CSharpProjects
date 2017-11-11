@@ -12,6 +12,7 @@ namespace Compilat
         string original;
         public static List<IASTtoken> tokens = new List<IASTtoken>();
         public static List<ASTvariable> variables = new List<ASTvariable>();
+        public static CommandOrder GlobalVars = new CommandOrder();
 
         public static ConsoleColor clr = ConsoleColor.Black;
 
@@ -20,16 +21,16 @@ namespace Compilat
 
             if (funcs.Count <= 0)
                 return;
-            
+
             clr = ConsoleColor.Black;
             Console.WriteLine("\nTokens:");
             for (int i = 0; i < tokens.Count; i++)
                 tokens[i].TraceMore(0);
-            
+
             Console.WriteLine("\nVariables");
             for (int i = 0; i < variables.Count; i++)
                 variables[i].TraceMore(0);
-            
+
 
             Console.WriteLine("\nFunctions:");
             for (int i = 0; i < funcs.Count; i++)
@@ -41,6 +42,12 @@ namespace Compilat
             }
 
             Console.WriteLine();
+            if (GlobalVars.CommandCount > 0)
+            {
+                Console.Write(MISC.tabs(0));
+                MISC.ConsoleWriteLine("Global vars:", ConsoleColor.Black, ConsoleColor.Cyan);
+                GlobalVars.Trace(1);
+            }
             for (int i = 0; i < funcs.Count; i++)
                 if (funcs[i] != null)
                 {
@@ -55,8 +62,9 @@ namespace Compilat
             tokens = new List<IASTtoken>();
             variables = new List<ASTvariable>();
             MISC.ClearStack();
+            GlobalVars = new CommandOrder();
         }
-        
+
         public ASTTree(string s)
         {
             string sTrim = "";
@@ -68,7 +76,18 @@ namespace Compilat
             try
             {
                 for (int i = 0; i < funcParseMaterial.Length; i++)
-                    funcs.Add(new ASTFunction(funcParseMaterial[i]));
+                {
+                    if (funcParseMaterial[i].IndexOf("{") >= 0)
+                        funcs.Add(new ASTFunction(funcParseMaterial[i]));
+                    else
+                    {
+                        IOperation def = BinaryOperation.ParseFrom(funcParseMaterial[i]);
+                        if ((def as Assum) == null && (def as Define) == null)
+                            throw new Exception("Can not parse function or define:\t " + MISC.StringFirstLetters(funcParseMaterial[i], 20, true));
+                        else
+                            GlobalVars.MergeWith(new CommandOrder(new ICommand[] { def }));
+                    }
+                }
                 // after function declaration we have int foo(); int foo(){return 0;}; need to make them a one function
                 for (int i = 0; i < funcs.Count; i++)
                     for (int j = i + 1; j < funcs.Count; j++)
@@ -269,7 +288,7 @@ namespace Compilat
             for (int i = 0; i < to.Length; i++, res += "\n")
             {
                 res += to[i].ToString().Substring(1) + " ( ";
-                for (int j = 0; j < from[i].Count; j++, res += (from[i].Count > j)?", " : "")
+                for (int j = 0; j < from[i].Count; j++, res += (from[i].Count > j) ? ", " : "")
                     res += from[i][j].ToString().Substring(1);
                 res += " )";
             }
@@ -278,7 +297,7 @@ namespace Compilat
 
         public TypeConvertion(List<ValueType> input, ValueType res)
         {
-            from = new List<ValueType>[] {input};
+            from = new List<ValueType>[] { input };
             to = new ValueType[] { res };
         }
 
