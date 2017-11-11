@@ -22,7 +22,7 @@ namespace Compilat
                 return (new Cnt());
             if (s.IndexOf("return") == 0)
                 return (new Ret(BinaryOperation.ParseFrom(s.Substring(6))));
-            throw new Exception("Can not parse uniq keyword");
+            throw new Exception("Can not parse uniq keyword:\t " + MISC.StringFirstLetters(s, 20, true));
         }
 
         public ValueType returnTypes()
@@ -50,7 +50,7 @@ namespace Compilat
                 funcType = funcType.Remove(funcType.IndexOf("R#"));
 
             if ( funcType != retType)
-                throw new Exception("Incorrect return value type!");
+                throw new Exception("Incorrect return type! Required <" + funcType.ToString().Substring(1)+">, but recieved <" + retType.ToString().Substring(1)+">");
             // if everything is good than add a ret to last function
             MISC.addReturnToLastFunction();
         }

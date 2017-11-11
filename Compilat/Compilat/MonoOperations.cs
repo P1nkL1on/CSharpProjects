@@ -41,30 +41,38 @@ namespace Compilat
 
             if (varName.LastIndexOf("]") == varName.Length - 1 && varName.IndexOf("[") > 0)
             {
-                string inBrack = MISC.getIn(varName, varName.IndexOf('['));
-                int length = 0;
-                if (inBrack != "")
+                List<string> inBr = MISC.splitByQuad(varName);  // [] [] [ ] []
+                varName = varName.Substring(0, varName.IndexOf('['));
+
+                for (int ib = 0; ib < inBr.Count; ib++)
                 {
-                    IOperation arrayLength = BinaryOperation.ParseFrom(inBrack);
-                    if (arrayLength as ASTvalue == null || arrayLength.returnTypes() != VT.Cint)
-                        throw new Exception("Incorrect array length parameters!");
-                    varName = varName.Substring(0, varName.IndexOf('['));
-                    // push an array
-                    length = (int)(arrayLength as ASTvalue).getValue;
-                    if (length < 1)
-                        throw new Exception("Array length should be 1 and more!");
+                    string inBrack = inBr[ib];
+                    int length = 0;
+                    if (inBrack != "")
+                    {
+                        IOperation arrayLength = BinaryOperation.ParseFrom(inBrack);
+                        if (arrayLength.returnTypes() != VT.Cint)
+                            throw new Exception("Int only can be array length parameter");
+                        //IOperation arrayLength = BinaryOperation.ParseFrom(inBrack);
+                        //if (arrayLength as ASTvalue == null || arrayLength.returnTypes() != VT.Cint)
+                        //    throw new Exception("Incorrect array length parameters!");
+
+                        //length = (int)(arrayLength as ASTvalue).getValue;
+                        //if (length < 1)
+                        //    throw new Exception("Array length should be 1 and more!");
+                    }
+
+                    //for (int i = 0; i < length; i++)
+                    //{
+                    //    // as default variable
+                    //    ASTvariable newVar = new ASTvariable(new ValueType(varType, pointerLevel), varName + "#" + i, 0);
+                    //    ASTTree.variables.Add(newVar);
+                    //    MISC.pushVariable(ASTTree.variables.Count - 1);
+                    //    ASTTree.tokens.Add(newVar);
+                    //}
+                    defineType = defineType.TypeOfPointerToThis();
                 }
-                else
-                    varName = varName.Substring(0, varName.IndexOf('['));
-                for (int i = 0; i < length; i++)
-                {
-                    // as default variable
-                    ASTvariable newVar = new ASTvariable(new ValueType(varType, pointerLevel), varName + "#" + i, 0);
-                    ASTTree.variables.Add(newVar);
-                    MISC.pushVariable(ASTTree.variables.Count - 1);
-                    ASTTree.tokens.Add(newVar);
-                }
-                defineType = defineType.TypeOfPointerToThis();
+               
             }
             //_________________________________________
 
@@ -178,10 +186,11 @@ namespace Compilat
                 returnType = ASTTree.variables[(int)((adress as ASTvalue).getValue)].returnTypes();
                 return;
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 returnType = retType.TypeOfPointedByThis();
             };
-            
+
             //a = adress;
             ////if (a.returnTypes() != ValueType.Cadress)
             ////    throw new Exception("You can get value only by number of memory slot!");

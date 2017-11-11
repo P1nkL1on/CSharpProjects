@@ -93,7 +93,7 @@ namespace Compilat
                 p2 = MISC.IndexOfOnLevel0(S, "}", 0);
 
             if (s2 < s1 || p2 < p1)
-                throw new Exception("Invalid command! " + S);
+                throw new Exception("Command contains incorrect brackets:\t" + MISC.StringFirstLetters(S, 20, true));
 
             if (p1 == 0 && p2 == S.Length - 1)
             {
@@ -162,7 +162,7 @@ namespace Compilat
                     int whilePos = MISC.IndexOfOnLevel0(S, "while", 0);
 
                     if (whilePos < -1)
-                        throw new Exception("No while, but used \"do\"" + S);
+                        throw new Exception("No while, but used \"do\"\t " + MISC.StringFirstLetters(S, 20, true));
 
                     string iterationParse = MISC.getIn(S, 2),
                            conditionParse = MISC.getIn(S, s1);
@@ -176,7 +176,7 @@ namespace Compilat
                            allOther = S.Substring(s2 + 1);
                     string[] spp = partsParse.Split(';');
                     if (spp.Length != 3)
-                        throw new Exception("Invalid count of FOR-cycle condition parts");
+                        throw new Exception("Invalid count of FOR-cycle condition parts\t " + MISC.StringFirstLetters(S, 20, true));
 
                     MISC.GoDeep("FOR");
                     this.MergeWith(new CommandOrder(spp[0], ','));
@@ -189,108 +189,109 @@ namespace Compilat
 
                     return cf;
                 }
+                throw new Exception("Can not parse a command\t " + MISC.StringFirstLetters(S, 20, true));
             }
 
             return new CommandOrder();
         }
 
-        public ICommand[] ParseCommand(String S)
-        {
-            // here we get a 1 string between ;...;
-            // it can be cycle or simple operation
-            int p1 = MISC.IndexOfOnLevel0(S, "{", 0),
-                p2 = MISC.IndexOfOnLevel0(S, "}", 0);
+        //public ICommand[] ParseCommand(String S)
+        //{
+        //    // here we get a 1 string between ;...;
+        //    // it can be cycle or simple operation
+        //    int p1 = MISC.IndexOfOnLevel0(S, "{", 0),
+        //        p2 = MISC.IndexOfOnLevel0(S, "}", 0);
 
-            #region 0Zone and array assume
-            if (p1 == 0 && p2 == S.Length - 1)
-            {
-                return new ICommand[] { new OperatorZone(MISC.getIn(S, S.IndexOf('{'))) };
-            }
-            if ((S.IndexOf("{") < 0 || (MISC.IndexOfOnLevel0(S, "=", 0) > 0))
-                && S.ToLower().IndexOf("if") != 0/* && S.ToLower().IndexOf("else") != 0*/)
-            {
-                IOperation newBO = BinaryOperation.ParseFrom(S);
-                if ((newBO as Assum) != null && (newBO as Assum).requiredUpdate != "none")
-                {
-                    string needUpdate = (newBO as Assum).requiredUpdate;
-                    if (needUpdate.IndexOf("structdefineinfor") == 0)
-                    {
-                        string nam = (newBO as Assum).GetAssumableName;
-                        if (nam == "-")
-                            throw new Exception("What are you doing!?");
-                        List<IOperation> values = (newBO as Assum).GetStructDefine();
-                        List<ICommand> res = new List<ICommand>();
-                        for (int i = 0; i < values.Count; i++)
-                            res.Add(new Assum(BinaryOperation.ParseFrom(nam + "[" + i + "]"), values[i]));
+        //    #region 0Zone and array assume
+        //    if (p1 == 0 && p2 == S.Length - 1)
+        //    {
+        //        return new ICommand[] { new OperatorZone(MISC.getIn(S, S.IndexOf('{'))) };
+        //    }
+        //    if ((S.IndexOf("{") < 0 || (MISC.IndexOfOnLevel0(S, "=", 0) > 0))
+        //        && S.ToLower().IndexOf("if") != 0/* && S.ToLower().IndexOf("else") != 0*/)
+        //    {
+        //        IOperation newBO = BinaryOperation.ParseFrom(S);
+        //        if ((newBO as Assum) != null && (newBO as Assum).requiredUpdate != "none")
+        //        {
+        //            string needUpdate = (newBO as Assum).requiredUpdate;
+        //            if (needUpdate.IndexOf("structdefineinfor") == 0)
+        //            {
+        //                string nam = (newBO as Assum).GetAssumableName;
+        //                if (nam == "-")
+        //                    throw new Exception("What are you doing!?");
+        //                List<IOperation> values = (newBO as Assum).GetStructDefine();
+        //                List<ICommand> res = new List<ICommand>();
+        //                for (int i = 0; i < values.Count; i++)
+        //                    res.Add(new Assum(BinaryOperation.ParseFrom(nam + "[" + i + "]"), values[i]));
 
-                        return res.ToArray();
-                    }
-                }
-                else
-                    return new ICommand[] { newBO };
-            }
-            #endregion
-            #region Cycles
-            //try to parse while cycles
-            if (S.ToLower().IndexOf("for") == 0)
-            {
-                string parseCondition = MISC.getIn(S, S.IndexOf('(')),
-                       parseAction = MISC.getIn(S, S.IndexOf('{'));
+        //                return res.ToArray();
+        //            }
+        //        }
+        //        else
+        //            return new ICommand[] { newBO };
+        //    }
+        //    #endregion
+        //    #region Cycles
+        //    //try to parse while cycles
+        //    if (S.ToLower().IndexOf("for") == 0)
+        //    {
+        //        string parseCondition = MISC.getIn(S, S.IndexOf('(')),
+        //               parseAction = MISC.getIn(S, S.IndexOf('{'));
 
-                string[] conditionParts = parseCondition.Split(';');
-                if (conditionParts.Length != 3)
-                    throw new Exception("Invalid count of FOR-cycle condition parts");
-                // first one - is simple commands of initialization
+        //        string[] conditionParts = parseCondition.Split(';');
+        //        if (conditionParts.Length != 3)
+        //            throw new Exception("Invalid count of FOR-cycle condition parts");
+        //        // first one - is simple commands of initialization
 
-                MISC.GoDeep("FOR");
-                if (conditionParts[0].Length > 0)
-                    this.MergeWith(new CommandOrder(conditionParts[0], ','));    // included
-                if (conditionParts[1].Length <= 0)
-                    conditionParts[1] = "true";
-                // parse commands
+        //        MISC.GoDeep("FOR");
+        //        if (conditionParts[0].Length > 0)
+        //            this.MergeWith(new CommandOrder(conditionParts[0], ','));    // included
+        //        if (conditionParts[1].Length <= 0)
+        //            conditionParts[1] = "true";
+        //        // parse commands
 
-                CommandOrder actions = new CommandOrder(parseAction, ';');
-                if (conditionParts[2].Length > 0)
-                    actions.MergeWith(new CommandOrder(conditionParts[2], ','));
+        //        CommandOrder actions = new CommandOrder(parseAction, ';');
+        //        if (conditionParts[2].Length > 0)
+        //            actions.MergeWith(new CommandOrder(conditionParts[2], ','));
 
-                ICommand[] res = new ICommand[] { new CycleFor(conditionParts[1], actions) };
-                MISC.GoBack();
-                return res;
-            }
-            if (S.ToLower().IndexOf("while") == 0)
-                return new ICommand[] { new CycleWhile(MISC.getIn(S, S.IndexOf('(')), MISC.getIn(S, S.IndexOf('{')), false) };
-            if (S.ToLower().IndexOf("do") == 0)
-                return new ICommand[] { new CycleWhile(MISC.getIn(S, S.IndexOf('(')), MISC.getIn(S, S.IndexOf('{')), true) };
-            #endregion
-            #region Operators
-            if (S.ToLower().IndexOf("if") == 0)
-            {
-                int indexOfConditionRightBrakket = MISC.IndexOfOnLevel0(S, ")", 0);
-                if (S.IndexOf("{") - 1 == indexOfConditionRightBrakket)
-                {
-                    int pos1 = MISC.IndexOfOnLevel0(S, "}", 0),
-                        pos2 = MISC.IndexOfOnLevel0(S, "}", pos1 + 1),
-                        posElse = MISC.IndexOfOnLevel0(S, "}else{", 0);
-                    if (pos2 < pos1)
-                        return new ICommand[] { new OperatorIf(MISC.getIn(S, S.IndexOf('(')), MISC.getIn(S, S.IndexOf('{')), "") };
-                    else
-                        return new ICommand[] { new OperatorIf(MISC.getIn(S, S.IndexOf('(')), MISC.getIn(S, S.IndexOf('{')), MISC.getIn(S, S.LastIndexOf("{"))) };
-                }
-                else
-                {
-                    int indexElse = MISC.IndexOfOnLevel0(S, "else", 0);
-                    if (indexElse < 0)
-                        return new ICommand[] { new OperatorIf(MISC.getIn(S, S.IndexOf('(')), S.Substring(indexOfConditionRightBrakket + 1), "") };
-                    else
-                        return new ICommand[]{new OperatorIf(MISC.getIn(S, S.IndexOf('(')),
-                            S.Substring(indexOfConditionRightBrakket + 1, indexElse - indexOfConditionRightBrakket - 1),
-                            S.Substring(indexElse + 4))};
-                }
-            }
-            #endregion
-            throw new Exception("Can not parse a command");
-            return null;
-        }
+        //        ICommand[] res = new ICommand[] { new CycleFor(conditionParts[1], actions) };
+        //        MISC.GoBack();
+        //        return res;
+        //    }
+        //    if (S.ToLower().IndexOf("while") == 0)
+        //        return new ICommand[] { new CycleWhile(MISC.getIn(S, S.IndexOf('(')), MISC.getIn(S, S.IndexOf('{')), false) };
+        //    if (S.ToLower().IndexOf("do") == 0)
+        //        return new ICommand[] { new CycleWhile(MISC.getIn(S, S.IndexOf('(')), MISC.getIn(S, S.IndexOf('{')), true) };
+        //    #endregion
+        //    #region Operators
+        //    if (S.ToLower().IndexOf("if") == 0)
+        //    {
+        //        int indexOfConditionRightBrakket = MISC.IndexOfOnLevel0(S, ")", 0);
+        //        if (S.IndexOf("{") - 1 == indexOfConditionRightBrakket)
+        //        {
+        //            int pos1 = MISC.IndexOfOnLevel0(S, "}", 0),
+        //                pos2 = MISC.IndexOfOnLevel0(S, "}", pos1 + 1),
+        //                posElse = MISC.IndexOfOnLevel0(S, "}else{", 0);
+        //            if (pos2 < pos1)
+        //                return new ICommand[] { new OperatorIf(MISC.getIn(S, S.IndexOf('(')), MISC.getIn(S, S.IndexOf('{')), "") };
+        //            else
+        //                return new ICommand[] { new OperatorIf(MISC.getIn(S, S.IndexOf('(')), MISC.getIn(S, S.IndexOf('{')), MISC.getIn(S, S.LastIndexOf("{"))) };
+        //        }
+        //        else
+        //        {
+        //            int indexElse = MISC.IndexOfOnLevel0(S, "else", 0);
+        //            if (indexElse < 0)
+        //                return new ICommand[] { new OperatorIf(MISC.getIn(S, S.IndexOf('(')), S.Substring(indexOfConditionRightBrakket + 1), "") };
+        //            else
+        //                return new ICommand[]{new OperatorIf(MISC.getIn(S, S.IndexOf('(')),
+        //                    S.Substring(indexOfConditionRightBrakket + 1, indexElse - indexOfConditionRightBrakket - 1),
+        //                    S.Substring(indexElse + 4))};
+        //        }
+        //    }
+        //    #endregion
+        //    throw new Exception("Can not parse a command\t " +MISC.StringFirstLetters(S, 20, true));
+        //    return null;
+        //}
 
         public void MergeWith(CommandOrder another)
         {

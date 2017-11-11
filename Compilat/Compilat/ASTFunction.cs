@@ -36,6 +36,7 @@ namespace Compilat
                 while (name[0] == '*') { returnPointerLevel++; name = name.Substring(1); }
 
                 if (name.Length == 0) throw new Exception("Invalid function name!");
+                
 
                 // !
                 retType=  new ValueType(Define.detectType(type_name[0]), returnPointerLevel);
@@ -59,14 +60,21 @@ namespace Compilat
                 //bool foundFunc = false;
                 for (int i = 0; i < ASTTree.funcs.Count; i++)
                     if (ASTTree.funcs[i].actions.CommandCount > 0 && MISC.CompareFunctionSignature(ASTTree.funcs[i], this))
-                        throw new Exception("Can not redefine a function!");
+                        throw new Exception("Can not redefine a function \""+name+" : "+this.getArgsString+"\"!");
 
                 if (S.IndexOf('{') >= 0)
                 {
-                    MISC.GoDeep("FUNCTION$" + name + "$" + returnTypes());
-                    string actionCode = MISC.getIn(S, S.IndexOf('{'));
-                    actions = new CommandOrder(actionCode, ';');
-                    MISC.GoBack();
+                    try
+                    {
+                        MISC.GoDeep("FUNCTION$" + name + "$" + returnTypes());
+                        string actionCode = MISC.getIn(S, S.IndexOf('{'));
+                        actions = new CommandOrder(actionCode, ';');
+                        MISC.GoBack();
+                    }
+                    catch (Exception e)
+                    {
+                        throw new Exception("Problem in function \""+name+"\"\n" + e.Message);
+                    }
                 }
                 else
                     actions = new CommandOrder();
@@ -75,7 +83,7 @@ namespace Compilat
                 return;
             }
             // check contain of Return function
-            throw new Exception("Can not parse a function");
+            throw new Exception("Can not parse a function\t " + MISC.StringFirstLetters(S, 20, true));
         }
         //
         public ValueType returnTypes()
@@ -86,17 +94,17 @@ namespace Compilat
         public void Trace(int depth)
         {
             Console.Write(MISC.tabs(depth));
-            MISC.ConsoleWriteLine(String.Format("FUNCTION \"{0}\"", this.name), ConsoleColor.Blue);
+            MISC.ConsoleWriteLine(String.Format("FUNCTION \"{0}\"", this.name), ConsoleColor.Black, ConsoleColor.Cyan);
             Console.Write(MISC.tabs(depth + 1));
-            MISC.ConsoleWriteLine("<<", ConsoleColor.DarkBlue);
+            MISC.ConsoleWriteLine("<<", ConsoleColor.Cyan);
 
             for (int i = 0; i < input.Count; i++) { if (i == input.Count - 1)MISC.finish = true; input[i].Trace(depth + 2); }
 
             Console.Write(MISC.tabs(depth + 1));
-            MISC.ConsoleWriteLine(">>",ConsoleColor.DarkBlue);
+            MISC.ConsoleWriteLine(">>", ConsoleColor.Cyan);
             MISC.finish = true;
             Console.Write(MISC.tabs(depth + 2));
-            MISC.ConsoleWriteLine(returnTypes().ToString(), ConsoleColor.DarkBlue);
+            MISC.ConsoleWriteLine(returnTypes().ToString(), ConsoleColor.Cyan);
             MISC.finish = true;
             actions.Trace(depth + 1);
         }
@@ -110,12 +118,6 @@ namespace Compilat
         {
             get
             {
-                //if (input.Count == 0)
-                //    return "None arguments";
-                //string res = "";
-                //for (int i = 0; i < input.Count; i++)
-                //    res += " " + input[i].returnTypes().ToString() + ((i < input.Count - 1) ? "," : "");
-                //return res;
                 string res = tpcv.ToString();
                 return res.Substring(0, res.Length - 1);
             }

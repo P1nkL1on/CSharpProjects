@@ -106,8 +106,8 @@ namespace Compilat
             //Console.WriteLine(String.Format("{0}{1}  #{3}[{2}]", MISC.tabs(depth), ASTTree.funcs[functionCallNumber].getName,
             //                  ASTTree.funcs[functionCallNumber].returnTypes().ToString(), functionCallNumber));
             Console.Write(MISC.tabs(depth));
-            MISC.ConsoleWrite(ASTTree.funcs[functionCallNumber].getName + " #" + functionCallNumber, ConsoleColor.Blue);
-            MISC.ConsoleWriteLine(" ->" + ASTTree.funcs[functionCallNumber].returnTypes().ToString(), ConsoleColor.DarkGreen);
+            MISC.ConsoleWrite(ASTTree.funcs[functionCallNumber].getName + " #" + functionCallNumber, ConsoleColor.Cyan);
+            MISC.ConsoleWriteLine(" -> " + ASTTree.funcs[functionCallNumber].returnTypes().ToString().Substring(1), ConsoleColor.DarkGreen);
 
             for (int i = 0; i < arguments.Count; i++)
             {

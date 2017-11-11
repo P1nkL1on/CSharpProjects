@@ -29,9 +29,9 @@ namespace Compilat
             this.valType = vt;
             this.data = data;
             ASTTree.tokens.Add(this);
-            clr = ConsoleColor.Cyan;
+            clr = ConsoleColor.DarkCyan;
             if (vt == VT.Cchar || vt == VT.Cstring) clr = ConsoleColor.DarkCyan;
-            if (vt == VT.Cint || vt == VT.Cdouble) clr = ConsoleColor.Cyan;
+            if (vt == VT.Cint || vt == VT.Cdouble) clr = ConsoleColor.DarkCyan;
             if (vt == VT.Cboolean) clr = ConsoleColor.Gray;
             if (vt == VT.Cadress) clr = ConsoleColor.DarkGray;
         }
@@ -50,8 +50,8 @@ namespace Compilat
             // calculate a number
             if (isnum)
             {
-                if (numPoints == 0) { this.valType = new ValueType(VT.Cint); this.data = (object)(int.Parse(s)); clr = ConsoleColor.Cyan; }
-                else { this.valType =new ValueType(VT.Cdouble); this.data = (object)(double.Parse(s.Replace('.', ','))); clr = ConsoleColor.Cyan; }
+                if (numPoints == 0) { this.valType = new ValueType(VT.Cint); this.data = (object)(int.Parse(s)); clr = ConsoleColor.DarkCyan; }
+                else { this.valType = new ValueType(VT.Cdouble); this.data = (object)(double.Parse(s.Replace('.', ','))); clr = ConsoleColor.DarkCyan; }
             }
             else
             {
@@ -91,7 +91,7 @@ namespace Compilat
                             else
                             {
                                 this.valType = foundedVar.getValueType;
-                                throw new Exception("GetAddr_" +found);
+                                throw new Exception("GetAddr_" + found);
                             }
                         }
                     }
@@ -157,6 +157,11 @@ namespace Compilat
         {
             this.valType = vt;
             this.name = name;
+            // check variable name with function collision
+            for (int i = 0; i < ASTTree.funcs.Count; i++)
+                if (name == ASTTree.funcs[i].getName)
+                    throw new Exception("Variable \""+name+"\" can not conflict with function : "+ ASTTree.funcs[i].getArgsString);
+            //
             this.adress = ASTTree.variables.Count;
             this.localSpace = string.Join("/", MISC.nowParsing.ToArray());
         }
@@ -175,7 +180,7 @@ namespace Compilat
             MISC.ConsoleWriteLine(localSpace, ConsoleColor.DarkMagenta);
         }
 
-        public virtual ValueType getValueType 
+        public virtual ValueType getValueType
         { get { return valType; } }
 
         public Object getValue

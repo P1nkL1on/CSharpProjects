@@ -33,7 +33,7 @@ namespace Compilat
             TypeConvertion tpcv = new TypeConvertion("IIIDDD", 2);
             IOperation[] children = new IOperation[2] { left, right };
             returnType = TypeConverter.TryConvertSumm(tpcv, ref children);
-            a = children[0]; b = children[1];
+            a = children[1]; b = children[0];
         }
     }
 

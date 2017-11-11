@@ -80,12 +80,25 @@ namespace Compilat
             }
             if (s.LastIndexOf("]") == s.Length - 1 && s.IndexOf("[") > 0){
 
-                IOperation pointTo = ParseFrom(s.Substring(0, s.IndexOf('[')));
-                return 
-                    new GetValByAdress(new Summ(pointTo, 
-                        BinaryOperation.ParseFrom(MISC.getIn(s, s.IndexOf('[')))),
-                        (pointTo).returnTypes());
-                throw new Exception("Invalid pointer selected!");
+                //IOperation pointTo = ;
+                //return 
+                //    new GetValByAdress(new Summ(pointTo, 
+                //        BinaryOperation.ParseFrom(MISC.getIn(s, s.IndexOf('[')))),
+                //        (pointTo).returnTypes());
+                //throw new Exception("Invalid pointer selected!");
+
+
+                string sContainBrackets = s.Substring(s.IndexOf("["));
+                List<string> getedBrs = MISC.splitByQuad(sContainBrackets);
+
+                IOperation resOper = ParseFrom(s.Substring(0, s.IndexOf('[')));
+
+                for (int o = 0; o < getedBrs.Count; o++)
+                {
+                    IOperation currentBrsOp = BinaryOperation.ParseFrom(getedBrs[o]);
+                    resOper = new GetValByAdress(new Summ(resOper, currentBrsOp), resOper.returnTypes());
+                }
+                return resOper;
             }
                 //f (s.IndexOf('(') == 0 && s.LastIndexOf(')') == s.Length - 1)
                 //return ParseFrom(MISC.breakBrackets(s));
@@ -214,138 +227,144 @@ namespace Compilat
 
         public static IOperation ParseFrom(string s)
         {
-            string left = "", right = "";
-            if (s.IndexOf("return") == 0)
-            { return new Ret(ParseFrom(s.Substring(6))); }
-
-            if (s.IndexOf('{') == 0 && s.LastIndexOf('}') == s.Length - 1)
-                return MonoOperation.ParseFrom(s);
-
-            if (!onLevel(s, "==", 0) && !onLevel(s, "!=", 0) && onLevel(s, "=", 0))
-            {
-                MISC.separate(s, "=", ref left, ref right, lastIndex);
-
-                IOperation rightOperation = ParseFrom(right);
-                if (left.Length > 0 && ("+-*/").IndexOf(left[left.Length - 1]) >= 0)
-                {
-                    
-                    IOperation leftMinusOne = MonoOperation.ParseFrom(left.Remove(left.Length - 1));
-                    switch (left[left.Length - 1])
-                    {
-                        case '+':
-                            return new Assum(leftMinusOne, new Summ(leftMinusOne, rightOperation));
-                        case '-':
-                            return new Assum(leftMinusOne, new Diff(leftMinusOne, rightOperation));
-                        case '*':
-                            return new Assum(leftMinusOne, new Mult(leftMinusOne, rightOperation));
-                        case '/':
-                            return new Assum(leftMinusOne, new Qout(leftMinusOne, rightOperation));
-                        default:
-                            break;
-                    }
-                }
-                
-                IOperation leftOperation = MonoOperation.ParseFrom(left);
-
-                if ((rightOperation as StructureDefine) == null)
-                    return new Assum(leftOperation, rightOperation);
-                else
-                {
-                    Assum needUPdatedAssum =  new Assum(leftOperation, rightOperation);
-                    needUPdatedAssum.requiredUpdate = "structdefineinfor";
-                    return needUPdatedAssum;
-                }
-            }
-            
-            if (onLevel(s, "==", 0))
-            {
-                MISC.separate(s, "==", ref left, ref right, lastIndex);
-                return new Equal(ParseFrom(left), ParseFrom(right));
-            }
-            if (onLevel(s, "!=", 0))
-            {
-                MISC.separate(s, "!=", ref left, ref right, lastIndex);
-                return new Uneq(ParseFrom(left), ParseFrom(right));
-            }
-            if (onLevel(s, "<=", 0))
-            {
-                MISC.separate(s, "<=", ref left, ref right, lastIndex);
-                return new LsEq(ParseFrom(left), ParseFrom(right));
-            }
-            if (onLevel(s, ">=", 0))
-            {
-                MISC.separate(s, ">=", ref left, ref right, lastIndex);
-                return new MrEq(ParseFrom(left), ParseFrom(right));
-            }
-            if (onLevel(s, "<", 0))
-            {
-                MISC.separate(s, "<", ref left, ref right, lastIndex);
-                return new Less(ParseFrom(left), ParseFrom(right));
-            }
-            if (onLevel(s, ">", 0))
-            {
-                MISC.separate(s, ">", ref left, ref right, lastIndex);
-                return new More(ParseFrom(left), ParseFrom(right));
-            }
-
-            if (onLevel(s, "+", 0))
-            {
-                MISC.separate(s, "+", ref left, ref right, lastIndex);
-                return new Summ(ParseFrom(left), ParseFrom(right));
-            }
-            if (onLevel(s, "-", 0))
-            {
-                MISC.separate(s, "-", ref left, ref right, lastIndex);
-                if (left.Length == 0)
-                    return MonoOperation.ParseFrom("-" + right);
-                return new Diff(ParseFrom(left), ParseFrom(right));
-            }
-            if (onLevel(s, "*", 0) && s.IndexOf("*") > 0)
-            {
-                MISC.separate(s, "*", ref left, ref right, lastIndex);
-                // can be initialization of pointer!
-                if (new ValueType(VT.Cunknown) == Define.detectType(left))
-                    return new Mult(ParseFrom(left), ParseFrom(right));
-            }
-            if (onLevel(s, "/", 0))
-            {
-                MISC.separate(s, "/", ref left, ref right, lastIndex);
-                return new Qout(ParseFrom(left), ParseFrom(right));
-            }
-
-            if(onLevel(s, "||", 0))
-            {
-                MISC.separate(s, "||", ref left, ref right, lastIndex);
-                return new ORS(ParseFrom(left), ParseFrom(right));
-            }
-            if (onLevel(s, "|", 0))
-            {
-                MISC.separate(s, "|", ref left, ref right, lastIndex);
-                return new OR(ParseFrom(left), ParseFrom(right));
-            }
-            if (onLevel(s, "&&", 0))
-            {
-                MISC.separate(s, "&&", ref left, ref right, lastIndex);
-                return new ANDS(ParseFrom(left), ParseFrom(right));
-            }
-            if (onLevel(s, "&", 0) && s.IndexOf("&") > 0)
-            {
-                MISC.separate(s, "&", ref left, ref right, lastIndex);
-                return new AND(ParseFrom(left), ParseFrom(right));
-            }
-
-
-            if (s.IndexOf('(') == 0 && s.LastIndexOf(')') == s.Length - 1)
-                return ParseFrom(MISC.breakBrackets(s));
             try
             {
-                return UniqOperation.ParseFrom(s);
+                string left = "", right = "";
+                if (s.IndexOf("return") == 0)
+                { return new Ret(ParseFrom(s.Substring(6))); }
+
+                if (s.IndexOf('{') == 0 && s.LastIndexOf('}') == s.Length - 1)
+                    return MonoOperation.ParseFrom(s);
+
+                if (!onLevel(s, "==", 0) && !onLevel(s, "!=", 0) && onLevel(s, "=", 0))
+                {
+                    MISC.separate(s, "=", ref left, ref right, lastIndex);
+
+                    IOperation rightOperation = ParseFrom(right);
+                    if (left.Length > 0 && ("+-*/").IndexOf(left[left.Length - 1]) >= 0)
+                    {
+
+                        IOperation leftMinusOne = MonoOperation.ParseFrom(left.Remove(left.Length - 1));
+                        switch (left[left.Length - 1])
+                        {
+                            case '+':
+                                return new Assum(leftMinusOne, new Summ(leftMinusOne, rightOperation));
+                            case '-':
+                                return new Assum(leftMinusOne, new Diff(leftMinusOne, rightOperation));
+                            case '*':
+                                return new Assum(leftMinusOne, new Mult(leftMinusOne, rightOperation));
+                            case '/':
+                                return new Assum(leftMinusOne, new Qout(leftMinusOne, rightOperation));
+                            default:
+                                break;
+                        }
+                    }
+
+                    IOperation leftOperation = MonoOperation.ParseFrom(left);
+
+                    if ((rightOperation as StructureDefine) == null)
+                        return new Assum(leftOperation, rightOperation);
+                    else
+                    {
+                        Assum needUPdatedAssum = new Assum(leftOperation, rightOperation);
+                        needUPdatedAssum.requiredUpdate = "structdefineinfor";
+                        return needUPdatedAssum;
+                    }
+                }
+
+                if (onLevel(s, "==", 0))
+                {
+                    MISC.separate(s, "==", ref left, ref right, lastIndex);
+                    return new Equal(ParseFrom(left), ParseFrom(right));
+                }
+                if (onLevel(s, "!=", 0))
+                {
+                    MISC.separate(s, "!=", ref left, ref right, lastIndex);
+                    return new Uneq(ParseFrom(left), ParseFrom(right));
+                }
+                if (onLevel(s, "<=", 0))
+                {
+                    MISC.separate(s, "<=", ref left, ref right, lastIndex);
+                    return new LsEq(ParseFrom(left), ParseFrom(right));
+                }
+                if (onLevel(s, ">=", 0))
+                {
+                    MISC.separate(s, ">=", ref left, ref right, lastIndex);
+                    return new MrEq(ParseFrom(left), ParseFrom(right));
+                }
+                if (onLevel(s, "<", 0))
+                {
+                    MISC.separate(s, "<", ref left, ref right, lastIndex);
+                    return new Less(ParseFrom(left), ParseFrom(right));
+                }
+                if (onLevel(s, ">", 0))
+                {
+                    MISC.separate(s, ">", ref left, ref right, lastIndex);
+                    return new More(ParseFrom(left), ParseFrom(right));
+                }
+
+                if (onLevel(s, "+", 0))
+                {
+                    MISC.separate(s, "+", ref left, ref right, lastIndex);
+                    return new Summ(ParseFrom(left), ParseFrom(right));
+                }
+                if (onLevel(s, "-", 0))
+                {
+                    MISC.separate(s, "-", ref left, ref right, lastIndex);
+                    if (left.Length == 0)
+                        return MonoOperation.ParseFrom("-" + right);
+                    return new Diff(ParseFrom(left), ParseFrom(right));
+                }
+                if (onLevel(s, "*", 0) && s.IndexOf("*") > 0)
+                {
+                    MISC.separate(s, "*", ref left, ref right, lastIndex);
+                    // can be initialization of pointer!
+                    if (new ValueType(VT.Cunknown) == Define.detectType(left))
+                        return new Mult(ParseFrom(left), ParseFrom(right));
+                }
+                if (onLevel(s, "/", 0))
+                {
+                    MISC.separate(s, "/", ref left, ref right, lastIndex);
+                    return new Qout(ParseFrom(left), ParseFrom(right));
+                }
+
+                if (onLevel(s, "||", 0))
+                {
+                    MISC.separate(s, "||", ref left, ref right, lastIndex);
+                    return new ORS(ParseFrom(left), ParseFrom(right));
+                }
+                if (onLevel(s, "|", 0))
+                {
+                    MISC.separate(s, "|", ref left, ref right, lastIndex);
+                    return new OR(ParseFrom(left), ParseFrom(right));
+                }
+                if (onLevel(s, "&&", 0))
+                {
+                    MISC.separate(s, "&&", ref left, ref right, lastIndex);
+                    return new ANDS(ParseFrom(left), ParseFrom(right));
+                }
+                if (onLevel(s, "&", 0) && s.IndexOf("&") > 0)
+                {
+                    MISC.separate(s, "&", ref left, ref right, lastIndex);
+                    return new AND(ParseFrom(left), ParseFrom(right));
+                }
+
+
+                if (s.IndexOf('(') == 0 && s.LastIndexOf(')') == s.Length - 1)
+                    return ParseFrom(MISC.breakBrackets(s));
+                try
+                {
+                    return UniqOperation.ParseFrom(s);
+                }
+                catch (Exception e)
+                {
+                    return MonoOperation.ParseFrom(s);
+                }
             }
             catch (Exception e)
             {
-                return MonoOperation.ParseFrom(s);
+                throw new Exception("Can not parse \""+s+"\"\n" + e.Message);
             }
-
 
         }
         public ValueType returnTypes()

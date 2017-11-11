@@ -36,6 +36,23 @@ namespace Compilat
             Console.ForegroundColor = ConsoleColor.Gray;
         }
 
+        public static void ConsoleWrite(string S, ConsoleColor clr, ConsoleColor Bclr)
+        {
+            Console.ForegroundColor = clr;
+            Console.BackgroundColor = Bclr;
+            Console.Write(S);
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.BackgroundColor = ConsoleColor.Black;
+        }
+        public static void ConsoleWriteLine(string S, ConsoleColor clr, ConsoleColor Bclr)
+        {
+            Console.ForegroundColor = clr;
+            Console.BackgroundColor = Bclr;
+            Console.WriteLine(S);
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.BackgroundColor = ConsoleColor.Black;
+        }
+
         static List<Tuple<ValueType, ValueType>> availableConvertation = new List<Tuple<ValueType, ValueType>>();
 
         public static ValueType CheckTypeCorrect(IOperation o, TypeConvertion accept, ref IOperation[] parts)
@@ -330,7 +347,7 @@ namespace Compilat
             res.Add("");
             int founded = 0, level = 0;
             for (int i = -1; i < S.Length;
-                i++, level += (i < S.Length) ? ((S[i] == '(' || S[i] == '{') ? 1 : (S[i] == ')' || S[i] == '}') ? -1 : 0) : 0)
+                i++, level += (i < S.Length) ? ((S[i] == '(' || S[i] == '{' || S[i] == '[') ? 1 : (S[i] == ')' || S[i] == '}' || S[i] == ']') ? -1 : 0) : 0)
                 if (i >= 0)
                 {
                     for (int j = 0; j < seps.Length; j++)   // count separate
@@ -346,6 +363,38 @@ namespace Compilat
 
             return res2;
         }
+
+        public static List<string> splitByQuad(string s)
+        {
+            int level = 0;
+            string current = "";
+            List<string> res = new List<string>();
+
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (s[i] == '[') { level++; if (level == 1) continue; }
+                if (s[i] == ']') { level--; if (level == 0) { res.Add(current); current = ""; continue;}  }
+                if (s[i] == ',' && level == 1) { res.Add(current); current = ""; continue; }
+                if (level > 0) current += s[i];
+
+            }
+            return res;
+        }
+
+        public static string StringFirstLetters(string s, int much, bool addPoints)
+        {
+            string res;
+            try
+            {
+                res = s.Substring(0, much);
+            }
+            catch
+            {
+                res = s;
+            }
+            return (addPoints) ? res + "..." : res;
+        }
+
         public static string getIn(string S, int pos)
         {
 
