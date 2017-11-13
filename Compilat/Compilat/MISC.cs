@@ -256,13 +256,14 @@ namespace Compilat
         {
             return;
             Console.Clear();
+
             for (int i = 0; i < nowParsing.Count; i++)
             {
                 Console.Write("\n/" + nowParsing[i] + " :: ");
                 for (int j = 0; j < levelVariables[i].Count; j++)
                     Console.Write(" " + levelVariables[i][j]);
             }
-            Thread.Sleep(1500);
+            Console.ReadKey();//Thread.Sleep(1500);
         }
 
         public static bool CompareFunctionSignature(ASTFunction f1, ASTFunction f2)

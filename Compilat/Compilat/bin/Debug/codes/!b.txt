@@ -1,0 +1,7 @@
+int S (int a);
+int aaa = 200;
+int b;
+
+int main (){
+	return 0;
+}

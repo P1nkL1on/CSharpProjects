@@ -99,7 +99,7 @@ namespace Compilat
             }
 
             // can not be converted
-            throw new Exception("Can not convert!" + ArgsToString(args));
+            throw new Exception("Can not convert!" + ArgsToString(args) + " to " + ArgsToString(needType.from[0].ToArray()));
             //return new ValueType(VT.Cunknown);
         }
 
@@ -164,6 +164,14 @@ namespace Compilat
             string res = " ( ";
             for (int i = 0; i < args.Length; i++, res += (args.Length > i) ? ", " : "")
                 res += args[i].returnTypes().ToString();
+            return res + " )";
+        }
+
+        static string ArgsToString(ValueType[] args)
+        {
+            string res = " ( ";
+            for (int i = 0; i < args.Length; i++, res += (args.Length > i) ? ", " : "")
+                res += args[i].ToString();
             return res + " )";
         }
     }

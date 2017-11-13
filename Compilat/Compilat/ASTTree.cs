@@ -77,7 +77,7 @@ namespace Compilat
             {
                 for (int i = 0; i < funcParseMaterial.Length; i++)
                 {
-                    if (funcParseMaterial[i].IndexOf("{") >= 0)
+                    if (funcParseMaterial[i].IndexOf("(") >= 0)
                         funcs.Add(new ASTFunction(funcParseMaterial[i]));
                     else
                     {

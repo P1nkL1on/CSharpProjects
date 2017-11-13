@@ -4,6 +4,8 @@ int main(){
 		int a = 10;
 		int b = 10;
 		int c = 10;
+
+		int DDDDD = 1000;
 		summ = a + b + c;
 	}
 	int summ2 = 0;
@@ -11,7 +13,7 @@ int main(){
 		int a = 20;
 		int b = 20;
 		int c = 30;
-		summ2 = a + b + c;
+		summ2 = a + b + c + DDDDD;
 	}
 	int diff = summ - summ2;
 	return 0;

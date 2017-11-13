@@ -14,6 +14,8 @@ namespace Compilat
 
         public ASTFunctionCall(string s)
         {
+            string ErrString = "";
+
             if (s.IndexOf("(") < 0)
                 throw new Exception(s + " is not a function!");
             string approximateFuncName = s.Substring(0, s.IndexOf("("));
@@ -62,7 +64,7 @@ namespace Compilat
                             foundAnalog = true;
                             break;
                         }
-                        catch (Exception e) {};
+                        catch (Exception e) { ErrString += e.Message + "\n"; };
                     }
                     else
                     {
@@ -98,7 +100,12 @@ namespace Compilat
 
             //make bug
             if (!foundAnalog)
-                throw new Exception("Function with this name/arguments was never declared!");
+            {
+                if (ErrString == "")
+                    throw new Exception("Function with this name/arguments was never declared!");
+                else
+                    throw new Exception(ErrString);
+            }
         }
 
         public void Trace(int depth)

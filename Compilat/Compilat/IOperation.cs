@@ -64,7 +64,10 @@ namespace Compilat
             {
                 return new ASTFunctionCall(s);
             }
-            catch (Exception e) { }
+            catch (Exception e) {
+                if (e.Message.IndexOf("is not a function") < 0)
+                    throw new Exception(e.Message);
+            }
 
             int varType = Math.Max((s.IndexOf("int") >= 0) ? 2 : -1, Math.Max((s.IndexOf("double") >= 0) ? 5 : -1, Math.Max((s.IndexOf("char") >= 0) ? 3 : -1,
                 Math.Max((s.IndexOf("string") >= 0) ? 5 : -1, (s.IndexOf("bool") >= 0) ? 3 : -1))));
