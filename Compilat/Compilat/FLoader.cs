@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.IO;
 
 namespace Compilat
@@ -42,7 +42,7 @@ namespace Compilat
                 MISC.ConsoleWriteLine(" > Load \'" + codeNames[currentCodeName] + ".txt\'", ConsoleColor.Green);
                 try
                 {
-                    string[] lines = System.IO.File.ReadAllLines(@""+ codeFolder + "/" + codeNames[currentCodeName] + ".txt");
+                    string[] lines = System.IO.File.ReadAllLines(@"" + codeFolder + "/" + codeNames[currentCodeName] + ".txt");
                     Console.WriteLine();
                     foreach (string line in lines)
                         MISC.ConsoleWriteLine(line, ConsoleColor.DarkGreen);
@@ -77,53 +77,102 @@ namespace Compilat
             return command;
         }
 
+        bool CatFileAndDetectChanges(string codeFolder, string fileName, ref string[] linesWeHave)
+        {
+            string[] lines = System.IO.File.ReadAllLines(@"" + codeFolder + "/" + fileName + ".txt");
+            if (lines.Length != linesWeHave.Length)
+            { linesWeHave = lines; return true; }        // giant changes
+            for (int i = 0; i < lines.Length; i++)
+                if (lines[i] != linesWeHave[i])
+                { linesWeHave = lines; return true; }    // some changes
+            linesWeHave = lines;
+            return false;               // all the same
+        }
+
+        ASTTree ReadFileToTree(string codeFolder, string command)
+        {
+            //while (true)
+            //{
+            //    Console.WriteLine("a");
+            //    Thread.Sleep(1000);
+            //}
+
+            string code = "";
+            string[] lines = System.IO.File.ReadAllLines(@"" + codeFolder + "/" + command + ".txt");
+            //linesOut = lines;
+            //
+            //string filename = "";
+            //Thread thread = new Thread(() => ReadFile(codeFolder, command));
+            //thread.Start();
+            //
+            foreach (string line in lines)
+            {
+                // if an included module
+                if (line.IndexOf("#include") >= 0)
+                {
+                    try
+                    {
+                        string moduleName = line.Substring(line.IndexOf("<") + 1, line.IndexOf(">") - line.IndexOf("<") - 1);
+                        MISC.ConsoleWriteLine("Included: " + moduleName, ConsoleColor.Green);
+                        try
+                        {
+                            string[] modulelines = System.IO.File.ReadAllLines(@"" + moduleFolder + "/" + moduleName);
+                            foreach (string moduleline in modulelines)
+                            {
+                                code += moduleline + "\n";
+                                MISC.ConsoleWriteLine(moduleline, ConsoleColor.Yellow);
+                            }
+                        }
+                        catch
+                        {
+                            MISC.ConsoleWriteLine("Invalid include adress: " + moduleFolder + "/" + moduleName, ConsoleColor.Red);
+                        }
+                    }
+                    catch
+                    {
+                        MISC.ConsoleWriteLine("Invalid include: " + line, ConsoleColor.Red);
+                    }
+                }
+                else
+                {
+                    code += line + "\n";
+                    Console.WriteLine(line);
+                }
+            }
+
+            ASTTree t = new ASTTree(code);
+            return t;
+        }
+
         public void ShowIO()
         {
             while (true)
             {
                 string command = SelectIO();
-
+                string[] fileContent = new string[0];
                 try
                 {
-                    string code = "";
-                    string[] lines = System.IO.File.ReadAllLines(@""+ codeFolder + "/" + command + ".txt");
-
-                    foreach (string line in lines)
+                    Thread thread = new Thread(() =>
                     {
-                        // if an included module
-                        if (line.IndexOf("#include") >= 0)
-                        {
-                            try
-                            {
-                                string moduleName = line.Substring(line.IndexOf("<") + 1, line.IndexOf(">") - line.IndexOf("<") - 1);
-                                MISC.ConsoleWriteLine("Included: " + moduleName, ConsoleColor.Green);
-                                try
-                                {
-                                    string[] modulelines = System.IO.File.ReadAllLines(@"" + moduleFolder + "/" + moduleName);
-                                    foreach(string moduleline in modulelines)
-                                    {
-                                        code += moduleline + "\n";
-                                        MISC.ConsoleWriteLine(moduleline, ConsoleColor.Yellow);
-                                    }
-                                }catch
-                                {
-                                    MISC.ConsoleWriteLine("Invalid include adress: " + moduleFolder + "/" + moduleName, ConsoleColor.Red);
-                                }
-                            }
-                            catch
-                            {
-                                MISC.ConsoleWriteLine("Invalid include: " + line, ConsoleColor.Red);
-                            }
-                        }
-                        else
-                        {
-                            code += line + "\n";
-                            Console.WriteLine(line);
-                        }
-                    }
 
-                    ASTTree t = new ASTTree(code);
-                    t.Trace();
+                        bool changed = CatFileAndDetectChanges(codeFolder, command, ref fileContent);
+                        ReadFileToTree(codeFolder, command).Trace();
+                        Console.Write("\nWaiting changes...");
+
+                        while (true)
+                        {
+                            
+                            Thread.Sleep(5000);
+                            changed = CatFileAndDetectChanges(codeFolder, command, ref fileContent);
+                            if (changed)
+                            {
+                                Console.WriteLine("Changes in file detected. Reloading...");
+                                Console.Clear();
+                                ReadFileToTree(codeFolder, command).Trace(); Console.Write("\nWaiting changes...");
+                            }
+                        }
+                    });
+                    thread.Start();
                 }
                 catch (Exception e)
                 {
@@ -131,8 +180,8 @@ namespace Compilat
                 }
                 finally
                 {
-                    Console.WriteLine("Press any key...");
-                    Console.ReadKey();
+                    Console.WriteLine("Press <ENTER> to exit...");
+                    Console.ReadLine();
                     Console.Clear();
                 }
             }

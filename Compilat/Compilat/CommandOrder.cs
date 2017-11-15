@@ -29,7 +29,21 @@ namespace Compilat
             List<string> commandArr = (sep == ';') ? commandSplitter(S) : MISC.splitBy(S, sep);
 
             for (int i = 0; i < commandArr.Count; i++)
-                commands.Add(ParseCommand2(commandArr[i]));
+            {
+                try
+                {
+                    commands.Add(ParseCommand2(commandArr[i]));
+                } catch (Exception e)
+                {
+                    if (e.Message.IndexOf("#MDS:") == 0)
+                    {
+                        string parseAdDefines = e.Message.Substring(5);
+                        List<string> addedDefines = commandSplitter(parseAdDefines);
+                        for (int j = 0; j < addedDefines.Count; j++) commands.Add(ParseCommand2(addedDefines[j]));  // inta;intb;intc;  -> 3 commands
+                    } else throw e; // any another bug
+                        
+                }
+            }
 
             CheckEmptyCommandOrders();
         }

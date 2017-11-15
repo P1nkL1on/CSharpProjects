@@ -13,6 +13,14 @@ namespace Compilat
         public string varName;
         public Define(string s)
         {
+            //string firstPart = s.Substring(0, s.IndexOf("$") + 1);  // int&a,b
+            //while (s.IndexOf(',') > 0)
+            //{
+            //    int at = s.IndexOf(',');
+            //    s = s.Substring(0, s.IndexOf(',')) + ';' + firstPart + s.Substring(s.IndexOf(',') + 1);
+            //    //
+            //}
+
             string[] ss = s.Split('$');
             //string varName;
             VT varType;

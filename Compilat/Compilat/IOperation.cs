@@ -25,11 +25,11 @@ namespace Compilat
         protected IOperation a;   // pointer
         public virtual void Trace(int depth)
         {
-            Console.Write(MISC.tabs(depth)); MISC.ConsoleWrite(operationString, ConsoleColor.Yellow); MISC.ConsoleWriteLine(" [" + returnTypes().ToString()+"]", ConsoleColor.DarkGreen);
-            
+            Console.Write(MISC.tabs(depth)); MISC.ConsoleWrite(operationString, ConsoleColor.Yellow); MISC.ConsoleWriteLine(" [" + returnTypes().ToString() + "]", ConsoleColor.DarkGreen);
+
             MISC.finish = true;
             //if (a != null)
-                a.Trace(depth + 1);
+            a.Trace(depth + 1);
             //else
             //    Console.WriteLine(MISC.tabs(depth + 1) + " NULL");
         }
@@ -39,7 +39,7 @@ namespace Compilat
                 return new StructureDefine(MISC.getIn(s, 0));
             if (s.IndexOf('(') == 0 && s.LastIndexOf(')') == s.Length - 1)
                 return BinaryOperation.ParseFrom(MISC.breakBrackets(s));
-            
+
 
             if (s.Length > 2 && s.IndexOf("--") == s.Length - 2)
                 return new Dscr(ParseFrom(s.Substring(0, s.Length - 2)));
@@ -64,7 +64,8 @@ namespace Compilat
             {
                 return new ASTFunctionCall(s);
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 if (e.Message.IndexOf("is not a function") < 0)
                     throw new Exception(e.Message);
             }
@@ -73,7 +74,25 @@ namespace Compilat
                 Math.Max((s.IndexOf("string") >= 0) ? 5 : -1, (s.IndexOf("bool") >= 0) ? 3 : -1))));
 
             if (varType >= 0)
-                return new Define(s.Insert(varType + 1, "$"));
+            {
+                s = s.Insert(varType + 1, "$");
+                return new Define(s);
+                //string firstPart = s.Substring(0, s.IndexOf("$"));  // int&a,b
+                //bool multipleDefines = false;
+                //while (s.IndexOf(',') > 0)
+                //{
+                //    int at = s.IndexOf(',');
+                //    s = s.Substring(0, s.IndexOf(',')) + ';' + firstPart + s.Substring(s.IndexOf(',') + 1);
+                //    multipleDefines = true;
+                //}
+                //if (!multipleDefines)
+                //    return new Define(s);
+                //else
+                //{
+                //    s = s.Remove(s.IndexOf('$'), 1);
+                //    throw new Exception("#MDS:" + s);
+                //}
+            }
 
             if (s.IndexOf("*") == 0)
             {
@@ -81,7 +100,8 @@ namespace Compilat
                 return new GetValByAdress(pointTo, (pointTo).returnTypes());
                 throw new Exception("Invalid pointer selected!");
             }
-            if (s.LastIndexOf("]") == s.Length - 1 && s.IndexOf("[") > 0){
+            if (s.LastIndexOf("]") == s.Length - 1 && s.IndexOf("[") > 0)
+            {
 
                 //IOperation pointTo = ;
                 //return 
@@ -103,10 +123,10 @@ namespace Compilat
                 }
                 return resOper;
             }
-                //f (s.IndexOf('(') == 0 && s.LastIndexOf(')') == s.Length - 1)
-                //return ParseFrom(MISC.breakBrackets(s));
+            //f (s.IndexOf('(') == 0 && s.LastIndexOf(')') == s.Length - 1)
+            //return ParseFrom(MISC.breakBrackets(s));
 
-            
+
 
             try
             {
@@ -236,6 +256,25 @@ namespace Compilat
                 if (s.IndexOf("return") == 0)
                 { return new Ret(ParseFrom(s.Substring(6))); }
 
+                //___________
+                int varType = Math.Max((s.IndexOf("int") >= 0) ? 2 : -1, Math.Max((s.IndexOf("double") >= 0) ? 5 : -1, Math.Max((s.IndexOf("char") >= 0) ? 3 : -1,
+                Math.Max((s.IndexOf("string") >= 0) ? 5 : -1, (s.IndexOf("bool") >= 0) ? 3 : -1))));
+                if (varType > 0 && MISC.IndexOfOnLevel0(s, ",", 0) > 0)
+                {
+                    s = s.Insert(varType + 1, "$");
+                    string firstPart = s.Substring(0, s.IndexOf("$"));  // int&a,b
+
+                    int at;
+                    do
+                    {
+                        at = MISC.IndexOfOnLevel0(s, ",", 0);
+                        if (at >= 0) s = s.Substring(0, at) + ';' + firstPart + s.Substring(at + 1);
+                    } while (at >= 0);
+
+                    s = s.Remove(s.IndexOf('$'), 1);
+                    throw new Exception("#MDS:" + s);
+                }
+                //_________________
                 if (s.IndexOf('{') == 0 && s.LastIndexOf('}') == s.Length - 1)
                     return MonoOperation.ParseFrom(s);
 
@@ -366,7 +405,10 @@ namespace Compilat
             }
             catch (Exception e)
             {
-                throw new Exception("Can not parse \""+s+"\"\n" + e.Message);
+                if (e.Message.IndexOf("#MDS:") != 0)
+                    throw new Exception("Can not parse \"" + s + "\"\n" + e.Message);
+                else
+                    throw new Exception(e.Message);
             }
 
         }
