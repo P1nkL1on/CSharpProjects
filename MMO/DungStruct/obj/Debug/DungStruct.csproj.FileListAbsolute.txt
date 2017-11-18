@@ -1,0 +1,5 @@
+D:\microsoft visual studio projects\MMO\DungStruct\bin\Debug\DungStruct.dll
+D:\microsoft visual studio projects\MMO\DungStruct\bin\Debug\DungStruct.pdb
+D:\microsoft visual studio projects\MMO\DungStruct\obj\Debug\DungStruct.dll
+D:\microsoft visual studio projects\MMO\DungStruct\obj\Debug\DungStruct.pdb
+D:\microsoft visual studio projects\MMO\DungStruct\obj\Debug\DungStruct.csprojResolveAssemblyReference.cache
