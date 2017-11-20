@@ -11,6 +11,8 @@ namespace Compilat
     {
         static void Main(string[] args)
         {
+            //Console.OutputEncoding = Encoding.UTF8;
+
             FLoader fl = new FLoader("codes", "modules");
             fl.ShowIO();
         }

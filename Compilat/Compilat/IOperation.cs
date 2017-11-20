@@ -59,7 +59,27 @@ namespace Compilat
 
                 return new Adrs(gettingAdressOf);
             }
+            if (s.IndexOf("*") == 0)
+            {
+                IOperation pointTo = ParseFrom(s.Substring(1, s.Length - 1));
+                return new GetValByAdress(pointTo, (pointTo).returnTypes());
+                throw new Exception("Invalid pointer selected!");
+            }
+            if (s.LastIndexOf("]") == s.Length - 1 && s.IndexOf("[") > 0)
+            {
 
+                string sContainBrackets = s.Substring(s.IndexOf("["));
+                List<string> getedBrs = MISC.splitByQuad(sContainBrackets);
+
+                IOperation resOper = ParseFrom(s.Substring(0, s.IndexOf('[')));
+
+                for (int o = 0; o < getedBrs.Count; o++)
+                {
+                    IOperation currentBrsOp = BinaryOperation.ParseFrom(getedBrs[o]);
+                    resOper = new GetValByAdress(new Summ(resOper, currentBrsOp), resOper.returnTypes());
+                }
+                return resOper;
+            }
             try
             {
                 return new ASTFunctionCall(s);
@@ -77,52 +97,9 @@ namespace Compilat
             {
                 s = s.Insert(varType + 1, "$");
                 return new Define(s);
-                //string firstPart = s.Substring(0, s.IndexOf("$"));  // int&a,b
-                //bool multipleDefines = false;
-                //while (s.IndexOf(',') > 0)
-                //{
-                //    int at = s.IndexOf(',');
-                //    s = s.Substring(0, s.IndexOf(',')) + ';' + firstPart + s.Substring(s.IndexOf(',') + 1);
-                //    multipleDefines = true;
-                //}
-                //if (!multipleDefines)
-                //    return new Define(s);
-                //else
-                //{
-                //    s = s.Remove(s.IndexOf('$'), 1);
-                //    throw new Exception("#MDS:" + s);
-                //}
             }
 
-            if (s.IndexOf("*") == 0)
-            {
-                IOperation pointTo = ParseFrom(s.Substring(1, s.Length - 1));
-                return new GetValByAdress(pointTo, (pointTo).returnTypes());
-                throw new Exception("Invalid pointer selected!");
-            }
-            if (s.LastIndexOf("]") == s.Length - 1 && s.IndexOf("[") > 0)
-            {
 
-                //IOperation pointTo = ;
-                //return 
-                //    new GetValByAdress(new Summ(pointTo, 
-                //        BinaryOperation.ParseFrom(MISC.getIn(s, s.IndexOf('[')))),
-                //        (pointTo).returnTypes());
-                //throw new Exception("Invalid pointer selected!");
-
-
-                string sContainBrackets = s.Substring(s.IndexOf("["));
-                List<string> getedBrs = MISC.splitByQuad(sContainBrackets);
-
-                IOperation resOper = ParseFrom(s.Substring(0, s.IndexOf('[')));
-
-                for (int o = 0; o < getedBrs.Count; o++)
-                {
-                    IOperation currentBrsOp = BinaryOperation.ParseFrom(getedBrs[o]);
-                    resOper = new GetValByAdress(new Summ(resOper, currentBrsOp), resOper.returnTypes());
-                }
-                return resOper;
-            }
             //f (s.IndexOf('(') == 0 && s.LastIndexOf(')') == s.Length - 1)
             //return ParseFrom(MISC.breakBrackets(s));
 

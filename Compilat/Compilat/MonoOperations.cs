@@ -80,7 +80,7 @@ namespace Compilat
                     //}
                     defineType = defineType.TypeOfPointerToThis();
                 }
-               
+
             }
             //_________________________________________
 
@@ -177,7 +177,7 @@ namespace Compilat
     }
     class GetValByAdress : MonoOperation
     {
-        public ValueType pointerType;
+        //public ValueType pointerType;
         public GetValByAdress(IOperation adress, ValueType retType, bool stop)
         {
             operationString = "get";
@@ -190,9 +190,13 @@ namespace Compilat
             a = adress;
             try
             {
-                operationString = ASTTree.variables[(int)((adress as ASTvalue).getValue)].name;
-                returnType = ASTTree.variables[(int)((adress as ASTvalue).getValue)].returnTypes();
-                return;
+                if ((adress as ASTvalue) != null)
+                {
+                    operationString = ASTTree.variables[(int)((adress as ASTvalue).getValue)].name;
+                    returnType = ASTTree.variables[(int)((adress as ASTvalue).getValue)].returnTypes();
+                    return;
+                }
+                throw new Exception("Get by adress operation error! " + adress.ToString());
             }
             catch (Exception e)
             {

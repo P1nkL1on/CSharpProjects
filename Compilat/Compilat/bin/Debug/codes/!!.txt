@@ -1,0 +1,14 @@
+int main(int argc, char** argv) {
+   char* str = "qweqweqweqwe";
+   
+   int test2 = (*(&str))[1] + 12;
+
+
+
+   char test = (&(*str))[1];
+   //char a = test[0];   
+   int test1 =(&(*"olololo"))[4] + 7;
+
+   char isfisiuvs = *(&(*("sdf" + 2)) - 5);
+return 0;
+} 

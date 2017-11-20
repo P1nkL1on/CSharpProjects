@@ -213,6 +213,9 @@ namespace Compilat
 
         public ValueType TypeOfPointedByThis()
         {
+            if (rootType == VT.Cstring && pointerLevel == 0)
+                return new ValueType(VT.Cchar, 0);
+
             if (pointerLevel <= 0)
                 throw new Exception("Not pointer type can not point to anything!");
             return new ValueType(rootType, pointerLevel - 1);
@@ -245,7 +248,10 @@ namespace Compilat
             {
                 return false;
             }
-
+            // check the sametypes as string and char*
+            if ((obj1.pointerLevel == obj2.pointerLevel - 1 && obj1.rootType == VT.Cstring && obj2.rootType == VT.Cchar) ||
+                (obj2.pointerLevel == obj1.pointerLevel - 1 && obj2.rootType == VT.Cstring && obj1.rootType == VT.Cchar))
+                return true;
             return (obj1.pointerLevel == obj2.pointerLevel && obj1.rootType == obj2.rootType);
         }
 
@@ -264,6 +270,9 @@ namespace Compilat
             {
                 return false;
             }
+
+            if (obj1.rootType == VT.Cchar && obj1.pointerLevel == 1 && obj2 == VT.Cstring)
+                return true;
 
             return (obj1.pointerLevel == 0 && obj1.rootType == obj2);
         }
