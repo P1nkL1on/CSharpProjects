@@ -20,3 +20,6 @@ D:\microsoft visual studio projects\C_Sharp_Sheets\Cellular algorythms\Cellular 
 D:\microsoft visual studio projects\C_Sharp_Sheets\Cellular algorythms\Cellular algorythms\obj\Debug\Cellular_algorythms.Form1.resources
 D:\microsoft visual studio projects\C_Sharp_Sheets\Cellular algorythms\Cellular algorythms\obj\Debug\Cellular_algorythms.Properties.Resources.resources
 D:\microsoft visual studio projects\C_Sharp_Sheets\Cellular algorythms\Cellular algorythms\obj\Debug\Cellular algorythms.csproj.GenerateResource.Cache
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\Cellular algorythms\Cellular algorythms\bin\Debug\Cellular algorythms.exe.config
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\Cellular algorythms\Cellular algorythms\obj\Debug\Cellular algorythms.exe
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\Cellular algorythms\Cellular algorythms\obj\Debug\Cellular algorythms.pdb

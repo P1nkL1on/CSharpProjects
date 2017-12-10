@@ -1,0 +1,5 @@
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\Compilat\LibCompile\bin\Debug\LibCompile.dll
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\Compilat\LibCompile\bin\Debug\LibCompile.pdb
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\Compilat\LibCompile\obj\Debug\LibCompile.csproj.CoreCompileInputs.cache
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\Compilat\LibCompile\obj\Debug\LibCompile.dll
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\Compilat\LibCompile\obj\Debug\LibCompile.pdb
