@@ -1,0 +1,7 @@
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\WordReplace\ConsoleChanger\ConsoleChanger\bin\Debug\ConsoleChanger.exe.config
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\WordReplace\ConsoleChanger\ConsoleChanger\bin\Debug\ConsoleChanger.exe
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\WordReplace\ConsoleChanger\ConsoleChanger\bin\Debug\ConsoleChanger.pdb
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\WordReplace\ConsoleChanger\ConsoleChanger\obj\Debug\ConsoleChanger.csprojResolveAssemblyReference.cache
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\WordReplace\ConsoleChanger\ConsoleChanger\obj\Debug\ConsoleChanger.csproj.CoreCompileInputs.cache
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\WordReplace\ConsoleChanger\ConsoleChanger\obj\Debug\ConsoleChanger.exe
+C:\Users\lion6_000\Documents\GitHub\C_Sharp_Sheets\WordReplace\ConsoleChanger\ConsoleChanger\obj\Debug\ConsoleChanger.pdb
